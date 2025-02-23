@@ -32,6 +32,11 @@ func _physics_process(_delta: float) -> void:
 	
 	base_position = Globals.get_pos(global_position)
 	positions = [base_position]
+	
+	if global_position.x < 0:
+		warning_positions = [Vector2i(base_position.x + dir.x, base_position.y - dir.y)]
+	else:
+		warning_positions = [base_position + dir]
 	# TODO: warp
 	
 	if Globals.should_warp(global_position, dir) and not warped:
@@ -43,4 +48,4 @@ func _physics_process(_delta: float) -> void:
 		global_position = Globals.get_warp_position(global_position)
 		dir.y = -dir.y
 	
-	label.text = str(base_position)
+	label.text = str(base_position) + "  " + str(dir)

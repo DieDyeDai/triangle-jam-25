@@ -1,11 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbyy115ueklhn"]
+[gd_scene load_steps=2 format=3 uid="uid://bt4yj6xyqhmo6"]
 
 [ext_resource type="Script" path="res://World/tile.gd" id="1_ygyfd"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_feoe1"]
-size = Vector2(40, 24)
-
 [node name="Tile" type="Sprite2D"]
 modulate = Color(0, 0.603922, 0.956863, 0.180392)
-texture = SubResource("PlaceholderTexture2D_feoe1")
 script = ExtResource("1_ygyfd")

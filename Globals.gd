@@ -1,5 +1,7 @@
 extends Node
 
+signal reset_tile_sprites
+
 const TILE_SIZE : int = 32
 
 const TILE_WIDTH : int = 48
@@ -36,10 +38,10 @@ func get_pos(global_position: Vector2) -> Vector2i:
 	return p
 
 func should_warp(global_position: Vector2, dir: Vector2i) -> bool:
-	return (global_position.y < -3 * TILE_HEIGHT and dir.y < 0)
+	return (global_position.y < -2.5 * TILE_HEIGHT and dir.y < 0)
 
 func get_warp_position(global_position: Vector2) -> Vector2:
 	if global_position.x < 0:
-		return Vector2(global_position.x + 5 * TILE_WIDTH, global_position.y)
+		return Vector2(global_position.x + 5 * TILE_WIDTH, global_position.y + 0.25 * TILE_HEIGHT)
 	else:
-		return Vector2(global_position.x - 5 * TILE_WIDTH, global_position.y)
+		return Vector2(global_position.x - 5 * TILE_WIDTH, global_position.y + 0.25 * TILE_HEIGHT)

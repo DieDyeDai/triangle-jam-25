@@ -93,7 +93,7 @@ func _physics_process(_delta: float) -> void:
 	label.text = str(pos)
 
 func hit() -> void:
-	ap.play("hurt")
+	#ap.play("hurt")
 	print("hurt")
 	sm.travel("hurt")
 
@@ -234,4 +234,4 @@ func get_has_iframes() -> bool:
 	if sm != null:
 		return sm.get_current_node() == "hurt"
 	else:
-		return false
+		return true

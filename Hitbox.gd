@@ -1,6 +1,6 @@
 class_name Hitbox extends Node2D
 
-var target_positions: Array = []
+var warning_positions: Array = []
 
 var positions : Array = []
 var base_position : Vector2i = Vector2i.ZERO
