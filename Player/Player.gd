@@ -1,6 +1,8 @@
 class_name Player
 extends Node2D
 
+@onready var sprite: Sprite2D = $Sprite2D
+
 #@onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var ap : AnimationPlayer = $AnimationPlayer
 @onready var label: Label = $Label
@@ -9,7 +11,8 @@ extends Node2D
 @onready var sm : AnimationNodeStateMachinePlayback = $AnimationTree["parameters/playback"]
 
 signal moved(dir: String)
-
+const pngP1 = preload("res://Player/player1.png")
+const pngP2 = preload("res://Player/player2.png")
 const BASIC_ATTACK = preload("res://Attacks/Basic.tscn")
 
 var grid : Grid
@@ -60,14 +63,14 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 	self.grid = grid
 	if p1:
 		isP1 = true
-		pos = Vector2i(0,-4)
-		target_pos = Vector2i(0, -4)
+		pos = Vector2i(0,-2)
+		target_pos = Vector2i(0, -2)
 		Y_LOWER = -4
 		Y_UPPER = 0
 	elif p2:
 		isP2 = true
-		pos = Vector2i(0,5)
-		target_pos = Vector2i(0, 5)
+		pos = Vector2i(0,3)
+		target_pos = Vector2i(0, 3)
 		Y_LOWER = 1
 		Y_UPPER = 5
 	else:
@@ -130,7 +133,7 @@ func get_attack_input() -> String:
 			if Input.is_action_just_pressed("basic1"):
 				basic_attack_timer.start()
 				var atk = BASIC_ATTACK.instantiate()
-				atk.initialize(pos, Vector2i(0,1), 4)
+				atk.initialize(pos, Vector2i(0,-1), 4)
 				grid.p1_hitboxes.add_child(atk)
 		
 				print("1basic")
@@ -151,14 +154,14 @@ func move(dir: String):
 	#if not already_buffered_move:
 	match dir:
 		"up":
-			if pos.y > Y_LOWER:
+			if (isP1 and pos.y < Y_UPPER) or (isP2 and pos.y > Y_LOWER):
 				_move(dir)
 				#print("up")
 				##pos.y -= 1
 				#did_move = movement_timer.is_stopped()
 				#buffered_move = movement_timer.get_time_left() < MOVEMENT_BUFFER
 		"down":
-			if pos.y < Y_UPPER:
+			if (isP1 and pos.y > Y_LOWER) or (isP2 and pos.y < Y_UPPER):
 				_move(dir)
 				#print("down")
 				##pos.y += 1
@@ -199,9 +202,11 @@ func _move(dir):
 	
 	match dir:
 		"up":
-			target_pos.y -= 1
+			if isP1: target_pos.y += 1
+			else: target_pos.y -= 1
 		"down":
-			target_pos.y += 1
+			if isP1: target_pos.y -= 1
+			else: target_pos.y += 1
 		"left":
 			target_pos.x -= 1
 		"right":

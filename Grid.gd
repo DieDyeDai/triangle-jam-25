@@ -61,7 +61,7 @@ var ct : int = 1
 func _physics_process(_delta: float) -> void:
 	process_hitboxes()
 	
-	#ct = (ct + 1) % 10
+	ct = (ct + 1) % 30
 	if ct == 0:
 		print(Globals.get_pos(p1.get_global_mouse_position()))
 		print("1:" + str(p1.pos))
