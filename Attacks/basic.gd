@@ -32,8 +32,6 @@ func _physics_process(_delta: float) -> void:
 	
 	base_position = Globals.get_pos(global_position)
 	
-	#p.y = floor(float(global_position.y + (3.5 * TILE_SIZE)) / TILE_SIZE)label.text = str(base_position) + "   " + "%.2v" % global_position
-	
 	# TODO: warp
 	
 	if Globals.should_warp(global_position, dir):

@@ -14,4 +14,5 @@ script = ExtResource("1_ai0f6")
 zoom = Vector2(2, 2)
 
 [node name="Sprite2D" type="Sprite2D" parent="Grid"]
+scale = Vector2(1.5, 1)
 texture = ExtResource("3_hxycp")

@@ -85,32 +85,30 @@ func _physics_process(_delta: float) -> void:
 	
 	movement_locked = not basic_attack_timer.is_stopped()
 	
-	movement_input = get_movement_input()
-	if movement_input:
-		move(movement_input)
+	if not movement_locked:
+		get_movement_input()
 	
 	get_attack_input()
 
-func get_movement_input() -> String:
+func get_movement_input() -> void:
 	if isP1:
 		if Input.is_action_just_pressed("up1"):
-			return ("up")
-		elif Input.is_action_just_pressed("down1"):
-			return ("down")
-		elif Input.is_action_just_pressed("left1"):
-			return ("left")
-		elif Input.is_action_just_pressed("right1"):
-			return ("right")
+			move ("up")
+		if Input.is_action_just_pressed("down1"):
+			move ("down")
+		if Input.is_action_just_pressed("left1"):
+			move ("left")
+		if Input.is_action_just_pressed("right1"):
+			move ("right")
 	elif isP2:
 		if Input.is_action_just_pressed("up2"):
-			return ("up")
-		elif Input.is_action_just_pressed("down2"):
-			return ("down")
-		elif Input.is_action_just_pressed("left2"):
-			return ("left")
-		elif Input.is_action_just_pressed("right2"):
-			return ("right")
-	return ""
+			move ("up")
+		if Input.is_action_just_pressed("down2"):
+			move ("down")
+		if Input.is_action_just_pressed("left2"):
+			move ("left")
+		if Input.is_action_just_pressed("right2"):
+			move ("right")
 
 func get_attack_input() -> String:
 	
@@ -184,7 +182,7 @@ func move(dir: String):
 		
 
 func _move(dir):
-	global_position = Globals.get_global_position(target_pos)
+	#global_position = Globals.get_global_position(target_pos)
 	
 	match dir:
 		"up":
