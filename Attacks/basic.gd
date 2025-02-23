@@ -1,41 +1,43 @@
 extends Hitbox
 
 var movement_timer : Timer = null
-var movement_cd : float
+var speed : int
+
+var movement_tween : Tween = null
 
 var dir : Vector2i
 
+@onready var label: Label = $Label
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	movement_timer.start()
+	pass
 
 @warning_ignore("shadowed_variable")
-func initialize(pos: Vector2i, dir: Vector2i, speed: float) -> void:
+func initialize(pos: Vector2i, dir: Vector2i, speed: int) -> void:
 	self.positions = [pos]
 	self.base_position = pos
 	self.dir = dir
+	self.speed = speed
 	
-	global_position = pos * 32
+	global_position = Globals.get_global_position(pos)
 	#visible = true
-	
-	movement_timer = Timer.new()
-	movement_timer.set_wait_time(speed)
-	movement_cd = speed
-	movement_timer.set_one_shot(false)
-	movement_timer.set_autostart(false)
-	
-	movement_timer.timeout.connect(do_move)
-	
-	add_child(movement_timer)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+#var warped : bool = false
 
-func do_move():
-	super.move(dir)
-	if !is_inbounds():
-		start_free_timer()
-	var movement_tween = create_tween()
-	movement_tween.tween_property(self, "global_position", Vector2(base_position * 32), movement_cd).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	movement_timer.start()
+func _physics_process(_delta: float) -> void:
+	
+	global_position += Vector2(speed * dir)
+	
+	base_position = Globals.get_pos(global_position)
+	
+	#p.y = floor(float(global_position.y + (3.5 * TILE_SIZE)) / TILE_SIZE)label.text = str(base_position) + "   " + "%.2v" % global_position
+	
+	# TODO: warp
+	
+	if Globals.should_warp(global_position, dir):
+		#print(global_position)
+		#print(dir)
+		#print("warp")
+		global_position = Globals.get_warp_position(global_position)

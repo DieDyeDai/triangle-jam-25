@@ -1,7 +1,9 @@
 class_name Hitbox extends Node2D
 
-var positions : Array
-var base_position : Vector2i
+var target_positions: Array = []
+
+var positions : Array = []
+var base_position : Vector2i = Vector2i.ZERO
 
 #signal remove(node: Hitbox)
 
