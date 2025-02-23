@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://cd0g1dj0lffee"]
+
+[ext_resource type="Texture2D" uid="uid://d3y1hvnrcowu8" path="res://Assets/UIHealthBar_BG.png" id="1_gorrt"]
+[ext_resource type="Script" path="res://UI/ui_health_bar.gd" id="1_y5d8d"]
+[ext_resource type="Texture2D" uid="uid://baed85bntnxji" path="res://Assets/UIHealthBar_Empty.png" id="2_i8wbc"]
+[ext_resource type="Texture2D" uid="uid://c1fkhra7710p2" path="res://Assets/UIHealthBar_Fill.png" id="2_owopu"]
+[ext_resource type="Texture2D" uid="uid://xlru3c04gjvf" path="res://Assets/UIHealthBar_Progress.png" id="3_8ewtj"]
+[ext_resource type="Texture2D" uid="uid://c5jnxjn0edb2b" path="res://Assets/UIHealthBar_End.png" id="5_5hhag"]
+[ext_resource type="Texture2D" uid="uid://baxvjt2euqrqy" path="res://Assets/UIHealthBar_FlashWhite.png" id="5_cvomy"]
+[ext_resource type="Texture2D" uid="uid://dcm1kx7j41m7q" path="res://Assets/UIHealthBar_Slash.png" id="8_aewti"]
+[ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="9_r62wk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_77kne"]
+font = ExtResource("9_r62wk")
+font_size = 10
+shadow_size = 0
+
+[node name="UIHealthBar" type="Control"]
+z_index = 12
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_y5d8d")
+
+[node name="Empty" type="Sprite2D" parent="."]
+texture = ExtResource("2_i8wbc")
+
+[node name="Decay" type="Sprite2D" parent="."]
+position = Vector2(-20, -8)
+texture = ExtResource("3_8ewtj")
+centered = false
+
+[node name="Fill" type="Sprite2D" parent="."]
+position = Vector2(-20, 0)
+texture = ExtResource("2_owopu")
+centered = false
+offset = Vector2(0, -8)
+
+[node name="End" type="Sprite2D" parent="."]
+position = Vector2(40, 0)
+texture = ExtResource("5_5hhag")
+centered = false
+offset = Vector2(-23, -8)
+
+[node name="FlashWhite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-20, 0)
+texture = ExtResource("5_cvomy")
+centered = false
+offset = Vector2(0, -8)
+
+[node name="BG" type="Sprite2D" parent="."]
+texture = ExtResource("1_gorrt")
+
+[node name="Slash" type="Sprite2D" parent="."]
+position = Vector2(-1, -1)
+texture = ExtResource("8_aewti")
+
+[node name="curHP" type="Label" parent="."]
+layout_mode = 0
+offset_left = -60.0
+offset_top = -8.0
+offset_right = -4.0
+offset_bottom = 9.0
+text = "20"
+label_settings = SubResource("LabelSettings_77kne")
+horizontal_alignment = 2
+
+[node name="maxHP" type="Label" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = -8.0
+offset_right = 60.0
+offset_bottom = 9.0
+text = "20"
+label_settings = SubResource("LabelSettings_77kne")

@@ -10,6 +10,14 @@ const Y_LOWER : int = -4
 const X_UPPER : int = 2
 const X_LOWER : int = -2
 
+const Y_UPPER_1 : int = 0
+const Y_LOWER_1 : int = -4
+const Y_UPPER_2 : int = 5
+const Y_LOWER_2 : int = 1
+
+const GRID_WIDTH : int = 5
+const GRID_HEIGHT : int = 5
+
 func get_global_position(pos: Vector2i) -> Vector2:
 	
 	if pos.y > 0:

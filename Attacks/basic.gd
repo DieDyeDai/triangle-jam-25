@@ -31,7 +31,7 @@ func _physics_process(_delta: float) -> void:
 	global_position += Vector2(speed * dir)
 	
 	base_position = Globals.get_pos(global_position)
-	
+	positions = [base_position]
 	# TODO: warp
 	
 	if Globals.should_warp(global_position, dir):
@@ -39,3 +39,5 @@ func _physics_process(_delta: float) -> void:
 		#print(dir)
 		#print("warp")
 		global_position = Globals.get_warp_position(global_position)
+	
+	label.text = str(base_position)

@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://cstp7ajetyqo3"]
+
+[ext_resource type="Script" path="res://UI/ui_energy_bar.gd" id="1_xyifl"]
+[ext_resource type="Texture2D" uid="uid://baed85bntnxji" path="res://Assets/UIHealthBar_Empty.png" id="2_6urf4"]
+[ext_resource type="Texture2D" uid="uid://xlru3c04gjvf" path="res://Assets/UIHealthBar_Progress.png" id="3_227nc"]
+[ext_resource type="Texture2D" uid="uid://c1fkhra7710p2" path="res://Assets/UIHealthBar_Fill.png" id="4_t7n0y"]
+[ext_resource type="Texture2D" uid="uid://c5jnxjn0edb2b" path="res://Assets/UIHealthBar_End.png" id="5_hoj3g"]
+[ext_resource type="Texture2D" uid="uid://d3y1hvnrcowu8" path="res://Assets/UIHealthBar_BG.png" id="7_pba0n"]
+[ext_resource type="Texture2D" uid="uid://dcm1kx7j41m7q" path="res://Assets/UIHealthBar_Slash.png" id="8_ofbwc"]
+[ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="9_a6sb3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_77kne"]
+font = ExtResource("9_a6sb3")
+font_size = 10
+shadow_size = 0
+
+[node name="UIEnergyBar" type="Control"]
+z_index = 12
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_xyifl")
+
+[node name="Empty" type="Sprite2D" parent="."]
+texture = ExtResource("2_6urf4")
+
+[node name="Decay" type="Sprite2D" parent="."]
+position = Vector2(-20, -8)
+texture = ExtResource("3_227nc")
+centered = false
+
+[node name="Fill" type="Sprite2D" parent="."]
+position = Vector2(-20, 0)
+texture = ExtResource("4_t7n0y")
+centered = false
+offset = Vector2(0, -8)
+
+[node name="End" type="Sprite2D" parent="."]
+position = Vector2(40, 0)
+texture = ExtResource("5_hoj3g")
+centered = false
+offset = Vector2(-23, -8)
+
+[node name="BG" type="Sprite2D" parent="."]
+texture = ExtResource("7_pba0n")
+
+[node name="Slash" type="Sprite2D" parent="."]
+position = Vector2(-1, -1)
+texture = ExtResource("8_ofbwc")
+
+[node name="curHP" type="Label" parent="."]
+layout_mode = 0
+offset_left = -60.0
+offset_top = -8.0
+offset_right = -4.0
+offset_bottom = 9.0
+text = "100"
+label_settings = SubResource("LabelSettings_77kne")
+horizontal_alignment = 2
+
+[node name="maxHP" type="Label" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = -8.0
+offset_right = 60.0
+offset_bottom = 9.0
+text = "100"
+label_settings = SubResource("LabelSettings_77kne")

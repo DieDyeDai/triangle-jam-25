@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://jxkto7hmykar"]
+[gd_scene load_steps=6 format=3 uid="uid://jxkto7hmykar"]
 
 [ext_resource type="Script" path="res://Grid.gd" id="1_ai0f6"]
 [ext_resource type="Script" path="res://World/world.gd" id="1_g3l0a"]
 [ext_resource type="Texture2D" uid="uid://baw1qhvbchl2e" path="res://Assets/grid.png" id="3_hxycp"]
+[ext_resource type="PackedScene" uid="uid://cd0g1dj0lffee" path="res://UI/HealthBar.tscn" id="4_k0gcy"]
+[ext_resource type="PackedScene" uid="uid://cstp7ajetyqo3" path="res://UI/EnergyBar.tscn" id="5_kk17k"]
 
 [node name="World" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_g3l0a")
 
 [node name="Grid" type="Node" parent="."]
@@ -14,5 +17,18 @@ script = ExtResource("1_ai0f6")
 zoom = Vector2(2, 2)
 
 [node name="Sprite2D" type="Sprite2D" parent="Grid"]
+texture_filter = 1
 scale = Vector2(1.5, 1)
 texture = ExtResource("3_hxycp")
+
+[node name="UIHealthBar" parent="Grid" instance=ExtResource("4_k0gcy")]
+offset_left = -123.0
+offset_top = 106.0
+offset_right = -123.0
+offset_bottom = 106.0
+
+[node name="UIEnergyBar" parent="Grid" instance=ExtResource("5_kk17k")]
+offset_left = -121.0
+offset_top = 125.0
+offset_right = -121.0
+offset_bottom = 125.0

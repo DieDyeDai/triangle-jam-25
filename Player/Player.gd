@@ -1,6 +1,13 @@
 class_name Player
 extends Node2D
 
+#@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var ap : AnimationPlayer = $AnimationPlayer
+@onready var label: Label = $Label
+@onready var label_2: Label = $Label2
+@onready var tree: AnimationTree = $AnimationTree
+@onready var sm : AnimationNodeStateMachinePlayback = $AnimationTree["parameters/playback"]
+
 signal moved(dir: String)
 
 const BASIC_ATTACK = preload("res://Attacks/Basic.tscn")
@@ -23,9 +30,6 @@ var movement_tween : Tween = null
 var movement_timer : Timer = null
 const MOVEMENT_CD : float = 0.25
 const MOVEMENT_BUFFER : float = 0.2
-
-var iframes_timer : Timer = null
-const IFRAMES : float = 1
 
 var basic_attack_timer : Timer = null
 const BASIC_ATTACK_CD : float = 0.25
@@ -50,13 +54,6 @@ func add_timers():
 	basic_attack_timer.set_autostart(false)
 	
 	add_child(basic_attack_timer)
-
-	iframes_timer = Timer.new()
-	iframes_timer.set_wait_time(IFRAMES)
-	iframes_timer.set_one_shot(true)
-	iframes_timer.set_autostart(false)
-	
-	add_child(iframes_timer)
 
 @warning_ignore("shadowed_variable")
 func initialize(p1 : bool, p2 : bool, grid: Grid):
@@ -89,6 +86,22 @@ func _physics_process(_delta: float) -> void:
 		get_movement_input()
 	
 	get_attack_input()
+	
+	label.text = str(pos)
+
+func hit() -> void:
+	ap.play("hurt")
+	print("hurt")
+	sm.travel("hurt")
+
+func update_animation_conditions() -> void:
+	var current_movement = Globals.get_global_position(target_pos) - global_position
+	tree.set("parameters/move/conditions/mvup", current_movement.y < 0)
+	tree.set("parameters/move/conditions/mvdown", current_movement.y > 0)
+	tree.set("parameters/move/conditions/mvleft", current_movement.x < 0)
+	tree.set("parameters/move/conditions/mvright", current_movement.x > 0)
+	tree.set("parameters/move/conditions/mvidle", current_movement.length_squared() < 0.08)
+	pass
 
 func get_movement_input() -> void:
 	if isP1:
@@ -213,7 +226,7 @@ func basic_attack() -> void:
 	pass
 
 func get_has_iframes() -> bool:
-	if iframes_timer:
-		return not iframes_timer.is_stopped
+	if sm != null:
+		return sm.get_current_node() == "hurt"
 	else:
-		return true
+		return false
