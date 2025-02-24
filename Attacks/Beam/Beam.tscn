@@ -1,6 +1,33 @@
-[gd_scene load_steps=2 format=3 uid="uid://7cqj260idcmm"]
+[gd_scene load_steps=6 format=3 uid="uid://7cqj260idcmm"]
 
 [ext_resource type="Script" path="res://Attacks/Beam/beam.gd" id="1_rb2yi"]
+[ext_resource type="Shader" path="res://Attacks/Beam/Body.gdshader" id="2_4gojr"]
+[ext_resource type="Texture2D" uid="uid://e2oic83t6i0i" path="res://Attacks/Beam/body.png" id="3_l7rml"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vui1a"]
+shader = ExtResource("2_4gojr")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_liev5"]
+shader = ExtResource("2_4gojr")
 
 [node name="Beam" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_rb2yi")
+
+[node name="LineSection1" type="Line2D" parent="."]
+top_level = true
+texture_repeat = 2
+material = SubResource("ShaderMaterial_vui1a")
+texture = ExtResource("3_l7rml")
+texture_mode = 1
+
+[node name="LineSection2" type="Line2D" parent="."]
+top_level = true
+texture_repeat = 2
+material = SubResource("ShaderMaterial_liev5")
+texture = ExtResource("3_l7rml")
+texture_mode = 1
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+top_level = true

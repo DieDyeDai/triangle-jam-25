@@ -141,6 +141,7 @@ func hit() -> void:
 	
 	# Interrupt attacks
 	animlock = false
+	charged_ranged = false
 	if is_instance_valid(current_charge_attack):
 		charge_attack_timer.stop()
 		current_charge_attack.interrupt()
@@ -200,7 +201,7 @@ func get_attack_input() -> String:
 				animlock = true
 				basic_attack_timer.start()
 				var atk = BASIC_ATTACK.instantiate()
-				atk.initialize(pos, Vector2i(0,-1), 4)
+				atk.initialize(target_pos, Vector2i(0,-1), 4)
 				grid.p1_hitboxes.add_child(atk)
 		
 				print("1basic")
@@ -208,7 +209,7 @@ func get_attack_input() -> String:
 				animlock = true
 				charge_attack_timer.start()
 				current_charge_attack = BEAM.instantiate()
-				current_charge_attack.initialize(pos)
+				current_charge_attack.initialize(target_pos)
 				grid.p1_hitboxes.add_child(current_charge_attack)
 			
 				released_charge1.connect(current_charge_attack.fire)
@@ -236,7 +237,7 @@ func get_attack_input() -> String:
 				animlock = true
 				basic_attack_timer.start()
 				var atk = BASIC_ATTACK.instantiate()
-				atk.initialize(pos, Vector2i(0,-1), 4)
+				atk.initialize(target_pos, Vector2i(0,-1), 4)
 				grid.p2_hitboxes.add_child(atk)
 				
 				print("2basic")
@@ -244,7 +245,7 @@ func get_attack_input() -> String:
 				animlock = true
 				charge_attack_timer.start()
 				current_charge_attack = BEAM.instantiate()
-				current_charge_attack.initialize(pos)
+				current_charge_attack.initialize(target_pos)
 				grid.p2_hitboxes.add_child(current_charge_attack)
 				
 				released_charge1.connect(current_charge_attack.fire)
@@ -258,7 +259,7 @@ func fire_big_attack() -> void:
 	animlock = true
 	big_attack_animlock_timer.start()
 	var atk = WIDE.instantiate()
-	atk.initialize(pos, Vector2i(0,-1), 2)
+	atk.initialize(target_pos, Vector2i(0,-1), 2)
 	grid.p2_hitboxes.add_child(atk)
 
 func enable_charged_ranged_fire_on_release() -> void:
