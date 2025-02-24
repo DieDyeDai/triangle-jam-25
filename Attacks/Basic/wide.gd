@@ -15,8 +15,8 @@ func _ready() -> void:
 
 @warning_ignore("shadowed_variable")
 func initialize(pos: Vector2i, dir: Vector2i, speed: int) -> void:
-	self.positions = [pos]
 	self.base_position = pos
+	self.positions = positions_from_pos(base_position)
 	self.dir = dir
 	self.speed = speed
 	
@@ -31,12 +31,13 @@ func _physics_process(_delta: float) -> void:
 	global_position += Vector2(speed * dir)
 	
 	base_position = Globals.get_pos(global_position)
-	positions = [base_position]
+	positions = positions_from_pos(base_position)
 	
 	if global_position.x < 0:
-		warning_positions = [Vector2i(base_position.x + dir.x, base_position.y - dir.y)]
+		#warning_positions = [Vector2i(base_position.x + dir.x, base_position.y - dir.y)]
+		warning_positions = positions_from_pos(Vector2i(base_position.x + dir.x, base_position.y - dir.y))
 	else:
-		warning_positions = [base_position + dir]
+		warning_positions = positions_from_pos(base_position + dir)
 	
 	if Globals.should_warp(global_position, dir) and not warped:
 		#print(global_position)
@@ -48,3 +49,9 @@ func _physics_process(_delta: float) -> void:
 		dir.y = -dir.y
 	
 	label.text = str(base_position) + "  " + str(dir)
+
+func positions_from_pos(pos: Vector2i) -> Array:
+	if global_position.x < 0:
+		return [pos, pos + dir + Vector2i(1,0), pos + dir + Vector2i(-1,0)]
+	else:
+		return [pos, pos - dir + Vector2i(1,0), pos - dir + Vector2i(-1,0)]

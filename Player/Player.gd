@@ -15,6 +15,7 @@ const pngP1 = preload("res://Player/player1.png")
 const pngP2 = preload("res://Player/player2.png")
 const BASIC_ATTACK = preload("res://Attacks/Basic/Basic.tscn")
 const BEAM = preload("res://Attacks/Beam/Beam.tscn")
+const WIDE = preload("res://Attacks/Basic/Wide.tscn")
 
 var grid : Grid
 
@@ -37,6 +38,11 @@ const MOVEMENT_BUFFER : float = 0.2
 
 var basic_attack_timer : Timer = null
 const BASIC_ATTACK_CD : float = 0.25
+
+var big_attack_timer : Timer = null
+const WIDE_ATTACK_CT : float = 0.5
+var big_attack_animlock_timer : Timer = null
+const WIDE_ATTACK_AT : float = 0.35
 
 var charge_attack_timer : Timer = null
 const BEAM_ATTACK_CT : float = 0.5
@@ -64,6 +70,22 @@ func add_timers():
 	basic_attack_timer.timeout.connect(remove_animlock)
 	
 	add_child(basic_attack_timer)
+	
+	big_attack_timer = Timer.new()
+	big_attack_timer.set_wait_time(WIDE_ATTACK_CT)
+	big_attack_timer.set_one_shot(true)
+	big_attack_timer.set_autostart(false)
+	big_attack_timer.timeout.connect(fire_big_attack)
+	
+	add_child(big_attack_timer)
+
+	big_attack_animlock_timer = Timer.new()
+	big_attack_animlock_timer.set_wait_time(WIDE_ATTACK_AT)
+	big_attack_animlock_timer.set_one_shot(true)
+	big_attack_animlock_timer.set_autostart(false)
+	big_attack_animlock_timer.timeout.connect(remove_animlock)
+	
+	add_child(big_attack_animlock_timer)
 	
 	charge_attack_timer = Timer.new()
 	charge_attack_timer.set_wait_time(BEAM_ATTACK_CT)
@@ -116,6 +138,13 @@ func hit() -> void:
 	#ap.play("hurt")
 	print("hurt")
 	sm.travel("hurt")
+	
+	# Interrupt attacks
+	animlock = false
+	if is_instance_valid(current_charge_attack):
+		charge_attack_timer.stop()
+		current_charge_attack.interrupt()
+	big_attack_timer.stop()
 
 func update_animation_conditions() -> void:
 	var current_movement = Globals.get_global_position(target_pos) - global_position
@@ -162,7 +191,8 @@ func get_attack_input() -> String:
 				print("interrupt")
 				charge_attack_timer.stop()
 				animlock = false
-				current_charge_attack.interrupt()
+				if is_instance_valid(current_charge_attack):
+					current_charge_attack.interrupt()
 				
 		
 		if not animlock:
@@ -184,6 +214,11 @@ func get_attack_input() -> String:
 				released_charge1.connect(current_charge_attack.fire)
 				print("1beam")
 			
+			elif Input.is_action_just_pressed("big1"):
+				animlock = true
+				big_attack_timer.start()
+				
+			
 	elif isP2:
 		if Input.is_action_just_released("charge_ranged2"):
 			charge_attack_animlock_timer.start()
@@ -193,7 +228,8 @@ func get_attack_input() -> String:
 			else:
 				print("interrupt")
 				charge_attack_timer.stop()
-				current_charge_attack.interrupt()
+				if is_instance_valid(current_charge_attack):
+					current_charge_attack.interrupt()
 				
 		if not animlock:
 			if Input.is_action_just_pressed("basic2"):
@@ -213,7 +249,17 @@ func get_attack_input() -> String:
 				
 				released_charge1.connect(current_charge_attack.fire)
 				print("2beam")
+			elif Input.is_action_just_pressed("big2"):
+				animlock = true
+				big_attack_timer.start()
 	return ""
+
+func fire_big_attack() -> void:
+	animlock = true
+	big_attack_animlock_timer.start()
+	var atk = WIDE.instantiate()
+	atk.initialize(pos, Vector2i(0,-1), 2)
+	grid.p2_hitboxes.add_child(atk)
 
 func enable_charged_ranged_fire_on_release() -> void:
 	print("charged")
@@ -303,7 +349,7 @@ func basic_attack() -> void:
 	pass
 
 func get_has_iframes() -> bool:
-	if sm != null:
+	if is_instance_valid(sm):
 		return sm.get_current_node() == "hurt"
 	else:
 		return true

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckhahtwv4c4de"]
+
+[ext_resource type="Script" path="res://Attacks/Basic/wide.gd" id="1_rhjvj"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vhf7h"]
+size = Vector2(80, 8)
+
+[node name="Wide" type="Node2D"]
+script = ExtResource("1_rhjvj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.623529, 0.301961, 0, 1)
+texture = SubResource("PlaceholderTexture2D_vhf7h")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 245.0
+offset_bottom = 37.0
