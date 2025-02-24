@@ -6,7 +6,7 @@ void vertex() {
 
 void fragment() {
 	// Called for every pixel the material is visible on.
-	COLOR = texture(TEXTURE, vec2(UV.y, UV.x + TIME));
+	COLOR = texture(TEXTURE, vec2(UV.y, UV.x - TIME));
 }
 
 //void light() {

@@ -27,7 +27,3 @@ texture_repeat = 2
 material = SubResource("ShaderMaterial_liev5")
 texture = ExtResource("3_l7rml")
 texture_mode = 1
-
-[node name="Line2D" type="Line2D" parent="."]
-visible = false
-top_level = true
