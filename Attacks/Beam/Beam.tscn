@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://7cqj260idcmm"]
+
+[ext_resource type="Script" path="res://Attacks/Beam/beam.gd" id="1_rb2yi"]
+
+[node name="Beam" type="Node2D"]
+script = ExtResource("1_rb2yi")

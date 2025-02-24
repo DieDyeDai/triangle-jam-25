@@ -3,10 +3,12 @@ class_name Tile extends Sprite2D
 @onready var top: AnimatedSprite2D = $Top
 @onready var warning: AnimatedSprite2D = $Warning
 @onready var player: Sprite2D = $Player
+@onready var label: Label = $Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Globals.reset_tile_sprites.connect(blank)
+	label.text = str(Globals.get_pos(global_position))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

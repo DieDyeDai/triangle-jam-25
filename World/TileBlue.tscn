@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://8xapjh0yk1v7"]
+[gd_scene load_steps=14 format=3 uid="uid://8xapjh0yk1v7"]
 
 [ext_resource type="Texture2D" uid="uid://cimjimt7bo3mu" path="res://Assets/TileBaseBlue.png" id="1_lmxng"]
 [ext_resource type="Script" path="res://World/tile.gd" id="2_dt3q4"]
 [ext_resource type="Texture2D" uid="uid://dda80nivyu14o" path="res://Assets/TileTopRed.png" id="3_7obsk"]
 [ext_resource type="Texture2D" uid="uid://mqqqaaab5lsq" path="res://Assets/TileWarning.png" id="4_hqfis"]
 [ext_resource type="Texture2D" uid="uid://cw138jv1wycbg" path="res://Assets/tilePlayer.png" id="5_hqrqc"]
+[ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="6_n1gy0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7gea4"]
 atlas = ExtResource("3_7obsk")
@@ -55,6 +56,10 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_r4fhd"]
+font = ExtResource("6_n1gy0")
+font_size = 10
+
 [node name="TileBlue" type="Sprite2D"]
 texture_filter = 1
 texture = ExtResource("1_lmxng")
@@ -71,3 +76,9 @@ frame_progress = 0.679972
 [node name="Player" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("5_hqrqc")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -17.0
+offset_right = 23.0
+offset_bottom = 23.0
+label_settings = SubResource("LabelSettings_r4fhd")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b1ften6gr1pc6"]
 
-[ext_resource type="Script" path="res://Attacks/basic.gd" id="1_s3ax4"]
+[ext_resource type="Script" path="res://Attacks/Basic/basic.gd" id="1_s3ax4"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vhf7h"]
 size = Vector2(8, 8)

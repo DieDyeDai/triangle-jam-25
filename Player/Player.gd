@@ -13,7 +13,8 @@ extends Node2D
 signal moved(dir: String)
 const pngP1 = preload("res://Player/player1.png")
 const pngP2 = preload("res://Player/player2.png")
-const BASIC_ATTACK = preload("res://Attacks/Basic.tscn")
+const BASIC_ATTACK = preload("res://Attacks/Basic/Basic.tscn")
+const BEAM = preload("res://Attacks/Beam/Beam.tscn")
 
 var grid : Grid
 
@@ -37,7 +38,12 @@ const MOVEMENT_BUFFER : float = 0.2
 var basic_attack_timer : Timer = null
 const BASIC_ATTACK_CD : float = 0.25
 
-var movement_locked : bool = false
+var charge_attack_timer : Timer = null
+const BEAM_ATTACK_CT : float = 0.5
+var charge_attack_animlock_timer : Timer = null
+const CHARGE_ATTACK_AT : float = 0.2
+
+var animlock : bool = false
 
 func _ready():
 	
@@ -55,8 +61,25 @@ func add_timers():
 	basic_attack_timer.set_wait_time(BASIC_ATTACK_CD)
 	basic_attack_timer.set_one_shot(true)
 	basic_attack_timer.set_autostart(false)
+	basic_attack_timer.timeout.connect(remove_animlock)
 	
 	add_child(basic_attack_timer)
+	
+	charge_attack_timer = Timer.new()
+	charge_attack_timer.set_wait_time(BEAM_ATTACK_CT)
+	charge_attack_timer.set_one_shot(true)
+	charge_attack_timer.set_autostart(false)
+	charge_attack_timer.timeout.connect(enable_charged_ranged_fire_on_release)
+	
+	add_child(charge_attack_timer)
+	
+	charge_attack_animlock_timer = Timer.new()
+	charge_attack_animlock_timer.set_wait_time(CHARGE_ATTACK_AT)
+	charge_attack_animlock_timer.set_one_shot(true)
+	charge_attack_animlock_timer.set_autostart(false)
+	charge_attack_animlock_timer.timeout.connect(remove_animlock)
+	
+	add_child(charge_attack_animlock_timer)
 
 @warning_ignore("shadowed_variable")
 func initialize(p1 : bool, p2 : bool, grid: Grid):
@@ -83,11 +106,8 @@ func _physics_process(_delta: float) -> void:
 	
 	pos = Globals.get_pos(global_position)
 	
-	movement_locked = not basic_attack_timer.is_stopped()
-	
-	if not movement_locked:
+	if not animlock:
 		get_movement_input()
-	
 	get_attack_input()
 	
 	label.text = str(pos)
@@ -126,26 +146,78 @@ func get_movement_input() -> void:
 		if Input.is_action_just_pressed("right2"):
 			move ("right")
 
+var charged_ranged : bool = false
+var current_charge_attack : Beam = null
+signal released_charge1
+
 func get_attack_input() -> String:
 	
-	if basic_attack_timer.is_stopped():
-		if isP1:
+	if isP1:
+		if Input.is_action_just_released("charge_ranged1"):
+			if charged_ranged:
+				charged_ranged = false
+				released_charge1.emit()
+				charge_attack_animlock_timer.start()
+			else:
+				print("interrupt")
+				charge_attack_timer.stop()
+				animlock = false
+				current_charge_attack.interrupt()
+				
+		
+		if not animlock:
 			if Input.is_action_just_pressed("basic1"):
+				animlock = true
 				basic_attack_timer.start()
 				var atk = BASIC_ATTACK.instantiate()
 				atk.initialize(pos, Vector2i(0,-1), 4)
 				grid.p1_hitboxes.add_child(atk)
 		
 				print("1basic")
-		elif isP2:
+			elif Input.is_action_just_pressed("charge_ranged1"):
+				animlock = true
+				charge_attack_timer.start()
+				current_charge_attack = BEAM.instantiate()
+				current_charge_attack.initialize(pos)
+				grid.p1_hitboxes.add_child(current_charge_attack)
+			
+				released_charge1.connect(current_charge_attack.fire)
+				print("1beam")
+			
+	elif isP2:
+		if Input.is_action_just_released("charge_ranged2"):
+			charge_attack_animlock_timer.start()
+			if charged_ranged:
+				charged_ranged = false
+				released_charge1.emit()
+			else:
+				print("interrupt")
+				charge_attack_timer.stop()
+				current_charge_attack.interrupt()
+				
+		if not animlock:
 			if Input.is_action_just_pressed("basic2"):
+				animlock = true
 				basic_attack_timer.start()
 				var atk = BASIC_ATTACK.instantiate()
 				atk.initialize(pos, Vector2i(0,-1), 4)
 				grid.p2_hitboxes.add_child(atk)
 				
 				print("2basic")
+			elif Input.is_action_just_pressed("charge_ranged2"):
+				animlock = true
+				charge_attack_timer.start()
+				current_charge_attack = BEAM.instantiate()
+				current_charge_attack.initialize(pos)
+				grid.p2_hitboxes.add_child(current_charge_attack)
+				
+				released_charge1.connect(current_charge_attack.fire)
+				print("2beam")
 	return ""
+
+func enable_charged_ranged_fire_on_release() -> void:
+	print("charged")
+	charged_ranged = true
 
 var already_buffered_move : bool = false
 func move(dir: String):
@@ -235,3 +307,6 @@ func get_has_iframes() -> bool:
 		return sm.get_current_node() == "hurt"
 	else:
 		return true
+
+func remove_animlock() -> void:
+	animlock = false

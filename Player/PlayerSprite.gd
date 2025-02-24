@@ -10,6 +10,7 @@ func _ready() -> void:
 	
 	if parent.isP1:
 		texture = parent.pngP1
+		flip_h = true
 	else:
 		texture = parent.pngP2
 
