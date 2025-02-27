@@ -4,6 +4,10 @@ const PLAYER = preload("res://Player/Player.tscn")
 const TILERED = preload("res://World/TileRed.tscn")
 const TILEBLUE = preload("res://World/TileBlue.tscn")
 
+@onready var camera : Camera2D = $Camera2D
+@onready var hpbar_1 : UIHealthBar = $UIHealthBar1
+@onready var hpbar_2 : UIHealthBar = $UIHealthBar2
+
 var p1 : Player
 var p2 : Player
 
@@ -16,10 +20,22 @@ var p2_tile_container : Node = null
 var p1_tiles : Dictionary
 var p2_tiles : Dictionary
 
+var screenshake_timer : Timer = null
+const SCREENSHAKE_STR : float = 50
+const SCREENSHAKE_TIME : float = 0.12
+
 func _ready() -> void:
 	
 	##Ensure hitboxes and movement are processed last.
 	set_deferred("process_physics_priority", 1)
+	
+	screenshake_timer = Timer.new()
+	screenshake_timer.set_autostart(false)
+	screenshake_timer.set_one_shot(true)
+	add_child(screenshake_timer)
+	
+	hpbar_1.set_global_position(Globals.get_global_position(Vector2i(0, -6)))
+	hpbar_2.set_global_position(Globals.get_global_position(Vector2i(0,7)))
 	
 	for i in range(Globals.X_LOWER, Globals.X_UPPER + 1, 1):
 		p1_tiles[i] = {}
@@ -53,10 +69,6 @@ func _ready() -> void:
 	p2.initialize(false, true, self)
 	add_child(p1)
 	add_child(p2)
-	
-
-	
-
 
 var ct : int = 1
 func _physics_process(_delta: float) -> void:
@@ -74,6 +86,19 @@ func _physics_process(_delta: float) -> void:
 		for i in p1_tiles.values():
 			for j in i.values():
 				print(j)
+	
+	# screenshake
+	
+	if screenshake_timer.get_time_left() > 0.01:
+		camera.offset = Vector2(SCREENSHAKE_STR * screenshake_timer.get_time_left(), 0).rotated(randf_range(0, 2 * PI))
+	else:
+		camera.offset = Vector2.ZERO
+
+	if Input.is_action_just_pressed("debug1"):
+		screenshake(1.0)
+
+func screenshake(str : float) -> void:
+	screenshake_timer.start(SCREENSHAKE_TIME * str)
 
 func reset_tile_sprites_and_show_players() -> void:
 	Globals.reset_tile_sprites.emit()

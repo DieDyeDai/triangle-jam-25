@@ -1,7 +1,9 @@
 class_name Player
 extends Node2D
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: Sprite2D = $Sprites/Sprite2D
+@onready var body_sprite: Sprite2D = $Sprites/BodySprite
+
 
 #@onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var ap : AnimationPlayer = $AnimationPlayer
@@ -9,6 +11,7 @@ extends Node2D
 @onready var label_2: Label = $Label2
 @onready var tree: AnimationTree = $AnimationTree
 @onready var sm : AnimationNodeStateMachinePlayback = $AnimationTree["parameters/playback"]
+@onready var move_sm : AnimationNodeStateMachinePlayback = $AnimationTree["parameters/move/playback"]
 
 signal moved(dir: String)
 const pngP1 = preload("res://Player/player1.png")
@@ -124,6 +127,7 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 	
 var movement_input : String
 
+var ct : int = 1
 func _physics_process(_delta: float) -> void:
 	
 	pos = Globals.get_pos(global_position)
@@ -131,8 +135,15 @@ func _physics_process(_delta: float) -> void:
 	if not animlock:
 		get_movement_input()
 	get_attack_input()
+	update_animation_conditions()
 	
 	label.text = str(pos)
+	label_2.text = str(move_sm.get_current_node()) + str(tree.get("parameters/move/conditions/mvup")) + str(tree.get("parameters/move/conditions/mvdown")) + str(tree.get("parameters/move/conditions/mvleft")) + str(tree.get("parameters/move/conditions/mvright"))
+	
+	#ct = (ct + 1) % 10
+	#if ct == 0: print(move_sm.get_current_node())
+	
+	
 
 func hit() -> void:
 	#ap.play("hurt")
@@ -153,8 +164,8 @@ func update_animation_conditions() -> void:
 	tree.set("parameters/move/conditions/mvdown", current_movement.y > 0)
 	tree.set("parameters/move/conditions/mvleft", current_movement.x < 0)
 	tree.set("parameters/move/conditions/mvright", current_movement.x > 0)
-	tree.set("parameters/move/conditions/mvidle", current_movement.length_squared() < 0.08)
-	pass
+	tree.set("parameters/move/conditions/mvidle", current_movement.length_squared() < 0.01)
+	
 
 func get_movement_input() -> void:
 	if isP1:
@@ -338,7 +349,7 @@ func _move(dir):
 	if movement_tween:
 		movement_tween.kill()
 	movement_tween = create_tween()
-	movement_tween.tween_property(self, "global_position", Globals.get_global_position(target_pos), MOVEMENT_CD*0.8).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	movement_tween.tween_property(self, "global_position", Globals.get_global_position(target_pos), MOVEMENT_CD).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	movement_timer.start()
 	if isP1:
 		print("1" + str(dir))

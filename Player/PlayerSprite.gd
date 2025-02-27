@@ -4,7 +4,7 @@ extends Sprite2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
-	var parent : Player = get_parent()
+	var parent : Player = get_parent().get_parent()
 	
 	await parent.ready
 	
