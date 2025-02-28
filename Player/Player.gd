@@ -195,83 +195,83 @@ func get_attack_input() -> String:
 	
 	if isP1:
 		if Input.is_action_just_released("charge_ranged1"):
-			if charged_ranged:
-				charged_ranged = false
-				released_charge1.emit()
-				charge_attack_animlock_timer.start()
-			else:
-				print("interrupt")
-				charge_attack_timer.stop()
-				animlock = false
-				if is_instance_valid(current_charge_attack):
-					current_charge_attack.interrupt()
+			release_charged_ranged()
 				
-		
 		if not animlock:
 			if Input.is_action_just_pressed("basic1"):
-				animlock = true
-				basic_attack_timer.start()
-				var atk = BASIC_ATTACK.instantiate()
-				atk.initialize(target_pos, Vector2i(0,-1), 4)
-				grid.p1_hitboxes.add_child(atk)
-		
+				press_basic()
 				print("1basic")
+				
 			elif Input.is_action_just_pressed("charge_ranged1"):
-				animlock = true
-				charge_attack_timer.start()
-				current_charge_attack = BEAM.instantiate()
-				current_charge_attack.initialize(target_pos)
-				grid.p1_hitboxes.add_child(current_charge_attack)
-			
-				released_charge1.connect(current_charge_attack.fire)
+				press_charged_ranged()
 				print("1beam")
 			
 			elif Input.is_action_just_pressed("big1"):
-				animlock = true
-				big_attack_timer.start()
-				
+				press_big()
 			
 	elif isP2:
 		if Input.is_action_just_released("charge_ranged2"):
-			charge_attack_animlock_timer.start()
-			if charged_ranged:
-				charged_ranged = false
-				released_charge1.emit()
-			else:
-				print("interrupt")
-				charge_attack_timer.stop()
-				if is_instance_valid(current_charge_attack):
-					current_charge_attack.interrupt()
-				
+			release_charged_ranged()
+		
 		if not animlock:
 			if Input.is_action_just_pressed("basic2"):
-				animlock = true
-				basic_attack_timer.start()
-				var atk = BASIC_ATTACK.instantiate()
-				atk.initialize(target_pos, Vector2i(0,-1), 4)
-				grid.p2_hitboxes.add_child(atk)
-				
+				press_basic()
 				print("2basic")
-			elif Input.is_action_just_pressed("charge_ranged2"):
-				animlock = true
-				charge_attack_timer.start()
-				current_charge_attack = BEAM.instantiate()
-				current_charge_attack.initialize(target_pos)
-				grid.p2_hitboxes.add_child(current_charge_attack)
 				
-				released_charge1.connect(current_charge_attack.fire)
+			elif Input.is_action_just_pressed("charge_ranged2"):
+				press_charged_ranged()
 				print("2beam")
+			
 			elif Input.is_action_just_pressed("big2"):
-				animlock = true
-				big_attack_timer.start()
+				press_big()
 	return ""
+
+func press_charged_ranged():
+	animlock = true
+	charge_attack_timer.start()
+	current_charge_attack = BEAM.instantiate()
+	current_charge_attack.initialize(target_pos)
+	if isP1:
+		grid.p1_hitboxes.add_child(current_charge_attack)
+	elif isP2:
+		grid.p2_hitboxes.add_child(current_charge_attack)
+	released_charge1.connect(current_charge_attack.fire)
+
+func release_charged_ranged():
+	if charged_ranged:
+		charged_ranged = false
+		released_charge1.emit()
+		charge_attack_animlock_timer.start()
+	else:
+		print("interrupt")
+		charge_attack_timer.stop()
+		animlock = false
+		if is_instance_valid(current_charge_attack):
+			current_charge_attack.interrupt()
+
+func press_basic():
+	animlock = true
+	basic_attack_timer.start()
+	var atk = BASIC_ATTACK.instantiate()
+	atk.initialize(target_pos, Vector2i(0,-1), 4)
+	if isP1:
+		grid.p1_hitboxes.add_child(atk)
+	elif isP2:
+		grid.p2_hitboxes.add_child(atk)
+
+func press_big() -> void:
+	animlock = true
+	big_attack_timer.start()
 
 func fire_big_attack() -> void:
 	animlock = true
 	big_attack_animlock_timer.start()
 	var atk = WIDE.instantiate()
 	atk.initialize(target_pos, Vector2i(0,-1), 2)
-	grid.p2_hitboxes.add_child(atk)
+	if isP1:
+		grid.p1_hitboxes.add_child(atk)
+	elif isP2:
+		grid.p2_hitboxes.add_child(atk)
 
 func enable_charged_ranged_fire_on_release() -> void:
 	print("charged")
