@@ -76,7 +76,9 @@ func update(cur, max):
 			decayBar.scale.x = fillBar.scale.x
 		
 		flash_white()
-	
+
+func hit(damage: int):
+	update(max(0, cur - damage), max)
 
 func flash_white():
 	flashWhite.scale.x = decayBar.scale.x
