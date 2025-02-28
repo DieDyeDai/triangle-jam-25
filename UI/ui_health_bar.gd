@@ -21,6 +21,8 @@ var px_pos : float = 0
 
 var decay_tween : Tween = null
 
+const LEN : int = 144
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#reset(Flags.base_player_max_hp, Flags.base_player_max_hp)
@@ -40,11 +42,11 @@ func reset(cur, max):
 		decay_tween.kill()
 	set_hps_and_labels(cur, max)
 	if self.cur > 0:
-		px_pos = min(40, max(1, floor(40 * self.cur / self.max)))
+		px_pos = min(LEN, max(1, floor(LEN * self.cur / self.max)))
 	else:
 		px_pos = 0
 	prev_px_pos = px_pos
-	fillBar.scale.x = px_pos / 40
+	fillBar.scale.x = px_pos / LEN
 	endBar.position.x = px_pos
 	decayBar.scale.x = fillBar.scale.x
 	
@@ -56,21 +58,21 @@ func update(cur, max):
 		set_hps_and_labels(cur, max)
 		
 		if self.cur > 0:
-			px_pos = min(40, max(1, floor(40 * self.cur / self.max)))
+			px_pos = min(LEN, max(1, floor(LEN * self.cur / self.max)))
 		else:
 			px_pos = 0
 		neg_px_diff = prev_px_pos - px_pos
 		#print("px: " + str(prev_px_pos) + "->" + str(px_pos) + " - " + str(neg_px_diff))
 		prev_px_pos = px_pos
 		
-		fillBar.scale.x = px_pos / 40
+		fillBar.scale.x = px_pos / LEN
 		endBar.position.x = px_pos
 		
 		if neg_px_diff > 0:
 			if decay_tween:
 				decay_tween.kill()
 			decay_tween = create_tween()
-			decay_tween.tween_property(decayBar, "scale", Vector2(px_pos / 40, 1), 1)
+			decay_tween.tween_property(decayBar, "scale", Vector2(px_pos / LEN, 1), 1)
 			decay_tween.play()
 		else:
 			decayBar.scale.x = fillBar.scale.x

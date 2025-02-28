@@ -1,11 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cstp7ajetyqo3"]
+[gd_scene load_steps=8 format=3 uid="uid://cstp7ajetyqo3"]
 
 [ext_resource type="Script" path="res://UI/ui_energy_bar.gd" id="1_xyifl"]
-[ext_resource type="Texture2D" uid="uid://baed85bntnxji" path="res://Assets/UIHealthBar_Empty.png" id="2_6urf4"]
-[ext_resource type="Texture2D" uid="uid://xlru3c04gjvf" path="res://Assets/UIHealthBar_Progress.png" id="3_227nc"]
-[ext_resource type="Texture2D" uid="uid://c1fkhra7710p2" path="res://Assets/UIHealthBar_Fill.png" id="4_t7n0y"]
-[ext_resource type="Texture2D" uid="uid://c5jnxjn0edb2b" path="res://Assets/UIHealthBar_End.png" id="5_hoj3g"]
-[ext_resource type="Texture2D" uid="uid://d3y1hvnrcowu8" path="res://Assets/UIHealthBar_BG.png" id="7_pba0n"]
+[ext_resource type="Texture2D" uid="uid://da1ya3ahw5xgf" path="res://Assets/UIBar.png" id="2_2erl5"]
+[ext_resource type="Texture2D" uid="uid://cdb3sb622ivkw" path="res://Assets/UIEnergyBar.png" id="2_epj8q"]
+[ext_resource type="PackedScene" uid="uid://bsov8x4e0elxx" path="res://UI/DiamondCount.tscn" id="6_8uv5a"]
 [ext_resource type="Texture2D" uid="uid://dcm1kx7j41m7q" path="res://Assets/UIHealthBar_Slash.png" id="8_ofbwc"]
 [ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="9_a6sb3"]
 
@@ -22,33 +20,71 @@ anchors_preset = 0
 script = ExtResource("1_xyifl")
 
 [node name="Empty" type="Sprite2D" parent="."]
-texture = ExtResource("2_6urf4")
+texture = ExtResource("2_2erl5")
+offset = Vector2(3, 0)
+vframes = 12
+frame = 3
 
 [node name="Decay" type="Sprite2D" parent="."]
-position = Vector2(-20, -8)
-texture = ExtResource("3_227nc")
+position = Vector2(-72, -2)
+texture = ExtResource("2_2erl5")
 centered = false
+vframes = 12
+frame = 4
 
 [node name="Fill" type="Sprite2D" parent="."]
-position = Vector2(-20, 0)
-texture = ExtResource("4_t7n0y")
+position = Vector2(-72, -2)
+texture = ExtResource("2_2erl5")
 centered = false
-offset = Vector2(0, -8)
+vframes = 12
+frame = 5
 
 [node name="End" type="Sprite2D" parent="."]
-position = Vector2(40, 0)
-texture = ExtResource("5_hoj3g")
+position = Vector2(144, 0)
+texture = ExtResource("2_2erl5")
 centered = false
-offset = Vector2(-23, -8)
-
-[node name="BG" type="Sprite2D" parent="."]
-texture = ExtResource("7_pba0n")
+offset = Vector2(-75, -2)
+vframes = 12
+frame = 6
 
 [node name="Slash" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(-1, -1)
 texture = ExtResource("8_ofbwc")
 
+[node name="BG" type="Sprite2D" parent="."]
+texture = ExtResource("2_2erl5")
+vframes = 4
+
+[node name="Tick1" type="Sprite2D" parent="."]
+position = Vector2(48, 0)
+texture = ExtResource("2_2erl5")
+centered = false
+offset = Vector2(-74, -4)
+hframes = 3
+vframes = 6
+frame = 15
+
+[node name="Tick2" type="Sprite2D" parent="."]
+position = Vector2(96, 0)
+texture = ExtResource("2_2erl5")
+centered = false
+offset = Vector2(-74, -4)
+hframes = 3
+vframes = 6
+frame = 15
+
+[node name="Tick3" type="Sprite2D" parent="."]
+position = Vector2(144, 0)
+texture = ExtResource("2_2erl5")
+centered = false
+offset = Vector2(-74, -4)
+hframes = 3
+vframes = 6
+frame = 16
+
 [node name="curHP" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_left = -60.0
 offset_top = -8.0
@@ -59,6 +95,7 @@ label_settings = SubResource("LabelSettings_77kne")
 horizontal_alignment = 2
 
 [node name="maxHP" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 4.0
 offset_top = -8.0
@@ -66,3 +103,14 @@ offset_right = 60.0
 offset_bottom = 9.0
 text = "100"
 label_settings = SubResource("LabelSettings_77kne")
+
+[node name="FlashWhite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-72, -2)
+texture = ExtResource("2_epj8q")
+centered = false
+vframes = 12
+frame = 9
+
+[node name="DiamondCount" parent="." instance=ExtResource("6_8uv5a")]
+position = Vector2(-84, 0)

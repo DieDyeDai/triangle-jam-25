@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://n6eqqlyl85d6"]
+[gd_scene load_steps=4 format=3 uid="uid://n6eqqlyl85d6"]
 
 [ext_resource type="Script" path="res://World/Grid.gd" id="1_0noqu"]
 [ext_resource type="PackedScene" uid="uid://cd0g1dj0lffee" path="res://UI/HealthBar.tscn" id="2_ykskw"]
+[ext_resource type="PackedScene" uid="uid://cstp7ajetyqo3" path="res://UI/EnergyBar.tscn" id="3_c8dl5"]
 
 [node name="Grid" type="Node"]
 script = ExtResource("1_0noqu")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(0, 64)
 zoom = Vector2(2, 2)
 
 [node name="UIHealthBar1" parent="." instance=ExtResource("2_ykskw")]
@@ -14,9 +16,23 @@ offset_left = 128.0
 offset_top = 112.0
 offset_right = 128.0
 offset_bottom = 112.0
+scale = Vector2(1, 1)
 
 [node name="UIHealthBar2" parent="." instance=ExtResource("2_ykskw")]
 offset_left = -128.0
 offset_top = 110.0
 offset_right = -128.0
 offset_bottom = 110.0
+scale = Vector2(1, 1)
+
+[node name="UIEnergyBar1" parent="." instance=ExtResource("3_c8dl5")]
+offset_left = -145.0
+offset_top = 131.0
+offset_right = -145.0
+offset_bottom = 131.0
+
+[node name="UIEnergyBar2" parent="." instance=ExtResource("3_c8dl5")]
+offset_left = 123.0
+offset_top = 129.0
+offset_right = 123.0
+offset_bottom = 129.0

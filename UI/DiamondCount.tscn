@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsov8x4e0elxx"]
+
+[ext_resource type="Texture2D" uid="uid://dqnyxcsbfkeh" path="res://Assets/UIECountRed.png" id="1_6p1lc"]
+[ext_resource type="Shader" uid="uid://fyidh7mbdcx4" path="res://Assets/hit_flash.tres" id="1_uufpn"]
+[ext_resource type="Script" path="res://UI/diamond_count.gd" id="2_kejul"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iki7g"]
+shader = ExtResource("1_uufpn")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
+[node name="DiamondCount" type="Sprite2D"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_iki7g")
+texture = ExtResource("1_6p1lc")
+hframes = 4
+script = ExtResource("2_kejul")

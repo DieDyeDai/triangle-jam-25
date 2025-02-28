@@ -24,6 +24,9 @@ const WIDE = preload("res://Attacks/Basic/Wide.tscn")
 
 var grid : Grid
 
+var ebar : UIEnergyBar = null
+var hpbar : UIHealthBar = null
+
 var target_pos : Vector2i
 var pos : Vector2i
 
@@ -117,15 +120,21 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 		target_pos = Vector2i(0, -2)
 		Y_LOWER = -4
 		Y_UPPER = 0
+		ebar = grid.ebar_1
+		hpbar = grid.hpbar_1
 	elif p2:
 		isP2 = true
 		pos = Vector2i(0,3)
 		target_pos = Vector2i(0, 3)
 		Y_LOWER = 1
 		Y_UPPER = 5
+		ebar = grid.ebar_2
+		hpbar = grid.hpbar_2
 	else:
 		push_warning("DID NOT INITIALIZE TO P1 OR P2")
 	global_position = Globals.get_global_position(pos)
+	
+	ebar.reset(48, ebar.max)
 	
 var movement_input : String
 
@@ -153,6 +162,10 @@ func hit(damage: int) -> void:
 		print("1hurt")
 	elif isP2:
 		print("2hurt")
+	
+	hpbar.hit(damage)
+	ebar.shrink(hpbar.cur / hpbar.max)
+	
 	grid.screenshake(1)
 	#sm.travel("hurt")
 	hurt_ap.play("hurt")
@@ -207,13 +220,16 @@ func get_attack_input() -> String:
 			if Input.is_action_just_pressed("basic1"):
 				press_basic()
 				print("1basic")
-				
-			elif Input.is_action_just_pressed("charge_ranged1"):
-				press_charged_ranged()
-				print("1beam")
 			
-			elif Input.is_action_just_pressed("big1"):
-				press_big()
+			elif ebar.cur_i > 0:
+				if Input.is_action_just_pressed("charge_ranged1"):
+					ebar.update(ebar.cur - ebar.COST, ebar.max)
+					press_charged_ranged()
+					print("1beam")
+				
+				elif Input.is_action_just_pressed("big1"):
+					ebar.update(ebar.cur - ebar.COST, ebar.max)
+					press_big()
 			
 	elif isP2:
 		if Input.is_action_just_released("charge_ranged2"):
@@ -223,13 +239,16 @@ func get_attack_input() -> String:
 			if Input.is_action_just_pressed("basic2"):
 				press_basic()
 				print("2basic")
-				
-			elif Input.is_action_just_pressed("charge_ranged2"):
-				press_charged_ranged()
-				print("2beam")
 			
-			elif Input.is_action_just_pressed("big2"):
-				press_big()
+			elif ebar.cur_i >= 1:
+				if Input.is_action_just_pressed("charge_ranged2"):
+					ebar.update(ebar.cur - ebar.COST, ebar.max)
+					press_charged_ranged()
+					print("2beam")
+			
+				elif Input.is_action_just_pressed("big2"):
+					ebar.update(ebar.cur - ebar.COST, ebar.max)
+					press_big()
 	return ""
 
 func press_charged_ranged():
@@ -269,6 +288,7 @@ func press_basic():
 func press_big() -> void:
 	animlock = true
 	big_attack_timer.start()
+	
 
 func fire_big_attack() -> void:
 	animlock = true

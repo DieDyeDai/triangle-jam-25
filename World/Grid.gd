@@ -7,6 +7,8 @@ const TILEBLUE = preload("res://World/TileBlue.tscn")
 @onready var camera : Camera2D = $Camera2D
 @onready var hpbar_1 : UIHealthBar = $UIHealthBar1
 @onready var hpbar_2 : UIHealthBar = $UIHealthBar2
+@onready var ebar_1: UIEnergyBar = $UIEnergyBar1
+@onready var ebar_2: UIEnergyBar = $UIEnergyBar2
 
 var p1 : Player
 var p2 : Player
@@ -37,8 +39,15 @@ func _ready() -> void:
 	screenshake_timer.set_one_shot(true)
 	add_child(screenshake_timer)
 	
-	hpbar_1.set_global_position(Globals.get_global_position(Vector2i(0, -6)))
-	hpbar_2.set_global_position(Globals.get_global_position(Vector2i(0,7)))
+	hpbar_1.set_global_position(Globals.get_global_position(Vector2i(0, -5)))
+	hpbar_1.scale.x = -1
+	ebar_1.set_global_position(Globals.get_global_position(Vector2i(0, -6)) + Vector2(0, -22))
+	ebar_1.scale.x = -1
+	ebar_1.counter.initialize(true, false)
+	
+	hpbar_2.set_global_position(Globals.get_global_position(Vector2i(0,6)))
+	ebar_2.set_global_position(Globals.get_global_position(Vector2i(0,7)) + Vector2(0, -22))
+	ebar_2.counter.initialize(false, true)
 	
 	for i in range(Globals.X_LOWER, Globals.X_UPPER + 1, 1):
 		p1_tiles[i] = {}
@@ -99,9 +108,11 @@ func _physics_process(_delta: float) -> void:
 
 	if Input.is_action_just_pressed("debug1"):
 		screenshake(1.0)
+		ebar_1.update(ebar_1.cur - 30, ebar_1.max)
+		ebar_2.update(ebar_2.cur - 30, ebar_2.max)
 
-func screenshake(str : float) -> void:
-	screenshake_timer.start(SCREENSHAKE_TIME * str)
+func screenshake(strength : float) -> void:
+	screenshake_timer.start(SCREENSHAKE_TIME * strength)
 
 func reset_tile_sprites_and_show_players() -> void:
 	Globals.reset_tile_sprites.emit()
@@ -117,7 +128,6 @@ func process_hitboxes() -> void:
 					(p1_tiles[hitbox_pos.x][hitbox_pos.y] as Tile).show_hitbox()
 				if not p1.get_has_iframes() and p1.pos == hitbox_pos:
 					p1.hit(hitbox.damage)
-					hpbar_1.hit(hitbox.damage)
 			for hitbox_warning_pos in hitbox.warning_positions:
 				if (p1_tiles[hitbox_warning_pos.x] as Dictionary).has(hitbox_warning_pos.y):
 					(p1_tiles[hitbox_warning_pos.x][hitbox_warning_pos.y] as Tile).show_warning()
@@ -129,7 +139,6 @@ func process_hitboxes() -> void:
 					(p2_tiles[hitbox_pos.x][hitbox_pos.y] as Tile).show_hitbox()
 				if not p2.get_has_iframes() and p2.pos == hitbox_pos:
 					p2.hit(hitbox.damage)
-					hpbar_2.hit(hitbox.damage)
 			for hitbox_warning_pos in hitbox.warning_positions:
 				if (p2_tiles[hitbox_warning_pos.x] as Dictionary).has(hitbox_warning_pos.y):
 					(p2_tiles[hitbox_warning_pos.x][hitbox_warning_pos.y] as Tile).show_warning()
