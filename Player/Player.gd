@@ -13,6 +13,8 @@ extends Node2D
 @onready var sm : AnimationNodeStateMachinePlayback = $AnimationTree["parameters/playback"]
 @onready var move_sm : AnimationNodeStateMachinePlayback = $AnimationTree["parameters/move/playback"]
 
+@onready var hurt_ap: AnimationPlayer = $hurtAP
+
 signal moved(dir: String)
 const pngP1 = preload("res://Player/player1.png")
 const pngP2 = preload("res://Player/player2.png")
@@ -138,7 +140,7 @@ func _physics_process(_delta: float) -> void:
 	update_animation_conditions()
 	
 	label.text = str(pos)
-	label_2.text = str(move_sm.get_current_node()) + str(tree.get("parameters/move/conditions/mvup")) + str(tree.get("parameters/move/conditions/mvdown")) + str(tree.get("parameters/move/conditions/mvleft")) + str(tree.get("parameters/move/conditions/mvright"))
+	label_2.text = str(sm.get_current_node()) + str(move_sm.get_current_node()) + str(tree.get("parameters/move/conditions/mvup")) + str(tree.get("parameters/move/conditions/mvdown")) + str(tree.get("parameters/move/conditions/mvleft")) + str(tree.get("parameters/move/conditions/mvright"))
 	
 	#ct = (ct + 1) % 10
 	#if ct == 0: print(move_sm.get_current_node())
@@ -147,9 +149,13 @@ func _physics_process(_delta: float) -> void:
 
 func hit() -> void:
 	#ap.play("hurt")
-	print("hurt")
-	sm.travel("hurt")
-	
+	if isP1:
+		print("1hurt")
+	elif isP2:
+		print("2hurt")
+	grid.screenshake(1)
+	#sm.travel("hurt")
+	hurt_ap.play("hurt")
 	# Interrupt attacks
 	animlock = false
 	charged_ranged = false
@@ -242,6 +248,7 @@ func release_charged_ranged():
 		charged_ranged = false
 		released_charge1.emit()
 		charge_attack_animlock_timer.start()
+		grid.screenshake(0.75)
 	else:
 		print("interrupt")
 		charge_attack_timer.stop()
@@ -356,13 +363,9 @@ func _move(dir):
 	else:
 		print("2" + str(dir))
 
-func basic_attack() -> void:
-	
-	pass
-
 func get_has_iframes() -> bool:
-	if is_instance_valid(sm):
-		return sm.get_current_node() == "hurt"
+	if is_instance_valid(hurt_ap):
+		return hurt_ap.is_playing()
 	else:
 		return true
 

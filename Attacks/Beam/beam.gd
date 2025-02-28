@@ -69,12 +69,12 @@ func fire() -> void:
 	#print(line_section_2.points)
 	
 	beam_width_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	beam_width_tween.tween_property(line_section_1, "width", 32, 0.1)
-	beam_width_tween.tween_property(line_section_2, "width", 32, 0.1)
+	beam_width_tween.tween_property(line_section_1, "width", 32, 0.03)
+	beam_width_tween.tween_property(line_section_2, "width", 32, 0.03)
 	
 	warning_positions.clear()
 	
-	await get_tree().create_timer(0.25, false, true).timeout
+	await get_tree().create_timer(0.2, false, true).timeout
 	
 	positions.clear()
 	
