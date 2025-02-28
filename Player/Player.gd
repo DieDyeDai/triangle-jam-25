@@ -1,9 +1,9 @@
 class_name Player
 extends Node2D
 
-@onready var sprite: Sprite2D = $Sprites/Sprite2D
 @onready var body_sprite: Sprite2D = $Sprites/BodySprite
-
+@onready var hair_sprite: RandomSprite2D = $Sprites/HairRandomSprite
+@onready var hat_sprite: Sprite2D = $Sprites/HatSprite
 
 #@onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var ap : AnimationPlayer = $AnimationPlayer
@@ -18,6 +18,7 @@ extends Node2D
 signal moved(dir: String)
 const pngP1 = preload("res://Player/player1.png")
 const pngP2 = preload("res://Player/player2.png")
+
 const BASIC_ATTACK = preload("res://Attacks/Basic/Basic.tscn")
 const BEAM = preload("res://Attacks/Beam/Beam.tscn")
 const WIDE = preload("res://Attacks/Basic/Wide.tscn")
@@ -122,6 +123,11 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 		Y_UPPER = 0
 		ebar = grid.ebar_1
 		hpbar = grid.hpbar_1
+		
+		body_sprite.texture = pngP1
+		hair_sprite.texture = pngP1
+		hat_sprite.texture = pngP1
+		
 	elif p2:
 		isP2 = true
 		pos = Vector2i(0,3)
@@ -130,6 +136,10 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 		Y_UPPER = 5
 		ebar = grid.ebar_2
 		hpbar = grid.hpbar_2
+		
+		body_sprite.texture = pngP2
+		hair_sprite.texture = pngP2
+		hat_sprite.texture = pngP2
 	else:
 		push_warning("DID NOT INITIALIZE TO P1 OR P2")
 	global_position = Globals.get_global_position(pos)
@@ -138,7 +148,7 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 	
 var movement_input : String
 
-var ct : int = 1
+#var ct : int = 1
 func _physics_process(_delta: float) -> void:
 	
 	pos = Globals.get_pos(global_position)
@@ -149,12 +159,23 @@ func _physics_process(_delta: float) -> void:
 	update_animation_conditions()
 	
 	label.text = str(pos)
-	label_2.text = str(sm.get_current_node()) + str(move_sm.get_current_node()) + str(tree.get("parameters/move/conditions/mvup")) + str(tree.get("parameters/move/conditions/mvdown")) + str(tree.get("parameters/move/conditions/mvleft")) + str(tree.get("parameters/move/conditions/mvright"))
+	label_2.text = str(sm.get_current_node()) + str(move_sm.get_current_node())
+	#+ str(tree.get("parameters/move/conditions/mvup")) + str(tree.get("parameters/move/conditions/mvdown")) + str(tree.get("parameters/move/conditions/mvleft")) + str(tree.get("parameters/move/conditions/mvright"))
 	
-	#ct = (ct + 1) % 10
-	#if ct == 0: print(move_sm.get_current_node())
-	
-	
+	if ebar.cur < ebar.COST:
+		if isP1:
+			grid.inputs_1["charge"].set_modulate(Color(1,0,0,1))
+			grid.inputs_1["big"].set_modulate(Color(1,0,0,1))
+		elif isP2:
+			grid.inputs_2["charge"].set_modulate(Color(1,0,0,1))
+			grid.inputs_2["big"].set_modulate(Color(1,0,0,1))
+	else: 
+		if isP1:
+			grid.inputs_1["charge"].set_modulate(Color(1,1,1,1))
+			grid.inputs_1["big"].set_modulate(Color(1,1,1,1))
+		elif isP2:
+			grid.inputs_2["charge"].set_modulate(Color(1,1,1,1))
+			grid.inputs_2["big"].set_modulate(Color(1,1,1,1))
 
 func hit(damage: int) -> void:
 	#ap.play("hurt")

@@ -10,6 +10,34 @@ const TILEBLUE = preload("res://World/TileBlue.tscn")
 @onready var ebar_1: UIEnergyBar = $UIEnergyBar1
 @onready var ebar_2: UIEnergyBar = $UIEnergyBar2
 
+@onready var keys_movement_1: Sprite2D = $KeysMovement1
+@onready var key_action_a: Sprite2D = $KeyActionA
+@onready var key_action_z: Sprite2D = $KeyActionZ
+@onready var key_action_x: Sprite2D = $KeyActionX
+@onready var key_action_s: Sprite2D = $KeyActionS
+
+@onready var inputs_1 : Dictionary = {
+	"movement": keys_movement_1,
+	"melee": key_action_a,
+	"charge": key_action_z,
+	"basic": key_action_x,
+	"big": key_action_s,
+}
+
+@onready var keys_movement_2: Sprite2D = $KeysMovement2
+@onready var key_action_i: Sprite2D = $KeyActionI
+@onready var key_action_k: Sprite2D = $KeyActionK
+@onready var key_action_l: Sprite2D = $KeyActionL
+@onready var key_action_o: Sprite2D = $KeyActionO
+
+@onready var inputs_2 : Dictionary = {
+	"movement": keys_movement_2,
+	"melee": key_action_i,
+	"charge": key_action_k,
+	"basic": key_action_l,
+	"big": key_action_o,
+}
+
 var p1 : Player
 var p2 : Player
 
@@ -49,6 +77,18 @@ func _ready() -> void:
 	ebar_2.set_global_position(Globals.get_global_position(Vector2i(0,7)) + Vector2(0, -22))
 	ebar_2.counter.initialize(false, true)
 	
+	inputs_1["movement"].set_global_position(ebar_1.global_position + Vector2(40, 32))
+	inputs_1["melee"].set_global_position(ebar_1.global_position + Vector2(-24, 24))
+	inputs_1["big"].set_global_position(ebar_1.global_position + Vector2(-8, 24))
+	inputs_1["charge"].set_global_position(ebar_1.global_position + Vector2(-16, 48))
+	inputs_1["basic"].set_global_position(ebar_1.global_position + Vector2(0, 48))
+
+	inputs_2["movement"].set_global_position(ebar_2.global_position + Vector2(40, 32))
+	inputs_2["melee"].set_global_position(ebar_2.global_position + Vector2(-24, 24))
+	inputs_2["big"].set_global_position(ebar_2.global_position + Vector2(-8, 24))
+	inputs_2["charge"].set_global_position(ebar_2.global_position + Vector2(-16, 48))
+	inputs_2["basic"].set_global_position(ebar_2.global_position + Vector2(0, 48))
+	
 	for i in range(Globals.X_LOWER, Globals.X_UPPER + 1, 1):
 		p1_tiles[i] = {}
 		p2_tiles[i] = {}
@@ -77,10 +117,10 @@ func _ready() -> void:
 	
 	p1 = PLAYER.instantiate()
 	p2 = PLAYER.instantiate()
-	p1.initialize(true, false, self)
-	p2.initialize(false, true, self)
 	add_child(p1)
 	add_child(p2)
+	p1.initialize(true, false, self)
+	p2.initialize(false, true, self)
 
 var ct : int = 1
 func _physics_process(_delta: float) -> void:
@@ -102,9 +142,9 @@ func _physics_process(_delta: float) -> void:
 	# screenshake
 	
 	if screenshake_timer.get_time_left() > 0.01:
-		camera.offset = Vector2(SCREENSHAKE_STR * screenshake_timer.get_time_left(), 0).rotated(randf_range(0, 2 * PI))
+		camera.offset = Vector2(SCREENSHAKE_STR * screenshake_timer.get_time_left(), 0).rotated(randf_range(0, 2 * PI)) + Vector2(0, Globals.TILE_HEIGHT)
 	else:
-		camera.offset = Vector2.ZERO
+		camera.offset = Vector2(0, Globals.TILE_HEIGHT)
 
 	if Input.is_action_just_pressed("debug1"):
 		screenshake(1.0)

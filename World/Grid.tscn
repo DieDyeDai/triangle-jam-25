@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://n6eqqlyl85d6"]
+[gd_scene load_steps=5 format=3 uid="uid://n6eqqlyl85d6"]
 
 [ext_resource type="Script" path="res://World/Grid.gd" id="1_0noqu"]
 [ext_resource type="PackedScene" uid="uid://cd0g1dj0lffee" path="res://UI/HealthBar.tscn" id="2_ykskw"]
 [ext_resource type="PackedScene" uid="uid://cstp7ajetyqo3" path="res://UI/EnergyBar.tscn" id="3_c8dl5"]
+[ext_resource type="Texture2D" uid="uid://bs6jxovn0kw0v" path="res://Assets/keys.png" id="4_14qmi"]
 
 [node name="Grid" type="Node"]
 script = ExtResource("1_0noqu")
@@ -12,27 +13,106 @@ offset = Vector2(0, 64)
 zoom = Vector2(2, 2)
 
 [node name="UIHealthBar1" parent="." instance=ExtResource("2_ykskw")]
-offset_left = 128.0
-offset_top = 112.0
-offset_right = 128.0
-offset_bottom = 112.0
-scale = Vector2(1, 1)
-
-[node name="UIHealthBar2" parent="." instance=ExtResource("2_ykskw")]
-offset_left = -128.0
-offset_top = 110.0
-offset_right = -128.0
-offset_bottom = 110.0
+offset_left = -131.0
+offset_top = 106.0
+offset_right = -131.0
+offset_bottom = 106.0
 scale = Vector2(1, 1)
 
 [node name="UIEnergyBar1" parent="." instance=ExtResource("3_c8dl5")]
-offset_left = -145.0
-offset_top = 131.0
-offset_right = -145.0
-offset_bottom = 131.0
+offset_left = -133.0
+offset_top = 118.0
+offset_right = -133.0
+offset_bottom = 118.0
+
+[node name="UIHealthBar2" parent="." instance=ExtResource("2_ykskw")]
+offset_left = 123.0
+offset_top = 109.0
+offset_right = 123.0
+offset_bottom = 109.0
+scale = Vector2(1, 1)
 
 [node name="UIEnergyBar2" parent="." instance=ExtResource("3_c8dl5")]
-offset_left = 123.0
-offset_top = 129.0
-offset_right = 123.0
-offset_bottom = 129.0
+offset_left = 122.0
+offset_top = 119.0
+offset_right = 122.0
+offset_bottom = 119.0
+
+[node name="KeysMovement1" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-161, 152)
+texture = ExtResource("4_14qmi")
+hframes = 2
+vframes = 4
+
+[node name="KeysMovement2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(119, 152)
+texture = ExtResource("4_14qmi")
+hframes = 2
+vframes = 4
+frame = 1
+
+[node name="KeyActionA" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-115, 155)
+texture = ExtResource("4_14qmi")
+hframes = 8
+vframes = 4
+frame = 8
+
+[node name="KeyActionZ" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-110, 177)
+texture = ExtResource("4_14qmi")
+hframes = 8
+vframes = 4
+frame = 9
+
+[node name="KeyActionX" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-96, 177)
+texture = ExtResource("4_14qmi")
+hframes = 8
+vframes = 4
+frame = 10
+
+[node name="KeyActionS" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-101, 155)
+texture = ExtResource("4_14qmi")
+hframes = 8
+vframes = 4
+frame = 11
+
+[node name="KeyActionI" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(143, 153)
+texture = ExtResource("4_14qmi")
+hframes = 8
+vframes = 4
+frame = 12
+
+[node name="KeyActionK" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(145, 174)
+texture = ExtResource("4_14qmi")
+hframes = 8
+vframes = 4
+frame = 13
+
+[node name="KeyActionL" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(159, 174)
+texture = ExtResource("4_14qmi")
+hframes = 8
+vframes = 4
+frame = 14
+
+[node name="KeyActionO" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(157, 153)
+texture = ExtResource("4_14qmi")
+hframes = 8
+vframes = 4
+frame = 15

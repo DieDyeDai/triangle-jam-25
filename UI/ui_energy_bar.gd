@@ -92,7 +92,7 @@ func update(cur, max):
 		else:
 			px_pos = 0
 		neg_px_diff = prev_px_pos - px_pos
-		print("px: " + str(prev_px_pos) + "->" + str(px_pos) + " - " + str(neg_px_diff))
+		#print("px: " + str(prev_px_pos) + "->" + str(px_pos) + " - " + str(neg_px_diff))
 		prev_px_pos = px_pos
 		
 		fillBar.scale.x = px_pos / LEN_INITIAL

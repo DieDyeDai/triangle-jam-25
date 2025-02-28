@@ -50,7 +50,7 @@ func flash_white(time: float):
 	material.set("shader_parameter/enabled", true)
 	flash_white_timer.start(time)
 
-func on_flash_white_end():
+func on_flash_white_end():	
 	material.set("shader_parameter/enabled", false)
 	flash_white_timer.start()
 
