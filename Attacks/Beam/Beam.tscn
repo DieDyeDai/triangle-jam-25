@@ -13,6 +13,7 @@ shader = ExtResource("2_4gojr")
 [node name="Beam" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_rb2yi")
+damage = 2
 
 [node name="LineSection1" type="Line2D" parent="."]
 top_level = true

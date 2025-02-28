@@ -147,7 +147,7 @@ func _physics_process(_delta: float) -> void:
 	
 	
 
-func hit() -> void:
+func hit(damage: int) -> void:
 	#ap.play("hurt")
 	if isP1:
 		print("1hurt")

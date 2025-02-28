@@ -20,6 +20,7 @@ z_index = 12
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
+scale = Vector2(2, 2)
 script = ExtResource("1_y5d8d")
 
 [node name="Empty" type="Sprite2D" parent="."]

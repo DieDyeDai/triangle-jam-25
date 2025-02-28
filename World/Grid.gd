@@ -29,6 +29,9 @@ func _ready() -> void:
 	##Ensure hitboxes and movement are processed last.
 	set_deferred("process_physics_priority", 1)
 	
+	hpbar_1.reset(10, 10)
+	hpbar_2.reset(10, 10)
+	
 	screenshake_timer = Timer.new()
 	screenshake_timer.set_autostart(false)
 	screenshake_timer.set_one_shot(true)
@@ -113,7 +116,8 @@ func process_hitboxes() -> void:
 				if (p1_tiles[hitbox_pos.x] as Dictionary).has(hitbox_pos.y):
 					(p1_tiles[hitbox_pos.x][hitbox_pos.y] as Tile).show_hitbox()
 				if not p1.get_has_iframes() and p1.pos == hitbox_pos:
-					p1.hit()
+					p1.hit(hitbox.damage)
+					hpbar_1.update(hpbar_1.cur - hitbox.damage, hpbar_1.max)
 			for hitbox_warning_pos in hitbox.warning_positions:
 				if (p1_tiles[hitbox_warning_pos.x] as Dictionary).has(hitbox_warning_pos.y):
 					(p1_tiles[hitbox_warning_pos.x][hitbox_warning_pos.y] as Tile).show_warning()
@@ -124,7 +128,8 @@ func process_hitboxes() -> void:
 				if (p2_tiles[hitbox_pos.x] as Dictionary).has(hitbox_pos.y):
 					(p2_tiles[hitbox_pos.x][hitbox_pos.y] as Tile).show_hitbox()
 				if not p2.get_has_iframes() and p2.pos == hitbox_pos:
-					p2.hit()
+					p2.hit(hitbox.damage)
+					hpbar_2.update(hpbar_2.cur - hitbox.damage, hpbar_2.max)
 			for hitbox_warning_pos in hitbox.warning_positions:
 				if (p2_tiles[hitbox_warning_pos.x] as Dictionary).has(hitbox_warning_pos.y):
 					(p2_tiles[hitbox_warning_pos.x][hitbox_warning_pos.y] as Tile).show_warning()

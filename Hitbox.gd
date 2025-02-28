@@ -5,6 +5,8 @@ var warning_positions: Array = []
 var positions : Array = []
 var base_position : Vector2i = Vector2i.ZERO
 
+@export var damage : int = 1
+
 #signal remove(node: Hitbox)
 
 func move(dir: Vector2i):
