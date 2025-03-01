@@ -2,6 +2,7 @@ class_name BasicAttack2 extends Hitbox
 
 const DELAY : float = 0.8
 const DURATION : float = 0.3
+const COOLDOWN : float = 1.5
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

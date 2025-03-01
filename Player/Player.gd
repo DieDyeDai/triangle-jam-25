@@ -51,6 +51,7 @@ var movement_tween : Tween = null
 const MOVEMENT_TIME : float = 0.25
 
 var basic_attack_timer : Timer = null
+var basic_attack_cd_timer : Timer = null
 var big_attack_timer : Timer = null
 var big_attack_animlock_timer : Timer = null
 var charge_attack_timer : Timer = null
@@ -72,6 +73,12 @@ func add_timers():
 	basic_attack_timer.timeout.connect(remove_animlock)
 	
 	add_child(basic_attack_timer)
+	
+	basic_attack_cd_timer = Timer.new()
+	basic_attack_cd_timer.set_one_shot(true)
+	basic_attack_cd_timer.set_autostart(false)
+	
+	add_child(basic_attack_cd_timer)
 	
 	big_attack_timer = Timer.new()
 	big_attack_timer.set_wait_time(BigAttack.CHARGE_TIME)
@@ -181,7 +188,9 @@ func _physics_process(_delta: float) -> void:
 	label_2.text = str(charging_melee)
 	#str(sm.get_current_node()) + str(move_sm.get_current_node())
 	#+ str(tree.get("parameters/move/conditions/mvup")) + str(tree.get("parameters/move/conditions/mvdown")) + str(tree.get("parameters/move/conditions/mvleft")) + str(tree.get("parameters/move/conditions/mvright"))
-	
+	updateInputDisplay()
+
+func updateInputDisplay() -> void:
 	if isP1:
 		if animlock:
 			grid.inputs_1["movement"].set_modulate(Color(1,0,0,1))
@@ -193,6 +202,10 @@ func _physics_process(_delta: float) -> void:
 		else:
 			grid.inputs_1["charge"].set_modulate(Color(1,1,1,1))
 			grid.inputs_1["big"].set_modulate(Color(1,1,1,1))
+		if basic_attack_cd_timer.is_stopped():
+			grid.inputs_1["basic"].set_modulate(Color(1,1,1,1))
+		else:
+			grid.inputs_1["basic"].set_modulate(Color(1,0,0,1))
 	elif isP2:
 		if animlock:
 			grid.inputs_2["movement"].set_modulate(Color(1,0,0,1))
@@ -204,6 +217,10 @@ func _physics_process(_delta: float) -> void:
 		else:
 			grid.inputs_2["charge"].set_modulate(Color(1,1,1,1))
 			grid.inputs_2["big"].set_modulate(Color(1,1,1,1))
+		if basic_attack_cd_timer.is_stopped():
+			grid.inputs_2["basic"].set_modulate(Color(1,1,1,1))
+		else:
+			grid.inputs_2["basic"].set_modulate(Color(1,0,0,1))
 	
 
 func hit(damage: int) -> void:
@@ -275,7 +292,7 @@ func get_attack_input() -> String:
 			release_charged_melee()
 		
 		if not animlock:
-			if Input.is_action_just_pressed("basic1"):
+			if Input.is_action_just_pressed("basic1") and basic_attack_cd_timer.is_stopped():
 				press_basic()
 				print("1basic")
 			
@@ -300,7 +317,7 @@ func get_attack_input() -> String:
 			release_charged_melee()
 		
 		if not animlock:
-			if Input.is_action_just_pressed("basic2"):
+			if Input.is_action_just_pressed("basic2") and basic_attack_cd_timer.is_stopped():
 				press_basic()
 				print("2basic")
 				
@@ -398,13 +415,17 @@ func press_basic():
 			grid.p1_hitboxes.add_child(atk)
 		elif isP2:
 			grid.p2_hitboxes.add_child(atk)
-		
+			
+		basic_attack_cd_timer.start(atk.COOLDOWN)
+	
 	elif isP2:
 		
 		var atk = BASIC_ATTACK_2.instantiate()
 		atk.initialize(target_pos, Vector2i(0, -5)) # dir is (0,5) if p1, (0,-5) if p2
 		grid.p2_hitboxes.add_child(atk)
 		atk.fire()
+	
+		basic_attack_cd_timer.start(atk.COOLDOWN)
 
 func press_big() -> void:
 	animlock = true
