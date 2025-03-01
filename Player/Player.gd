@@ -1,6 +1,7 @@
 class_name Player
 extends Node2D
 
+@onready var sprite_container: Node2D = $Sprites
 @onready var body_sprite: Sprite2D = $Sprites/BodySprite
 @onready var hair_sprite: RandomSprite2D = $Sprites/HairRandomSprite
 @onready var hat_sprite: Sprite2D = $Sprites/HatSprite
@@ -22,6 +23,8 @@ const pngP2 = preload("res://Player/player2.png")
 const BASIC_ATTACK = preload("res://Attacks/Basic/Basic.tscn")
 const BEAM = preload("res://Attacks/Beam/Beam.tscn")
 const WIDE = preload("res://Attacks/Basic/Wide.tscn")
+
+var enabled : bool = false
 
 var grid : Grid
 
@@ -140,6 +143,7 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 		body_sprite.texture = pngP2
 		hair_sprite.texture = pngP2
 		hat_sprite.texture = pngP2
+		hair_sprite.flip_h = true
 	else:
 		push_warning("DID NOT INITIALIZE TO P1 OR P2")
 	global_position = Globals.get_global_position(pos)
@@ -153,40 +157,54 @@ func _physics_process(_delta: float) -> void:
 	
 	pos = Globals.get_pos(global_position)
 	
-	if not animlock:
-		get_movement_input()
-	get_attack_input()
-	update_animation_conditions()
+	if enabled:
+		if not animlock:
+			get_movement_input()
+		get_attack_input()
+		update_animation_conditions()
 	
 	label.text = str(pos)
 	label_2.text = str(sm.get_current_node()) + str(move_sm.get_current_node())
 	#+ str(tree.get("parameters/move/conditions/mvup")) + str(tree.get("parameters/move/conditions/mvdown")) + str(tree.get("parameters/move/conditions/mvleft")) + str(tree.get("parameters/move/conditions/mvright"))
 	
-	if ebar.cur < ebar.COST:
-		if isP1:
+	if isP1:
+		if animlock:
+			grid.inputs_1["movement"].set_modulate(Color(1,0,0,1))
+		else:
+			grid.inputs_1["movement"].set_modulate(Color(1,1,1,1))
+		if ebar.cur < ebar.COST:
 			grid.inputs_1["charge"].set_modulate(Color(1,0,0,1))
 			grid.inputs_1["big"].set_modulate(Color(1,0,0,1))
-		elif isP2:
-			grid.inputs_2["charge"].set_modulate(Color(1,0,0,1))
-			grid.inputs_2["big"].set_modulate(Color(1,0,0,1))
-	else: 
-		if isP1:
+		else:
 			grid.inputs_1["charge"].set_modulate(Color(1,1,1,1))
 			grid.inputs_1["big"].set_modulate(Color(1,1,1,1))
-		elif isP2:
+	elif isP2:
+		if animlock:
+			grid.inputs_2["movement"].set_modulate(Color(1,0,0,1))
+		else:
+			grid.inputs_2["movement"].set_modulate(Color(1,1,1,1))
+		if ebar.cur < ebar.COST:
+			grid.inputs_2["charge"].set_modulate(Color(1,0,0,1))
+			grid.inputs_2["big"].set_modulate(Color(1,0,0,1))
+		else:
 			grid.inputs_2["charge"].set_modulate(Color(1,1,1,1))
 			grid.inputs_2["big"].set_modulate(Color(1,1,1,1))
+	
 
 func hit(damage: int) -> void:
-	#ap.play("hurt")
-	if isP1:
-		print("1hurt")
-	elif isP2:
-		print("2hurt")
 	
 	hpbar.hit(damage)
 	ebar.shrink(hpbar.cur / hpbar.max)
 	
+	if hpbar.cur < 1:
+		ebar.update(0, ebar.max)
+		if isP1:
+			print("1hurt")
+			grid.p1died.emit()
+		elif isP2:
+			print("2hurt")
+			grid.p2died.emit()
+
 	grid.screenshake(1)
 	#sm.travel("hurt")
 	hurt_ap.play("hurt")
