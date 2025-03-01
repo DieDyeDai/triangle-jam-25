@@ -17,6 +17,7 @@ z_index = 12
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
+rotation = -1.5708
 script = ExtResource("1_xyifl")
 
 [node name="Empty" type="Sprite2D" parent="."]

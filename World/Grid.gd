@@ -77,27 +77,29 @@ func _ready() -> void:
 	screenshake_timer.set_one_shot(true)
 	add_child(screenshake_timer)
 	
-	hpbar_1.set_global_position(Globals.get_global_position(Vector2i(0, -5)))
-	hpbar_1.scale.x = -1
-	ebar_1.set_global_position(Globals.get_global_position(Vector2i(0, -6)) + Vector2(0, -22))
-	ebar_1.scale.x = -1
+	hpbar_1.set_global_position(Globals.get_global_position(Vector2i(-3, -3)) + Vector2(12, 0))
+	#hpbar_1.scale.x = -1
+	ebar_1.set_global_position(Globals.get_global_position(Vector2i(-3, -3)))
+	ebar_1.scale.y = -1
 	ebar_1.counter.initialize(true, false)
 	
-	hpbar_2.set_global_position(Globals.get_global_position(Vector2i(0,6)))
-	ebar_2.set_global_position(Globals.get_global_position(Vector2i(0,7)) + Vector2(0, -22))
+	hpbar_2.set_global_position(Globals.get_global_position(Vector2i(3,4)) + Vector2(-12, 0))
+	ebar_2.set_global_position(Globals.get_global_position(Vector2i(3,4)))
 	ebar_2.counter.initialize(false, true)
 	
-	inputs_1["movement"].set_global_position(ebar_1.global_position + Vector2(40, 32))
-	inputs_1["melee"].set_global_position(ebar_1.global_position + Vector2(-24, 24))
-	inputs_1["big"].set_global_position(ebar_1.global_position + Vector2(-8, 24))
-	inputs_1["charge"].set_global_position(ebar_1.global_position + Vector2(-16, 48))
-	inputs_1["basic"].set_global_position(ebar_1.global_position + Vector2(0, 48))
+	var inputs1_starting_pos = Globals.get_global_position(Vector2i(0,-5))
+	inputs_1["movement"].set_global_position(inputs1_starting_pos + Vector2(40, 32))
+	inputs_1["melee"].set_global_position(inputs1_starting_pos + Vector2(-24, 24))
+	inputs_1["big"].set_global_position(inputs1_starting_pos + Vector2(-8, 24))
+	inputs_1["charge"].set_global_position(inputs1_starting_pos + Vector2(-16, 48))
+	inputs_1["basic"].set_global_position(inputs1_starting_pos + Vector2(0, 48))
 
-	inputs_2["movement"].set_global_position(ebar_2.global_position + Vector2(40, 32))
-	inputs_2["melee"].set_global_position(ebar_2.global_position + Vector2(-24, 24))
-	inputs_2["big"].set_global_position(ebar_2.global_position + Vector2(-8, 24))
-	inputs_2["charge"].set_global_position(ebar_2.global_position + Vector2(-16, 48))
-	inputs_2["basic"].set_global_position(ebar_2.global_position + Vector2(0, 48))
+	var inputs2_starting_pos = Globals.get_global_position(Vector2i(0,6))
+	inputs_2["movement"].set_global_position(inputs2_starting_pos + Vector2(40, 32))
+	inputs_2["melee"].set_global_position(inputs2_starting_pos + Vector2(-24, 24))
+	inputs_2["big"].set_global_position(inputs2_starting_pos + Vector2(-8, 24))
+	inputs_2["charge"].set_global_position(inputs2_starting_pos + Vector2(-16, 48))
+	inputs_2["basic"].set_global_position(inputs2_starting_pos + Vector2(0, 48))
 	
 	for i in range(Globals.X_LOWER, Globals.X_UPPER + 1, 1):
 		p1_tiles[i] = {}

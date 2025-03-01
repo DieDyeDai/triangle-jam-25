@@ -83,7 +83,7 @@ func reset(cur, max):
 @warning_ignore("shadowed_variable", "shadowed_global_identifier")
 func update(cur, max):
 	#print("update energy bar: " + str(cur) + "/" + str(max))
-	if self.cur != cur or self.max != max:
+	#if self.cur != cur or self.max != max:
 		
 		set_hps_and_labels(cur, max)
 		
