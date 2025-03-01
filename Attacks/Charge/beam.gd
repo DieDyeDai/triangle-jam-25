@@ -2,6 +2,7 @@ class_name Beam extends Hitbox
 
 const CHARGE_TIME : float = 0.5
 const ANIMLOCK_TIME : float = 0.2
+const DURATION : float = 0.2
 
 var warning_tick_timer : Timer = null
 
@@ -54,8 +55,7 @@ func advance_warning() -> void:
 
 var beam_width_tween : Tween = null
 func fire() -> void:
-	for tile : Vector2i in warning_positions:
-		positions.append(tile)
+	positions = warning_positions.duplicate()
 	
 	#print(base_position)
 	
@@ -77,7 +77,7 @@ func fire() -> void:
 	
 	warning_positions.clear()
 	
-	await get_tree().create_timer(0.2, false, true).timeout
+	await get_tree().create_timer(DURATION, false, true).timeout
 	
 	positions.clear()
 	

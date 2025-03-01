@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0c48r4jxdnyt"]
+
+[ext_resource type="Script" path="res://Attacks/Charge2/charge2.gd" id="1_o4wk7"]
+[ext_resource type="Shader" path="res://Attacks/Charge/Body.gdshader" id="2_a85ag"]
+[ext_resource type="Texture2D" uid="uid://e2oic83t6i0i" path="res://Attacks/Charge/body.png" id="3_rc8um"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vui1a"]
+shader = ExtResource("2_a85ag")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_liev5"]
+shader = ExtResource("2_a85ag")
+
+[node name="Charge2" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_o4wk7")
+damage = 2
+
+[node name="left-right" type="Line2D" parent="."]
+top_level = true
+texture_repeat = 2
+material = SubResource("ShaderMaterial_vui1a")
+texture = ExtResource("3_rc8um")
+texture_mode = 1
+
+[node name="top-bottom" type="Line2D" parent="."]
+top_level = true
+texture_repeat = 2
+material = SubResource("ShaderMaterial_liev5")
+texture = ExtResource("3_rc8um")
+texture_mode = 1
+
+[node name="tr-bl" type="Line2D" parent="."]
+top_level = true
+texture_repeat = 2
+material = SubResource("ShaderMaterial_liev5")
+texture = ExtResource("3_rc8um")
+texture_mode = 1
+
+[node name="tl-br" type="Line2D" parent="."]
+top_level = true
+texture_repeat = 2
+material = SubResource("ShaderMaterial_liev5")
+texture = ExtResource("3_rc8um")
+texture_mode = 1

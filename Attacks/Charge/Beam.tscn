@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://7cqj260idcmm"]
 
-[ext_resource type="Script" path="res://Attacks/Beam/beam.gd" id="1_rb2yi"]
-[ext_resource type="Shader" path="res://Attacks/Beam/Body.gdshader" id="2_4gojr"]
-[ext_resource type="Texture2D" uid="uid://e2oic83t6i0i" path="res://Attacks/Beam/body.png" id="3_l7rml"]
+[ext_resource type="Script" path="res://Attacks/Charge/beam.gd" id="1_rb2yi"]
+[ext_resource type="Shader" path="res://Attacks/Charge/Body.gdshader" id="2_4gojr"]
+[ext_resource type="Texture2D" uid="uid://e2oic83t6i0i" path="res://Attacks/Charge/body.png" id="3_l7rml"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vui1a"]
 shader = ExtResource("2_4gojr")

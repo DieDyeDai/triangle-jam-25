@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cstp7ajetyqo3"]
+[gd_scene load_steps=7 format=3 uid="uid://cstp7ajetyqo3"]
 
 [ext_resource type="Script" path="res://UI/ui_energy_bar.gd" id="1_xyifl"]
 [ext_resource type="Texture2D" uid="uid://dxnq48k15ms85" path="res://Assets/UIShortBar.png" id="2_tjds2"]
 [ext_resource type="PackedScene" uid="uid://bsov8x4e0elxx" path="res://UI/DiamondCount.tscn" id="6_8uv5a"]
-[ext_resource type="Shader" uid="uid://fyidh7mbdcx4" path="res://Assets/hit_flash.tres" id="6_qvtuh"]
 [ext_resource type="Texture2D" uid="uid://dcm1kx7j41m7q" path="res://Assets/UIHealthBar_Slash.png" id="8_ofbwc"]
 [ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="9_a6sb3"]
 
@@ -11,11 +10,6 @@
 font = ExtResource("9_a6sb3")
 font_size = 10
 shadow_size = 0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qk234"]
-shader = ExtResource("6_qvtuh")
-shader_parameter/enabled = false
-shader_parameter/tint = Color(1, 1, 1, 1)
 
 [node name="UIEnergyBar" type="Control"]
 z_index = 12
@@ -127,5 +121,4 @@ vframes = 12
 frame = 9
 
 [node name="DiamondCount" parent="." instance=ExtResource("6_8uv5a")]
-material = SubResource("ShaderMaterial_qk234")
 offset = Vector2(-36, 0)

@@ -23,6 +23,15 @@ func is_inbounds() -> bool:
 			return true
 	return false
 
+func check_pos_is_inbounds(pos: Vector2i) -> bool:
+	if Globals.X_LOWER <= pos.x and pos.x <= Globals.X_UPPER:
+		if base_position.y <= Globals.Y_UPPER_1: # left side, y = 0 to -4
+			return (Globals.Y_LOWER_1 <= pos.y and pos.y <= Globals.Y_UPPER_1)
+		else: # right side, y = 1 to 5
+			return (Globals.Y_LOWER_2 <= pos.y and pos.y <= Globals.Y_UPPER_2)
+	else:
+		return false
+
 func start_free_timer() -> void:
 	await get_tree().create_timer(2, false, true).timeout
 	queue_free()

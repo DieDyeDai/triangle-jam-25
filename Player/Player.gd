@@ -22,15 +22,15 @@ const pngP1 = preload("res://Player/player1.png")
 const pngP2 = preload("res://Player/player2.png")
 
 const BASIC_ATTACK = preload("res://Attacks/Basic/Basic.tscn")
-const BEAM = preload("res://Attacks/Beam/Beam.tscn")
+const BEAM = preload("res://Attacks/Charge/Beam.tscn")
 const BIG_ATTACK = preload("res://Attacks/Big/Big.tscn")
 const MELEE = preload("res://Attacks/Melee/Melee.tscn")
 
 const BASIC_ATTACK_2 = preload("res://Attacks/Basic2/Basic2.tscn")
 const BIG_ATTACK_2 = preload("res://Attacks/Big2/Big2.tscn")
+const CHARGE_ATTACK_2 = preload("res://Attacks/Charge2/Charge2.tscn")
 
 var enabled : bool = false
-
 var grid : Grid
 
 var ebar : UIEnergyBar = null
@@ -288,7 +288,7 @@ func get_movement_input() -> void:
 			move ("right")
 
 var charged_ranged : bool = false
-var current_charge_ranged_attack : Beam = null
+var current_charge_ranged_attack : Hitbox = null
 var charging_melee : bool = false
 var charged_melee : bool = false
 var current_charged_melee_attack : Melee = null
@@ -396,12 +396,15 @@ func release_charged_melee():
 	
 	charging_melee = false
 
-
 func press_charged_ranged():
 	animlock = true
-	charge_attack_timer.start()
-	current_charge_ranged_attack = BEAM.instantiate()
-	current_charge_ranged_attack.initialize(target_pos)
+	if char == 1:
+		current_charge_ranged_attack = BEAM.instantiate()
+		current_charge_ranged_attack.initialize(target_pos)
+	elif char == 2:
+		current_charge_ranged_attack = CHARGE_ATTACK_2.instantiate()
+		current_charge_ranged_attack.initialize(Vector2i(target_pos.x, 1 - target_pos.y))
+	charge_attack_timer.start(current_charge_ranged_attack.CHARGE_TIME)
 	add_hitbox(current_charge_ranged_attack)
 
 func release_charged_ranged():
@@ -464,7 +467,6 @@ func enable_charged_melee_fire_on_release() -> void:
 	print("charged melee")
 	charged_melee = true
 
-var already_buffered_move : bool = false
 func move(dir: String):
 	#var did_move : bool = false
 	#var buffered_move : bool = false
@@ -512,7 +514,6 @@ func move(dir: String):
 		#await movement_timer.timeout
 		#already_buffered_move = false
 		#_move(dir)
-		
 
 func _move(dir):
 	#global_position = Globals.get_global_position(target_pos)
