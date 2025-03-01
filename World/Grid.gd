@@ -225,9 +225,8 @@ func screenshake(strength : float) -> void:
 func timeslow(strength : float, duration : float) -> void:
 	if timescale_tween:
 		timescale_tween.kill()
-	Engine.set_time_scale(strength)
 	timescale_tween = get_tree().create_tween()
-	timescale_tween.tween_property(Engine, "time_scale", 1.0, duration).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	timescale_tween.tween_property(Engine, "time_scale", 1.0, duration).from(strength).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 
 func reset_tile_sprites_and_show_players() -> void:
 	Globals.reset_tile_sprites.emit()
@@ -242,6 +241,7 @@ func process_hitboxes() -> void:
 				if (p1_tiles[hitbox_pos.x] as Dictionary).has(hitbox_pos.y):
 					(p1_tiles[hitbox_pos.x][hitbox_pos.y] as Tile).show_hitbox()
 				if not p1.get_has_iframes() and p1.pos == hitbox_pos:
+					timeslow(0.2, 0.5)
 					p1.hit(hitbox.damage)
 			for hitbox_warning_pos in hitbox.warning_positions:
 				if (p1_tiles[hitbox_warning_pos.x] as Dictionary).has(hitbox_warning_pos.y):
@@ -253,6 +253,7 @@ func process_hitboxes() -> void:
 				if (p2_tiles[hitbox_pos.x] as Dictionary).has(hitbox_pos.y):
 					(p2_tiles[hitbox_pos.x][hitbox_pos.y] as Tile).show_hitbox()
 				if not p2.get_has_iframes() and p2.pos == hitbox_pos:
+					timeslow(0.2, 0.5)
 					p2.hit(hitbox.damage)
 			for hitbox_warning_pos in hitbox.warning_positions:
 				if (p2_tiles[hitbox_warning_pos.x] as Dictionary).has(hitbox_warning_pos.y):

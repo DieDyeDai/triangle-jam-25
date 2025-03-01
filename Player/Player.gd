@@ -461,28 +461,28 @@ func move(dir: String):
 	#if not already_buffered_move:
 	match dir:
 		"up":
-			if (isP1 and pos.y < Y_UPPER) or (isP2 and pos.y > Y_LOWER):
+			if (isP1 and target_pos.y < Y_UPPER) or (isP2 and target_pos.y > Y_LOWER):
 				_move(dir)
 				#print("up")
 				##pos.y -= 1
 				#did_move = movement_timer.is_stopped()
 				#buffered_move = movement_timer.get_time_left() < MOVEMENT_BUFFER
 		"down":
-			if (isP1 and pos.y > Y_LOWER) or (isP2 and pos.y < Y_UPPER):
+			if (isP1 and target_pos.y > Y_LOWER) or (isP2 and target_pos.y < Y_UPPER):
 				_move(dir)
 				#print("down")
 				##pos.y += 1
 				#did_move = movement_timer.is_stopped()
 				#buffered_move = movement_timer.get_time_left() < MOVEMENT_BUFFER
 		"left":
-			if pos.x > X_LOWER:
+			if target_pos.x > X_LOWER:
 				_move(dir)
 				#print("left")
 				##pos.x -= 1
 				#did_move = movement_timer.is_stopped()
 				#buffered_move = movement_timer.get_time_left() < MOVEMENT_BUFFER
 		"right":
-			if pos.x < X_UPPER:
+			if target_pos.x < X_UPPER:
 				_move(dir)
 				#print("right")
 				##pos.x += 1

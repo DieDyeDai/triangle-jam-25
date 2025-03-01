@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://UI/diamond_count.gd" id="2_kejul"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iki7g"]
+resource_local_to_scene = true
 shader = ExtResource("1_uufpn")
 shader_parameter/enabled = false
 shader_parameter/tint = Color(1, 1, 1, 1)

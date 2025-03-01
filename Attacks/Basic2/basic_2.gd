@@ -52,4 +52,6 @@ func fire() -> void:
 	await get_tree().create_timer(DURATION).timeout
 	
 	positions.clear()
+	
+	await sprite1.animation_finished
 	queue_free()
