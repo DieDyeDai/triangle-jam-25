@@ -1,7 +1,8 @@
-[gd_scene load_steps=47 format=3 uid="uid://epjd8851dbba"]
+[gd_scene load_steps=48 format=3 uid="uid://epjd8851dbba"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_ks1q2"]
 [ext_resource type="Texture2D" uid="uid://qcjt0tr37ynf" path="res://Player/player1.png" id="2_8gqyb"]
+[ext_resource type="Texture2D" uid="uid://oys4cfv3x280" path="res://Player/lock.png" id="4_ske4y"]
 [ext_resource type="Script" path="res://RandomSprite2D.gd" id="6_2ujqy"]
 
 [sub_resource type="Animation" id="Animation_r1e1u"]
@@ -304,6 +305,9 @@ texture = ExtResource("2_8gqyb")
 hframes = 6
 vframes = 6
 frame = 4
+
+[node name="LockSprite" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("4_ske4y")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

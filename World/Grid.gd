@@ -82,9 +82,8 @@ func _ready() -> void:
 	add_child(screenshake_timer)
 	
 	hpbar_1.set_global_position(Globals.get_global_position(Vector2i(-3, -3)) + Vector2(12, 0))
-	#hpbar_1.scale.x = -1
 	ebar_1.set_global_position(Globals.get_global_position(Vector2i(-3, -3)))
-	ebar_1.scale.y = -1
+	#ebar_1.counter.scale.x = -1
 	ebar_1.counter.initialize(true, false)
 	
 	hpbar_2.set_global_position(Globals.get_global_position(Vector2i(3,4)) + Vector2(-12, 0))

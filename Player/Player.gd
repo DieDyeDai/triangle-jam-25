@@ -5,6 +5,7 @@ extends Node2D
 @onready var body_sprite: Sprite2D = $Sprites/BodySprite
 @onready var hair_sprite: RandomSprite2D = $Sprites/HairRandomSprite
 @onready var hat_sprite: Sprite2D = $Sprites/HatSprite
+@onready var lock_sprite: Sprite2D = $Sprites/LockSprite
 
 #@onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var ap : AnimationPlayer = $AnimationPlayer
@@ -167,6 +168,8 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 		hair_sprite.texture = pngP2
 		hat_sprite.texture = pngP2
 		hair_sprite.flip_h = true
+		
+		char = 2
 	else:
 		push_warning("DID NOT INITIALIZE TO P1 OR P2")
 	global_position = Globals.get_global_position(pos)
@@ -179,6 +182,8 @@ var movement_input : String
 func _physics_process(_delta: float) -> void:
 	
 	pos = Globals.get_pos(global_position)
+	
+	ebar.global_position = global_position + Vector2(0, 24)
 	
 	if enabled:
 		if not animlock:
@@ -196,8 +201,10 @@ func updateInputDisplay() -> void:
 	if isP1:
 		if animlock:
 			grid.inputs_1["movement"].set_modulate(Color(1,0,0,1))
+			lock_sprite.visible = true
 		else:
 			grid.inputs_1["movement"].set_modulate(Color(1,1,1,1))
+			lock_sprite.visible = false
 		if ebar.cur < ebar.COST:
 			grid.inputs_1["charge"].set_modulate(Color(1,0,0,1))
 			grid.inputs_1["big"].set_modulate(Color(1,0,0,1))
@@ -207,12 +214,14 @@ func updateInputDisplay() -> void:
 		if basic_attack_cd_timer.is_stopped():
 			grid.inputs_1["basic"].set_modulate(Color(1,1,1,1))
 		else:
-			grid.inputs_1["basic"].set_modulate(Color(1,0,0,1))
+			grid.inputs_1["basic"].set_modulate(Color(1,0,0,1))	
 	elif isP2:
 		if animlock:
 			grid.inputs_2["movement"].set_modulate(Color(1,0,0,1))
+			lock_sprite.visible = true
 		else:
 			grid.inputs_2["movement"].set_modulate(Color(1,1,1,1))
+			lock_sprite.visible = false
 		if ebar.cur < ebar.COST:
 			grid.inputs_2["charge"].set_modulate(Color(1,0,0,1))
 			grid.inputs_2["big"].set_modulate(Color(1,0,0,1))
@@ -289,7 +298,7 @@ func get_attack_input() -> String:
 	if isP1:
 		if Input.is_action_just_released("charge_ranged1"):
 			release_charged_ranged()
-		elif Input.is_action_just_released("melee2"):
+		elif Input.is_action_just_released("melee1"):
 			release_charged_melee()
 		
 		if not animlock:
@@ -413,7 +422,7 @@ func press_basic():
 	elif char == 2:
 		
 		var atk = BASIC_ATTACK_2.instantiate()
-		atk.initialize(target_pos, Vector2i(0, -5)) # dir is (0,5) if p1, (0,-5) if p2
+		atk.initialize(Vector2i(target_pos.x, 1 - target_pos.y)) # 5 <-> -4, 4 <-> -3, etc.
 		add_hitbox(atk)
 		atk.fire()
 	
@@ -433,7 +442,7 @@ func fire_big_attack() -> void:
 		add_hitbox(atk)
 	
 	elif char == 2:
-		var atk = BIG_ATTACK_2.instantiate()
+		var atk = BIG_ATTACK_2.instantiate()	
 		atk.initialize(target_pos, -1) # dir is 1 if p1, -1 if p2
 		add_hitbox(atk)
 

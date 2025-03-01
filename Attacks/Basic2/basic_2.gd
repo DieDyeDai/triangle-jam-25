@@ -8,8 +8,8 @@ const COOLDOWN : float = 1.5
 func _ready() -> void:
 	pass # Replace with function body.
 
-func initialize(pos: Vector2i, dir: Vector2i) -> void:
-	base_position = pos + dir
+func initialize(pos: Vector2i) -> void:
+	base_position = pos
 	
 func fire() -> void:
 	warning_positions = [base_position]

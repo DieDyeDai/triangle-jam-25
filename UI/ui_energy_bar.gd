@@ -18,10 +18,10 @@ class_name UIEnergyBar extends Control
 
 var flash_white_timer : Timer = null
 
-const LEN_INITIAL : int = 144
-var px_len : int = 144
+const LEN_INITIAL : int = 48
+var px_len : int = 48
 
-const GAIN_INITIAL : float = 0.2
+const GAIN_INITIAL : float = 0.05
 var gain : float = 0
 
 var cur_i : int = 1
