@@ -41,6 +41,8 @@ var pos : Vector2i
 var isP1 : bool = false
 var isP2 : bool = false
 
+var char : Globals.CHARS = 1
+
 var X_LOWER : int = -2
 var X_UPPER : int = 2
 var Y_LOWER : int
@@ -221,7 +223,6 @@ func updateInputDisplay() -> void:
 			grid.inputs_2["basic"].set_modulate(Color(1,1,1,1))
 		else:
 			grid.inputs_2["basic"].set_modulate(Color(1,0,0,1))
-	
 
 func hit(damage: int) -> void:
 	
@@ -251,10 +252,10 @@ func hit(damage: int) -> void:
 
 func update_animation_conditions() -> void:
 	var current_movement = Globals.get_global_position(target_pos) - global_position
-	tree.set("parameters/move/conditions/mvup", current_movement.y < 0)
-	tree.set("parameters/move/conditions/mvdown", current_movement.y > 0)
-	tree.set("parameters/move/conditions/mvleft", current_movement.x < 0)
-	tree.set("parameters/move/conditions/mvright", current_movement.x > 0)
+	tree.set("parameters/move/conditions/mvup", current_movement.y < -0.1)
+	tree.set("parameters/move/conditions/mvdown", current_movement.y > 0.1)
+	tree.set("parameters/move/conditions/mvleft", current_movement.x < -0.1)
+	tree.set("parameters/move/conditions/mvright", current_movement.x > 0.1)
 	tree.set("parameters/move/conditions/mvidle", current_movement.length_squared() < 0.01)
 
 func get_movement_input() -> void:
@@ -347,10 +348,7 @@ func press_melee():
 	current_charged_melee_attack.initialize(target_pos)
 	current_charged_melee_attack.charging = true
 	
-	if isP1:
-		grid.p1_hitboxes.add_child(current_charged_melee_attack)
-	elif isP2:
-		grid.p2_hitboxes.add_child(current_charged_melee_attack)
+	add_hitbox(current_charged_melee_attack)
 
 func start_charging_melee() -> void:
 	print("start charging melee")
@@ -378,17 +376,14 @@ func release_charged_melee():
 		animlock = false
 	
 	charging_melee = false
-	
+
 
 func press_charged_ranged():
 	animlock = true
 	charge_attack_timer.start()
 	current_charge_ranged_attack = BEAM.instantiate()
 	current_charge_ranged_attack.initialize(target_pos)
-	if isP1:
-		grid.p1_hitboxes.add_child(current_charge_ranged_attack)
-	elif isP2:
-		grid.p2_hitboxes.add_child(current_charge_ranged_attack)
+	add_hitbox(current_charge_ranged_attack)
 
 func release_charged_ranged():
 	if charged_ranged:
@@ -407,22 +402,19 @@ func press_basic():
 	animlock = true
 	basic_attack_timer.start()
 	
-	if isP1:
+	if char == 1:
 	
 		var atk = BASIC_ATTACK.instantiate()
 		atk.initialize(target_pos, Vector2i(0,-1), 4)
-		if isP1:
-			grid.p1_hitboxes.add_child(atk)
-		elif isP2:
-			grid.p2_hitboxes.add_child(atk)
+		add_hitbox(atk)
 			
 		basic_attack_cd_timer.start(atk.COOLDOWN)
 	
-	elif isP2:
+	elif char == 2:
 		
 		var atk = BASIC_ATTACK_2.instantiate()
 		atk.initialize(target_pos, Vector2i(0, -5)) # dir is (0,5) if p1, (0,-5) if p2
-		grid.p2_hitboxes.add_child(atk)
+		add_hitbox(atk)
 		atk.fire()
 	
 		basic_attack_cd_timer.start(atk.COOLDOWN)
@@ -435,18 +427,15 @@ func fire_big_attack() -> void:
 	animlock = true
 	big_attack_animlock_timer.start()
 	
-	if isP1:
+	if char == 1:
 		var atk = BIG_ATTACK.instantiate()
 		atk.initialize(target_pos, Vector2i(0,-1), 2)
-		if isP1:
-			grid.p1_hitboxes.add_child(atk)
-		elif isP2:
-			grid.p2_hitboxes.add_child(atk)
+		add_hitbox(atk)
 	
-	elif isP2:
+	elif char == 2:
 		var atk = BIG_ATTACK_2.instantiate()
 		atk.initialize(target_pos, -1) # dir is 1 if p1, -1 if p2
-		grid.p2_hitboxes.add_child(atk)
+		add_hitbox(atk)
 
 func enable_charged_ranged_fire_on_release() -> void:
 	print("charged")
@@ -540,3 +529,9 @@ func get_has_iframes() -> bool:
 
 func remove_animlock() -> void:
 	animlock = false
+
+func add_hitbox(atk : Hitbox) -> void:
+	if isP1:
+		grid.p1_hitboxes.add_child(atk)
+	elif isP2:
+		grid.p2_hitboxes.add_child(atk)
