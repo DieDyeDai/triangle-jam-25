@@ -198,6 +198,7 @@ func hit(damage: int) -> void:
 	
 	if hpbar.cur < 1:
 		ebar.update(0, ebar.max)
+		ebar.gain = 0
 		if isP1:
 			print("1hurt")
 			grid.p1died.emit()

@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://btoclq6rgafx4"]
+
+[ext_resource type="Script" path="res://UI/game_over_screen.gd" id="1_bjpco"]
+[ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="2_qbibj"]
+[ext_resource type="LabelSettings" uid="uid://b1bqele7let0s" path="res://UI/GameOverWhiteOnBlackText.tres" id="3_7b7tk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jcupi"]
+font = ExtResource("2_qbibj")
+font_size = 20
+font_color = Color(0.909804, 0.231373, 0.231373, 1)
+outline_size = 8
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_hsrxj"]
+font = ExtResource("2_qbibj")
+font_size = 20
+font_color = Color(0.658824, 0.517647, 0.952941, 1)
+outline_size = 8
+
+[node name="GameOverScreen" type="Control"]
+z_index = 10
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_bjpco")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = -100.0
+offset_top = -1.0
+offset_right = 104.0
+offset_bottom = 107.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="p1WinLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "p1 wins!"
+label_settings = SubResource("LabelSettings_jcupi")
+horizontal_alignment = 1
+
+[node name="p2WinLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "p2 wins!"
+label_settings = SubResource("LabelSettings_hsrxj")
+horizontal_alignment = 1
+
+[node name="ScoreTextLabel" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "SCORE:"
+label_settings = ExtResource("3_7b7tk")
+horizontal_alignment = 1
+
+[node name="ScoreNumberLabel" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "1 - 1"
+label_settings = ExtResource("3_7b7tk")
+horizontal_alignment = 1
+
+[node name="RestartTextLabel" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "press space to restart"
+label_settings = ExtResource("3_7b7tk")
+horizontal_alignment = 1

@@ -10,6 +10,10 @@ const TILEBLUE = preload("res://World/TileBlue.tscn")
 @onready var ebar_1: UIEnergyBar = $UIEnergyBar1
 @onready var ebar_2: UIEnergyBar = $UIEnergyBar2
 
+@onready var canvas_layer: ColorRect = $CanvasLayer
+
+@onready var game_over_screen: GameOverScreen = $GameOverScreen
+
 @onready var keys_movement_1: Sprite2D = $KeysMovement1
 @onready var key_action_a: Sprite2D = $KeyActionA
 @onready var key_action_z: Sprite2D = $KeyActionZ
@@ -134,6 +138,10 @@ func _ready() -> void:
 	p1.initialize(true, false, self)
 	p2.initialize(false, true, self)
 	
+	var fadeout_tween : Tween = get_tree().create_tween()
+	fadeout_tween.tween_property(canvas_layer, "color", Color(0,0,0,0), 1.0).from(Color(0,0,0,1))
+	await fadeout_tween.finished
+	
 	p1.enabled = true
 	p2.enabled = true
 
@@ -141,14 +149,17 @@ var p1won : bool = false
 var p2won : bool = false
 var game_over : bool = false
 func on_p1_died() -> void:
-	p1won = true
+	p2won = true
+	Globals.p2score += 1
 	on_player_win()
 
 func on_p2_died() -> void:
-	p2won = true
+	p1won = true
+	Globals.p1score += 1
 	on_player_win()
 
 func on_player_win() -> void:
+	game_over = true
 	timeslow(0.1, 2.0)
 	p1.enabled = false
 	p2.enabled = false
@@ -156,9 +167,9 @@ func on_player_win() -> void:
 	ebar_1.gain = 0
 	ebar_2.gain = 0
 	if p1won:
-		pass
+		game_over_screen.on_win(true, false)
 	elif p2won:
-		pass
+		game_over_screen.on_win(false, true)
 
 func _physics_process(_delta: float) -> void:
 	
@@ -190,6 +201,13 @@ func _physics_process(_delta: float) -> void:
 		screenshake(1.0)
 		ebar_1.update(ebar_1.cur - 30, ebar_1.max)
 		ebar_2.update(ebar_2.cur - 30, ebar_2.max)
+	
+	if game_over and !game_over_screen.is_playing:
+		if Input.is_action_just_pressed("restart"):
+			var fadeout_tween : Tween = get_tree().create_tween()
+			fadeout_tween.tween_property(canvas_layer, "color", Color(0,0,0,1), 1.0)
+			await fadeout_tween.finished
+			get_tree().reload_current_scene()
 
 func screenshake(strength : float) -> void:
 	screenshake_timer.start(SCREENSHAKE_TIME * strength)

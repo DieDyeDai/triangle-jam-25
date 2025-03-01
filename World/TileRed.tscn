@@ -81,4 +81,5 @@ texture = ExtResource("5_psjsn")
 offset_left = -17.0
 offset_right = 23.0
 offset_bottom = 23.0
+text = "(1,1)"
 label_settings = SubResource("LabelSettings_i04v3")

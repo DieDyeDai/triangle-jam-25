@@ -1,12 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://n6eqqlyl85d6"]
+[gd_scene load_steps=6 format=3 uid="uid://n6eqqlyl85d6"]
 
 [ext_resource type="Script" path="res://World/Grid.gd" id="1_0noqu"]
 [ext_resource type="PackedScene" uid="uid://cd0g1dj0lffee" path="res://UI/HealthBar.tscn" id="2_ykskw"]
 [ext_resource type="PackedScene" uid="uid://cstp7ajetyqo3" path="res://UI/EnergyBar.tscn" id="3_c8dl5"]
 [ext_resource type="Texture2D" uid="uid://bs6jxovn0kw0v" path="res://Assets/keys.png" id="4_14qmi"]
+[ext_resource type="PackedScene" uid="uid://btoclq6rgafx4" path="res://UI/GameOverScreen.tscn" id="5_3bcng"]
 
 [node name="Grid" type="Node"]
 script = ExtResource("1_0noqu")
+
+[node name="CanvasLayer" type="ColorRect" parent="."]
+z_index = 20
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = -324.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, 64)
@@ -116,3 +130,5 @@ texture = ExtResource("4_14qmi")
 hframes = 8
 vframes = 4
 frame = 15
+
+[node name="GameOverScreen" parent="." instance=ExtResource("5_3bcng")]

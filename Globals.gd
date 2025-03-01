@@ -20,8 +20,14 @@ const Y_LOWER_2 : int = 1
 const GRID_WIDTH : int = 5
 const GRID_HEIGHT : int = 5
 
+var p1score : int = 0
+var p2score : int = 0
+
+func reset_score() -> void:
+	p1score = 0
+	p2score = 0
+
 func get_global_position(pos: Vector2i) -> Vector2:
-	
 	if pos.y > 0:
 		return Vector2(TILE_WIDTH * (pos.x + 2.5), TILE_HEIGHT * (pos.y - 3))
 	else:
