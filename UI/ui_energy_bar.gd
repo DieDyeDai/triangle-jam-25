@@ -22,7 +22,7 @@ const LEN_INITIAL : int = 144
 var px_len : int = 144
 
 const GAIN_INITIAL : float = 0.2
-var gain : float = 0.2
+var gain : float = 0
 
 var cur_i : int = 1
 @warning_ignore("shadowed_global_identifier")

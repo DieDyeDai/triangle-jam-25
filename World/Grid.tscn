@@ -4,12 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://cd0g1dj0lffee" path="res://UI/HealthBar.tscn" id="2_ykskw"]
 [ext_resource type="PackedScene" uid="uid://cstp7ajetyqo3" path="res://UI/EnergyBar.tscn" id="3_c8dl5"]
 [ext_resource type="Texture2D" uid="uid://bs6jxovn0kw0v" path="res://Assets/keys.png" id="4_14qmi"]
-[ext_resource type="PackedScene" uid="uid://btoclq6rgafx4" path="res://UI/GameOverScreen.tscn" id="5_3bcng"]
+[ext_resource type="PackedScene" uid="uid://btoclq6rgafx4" path="res://UI/UIOverlay.tscn" id="5_3bcng"]
 
 [node name="Grid" type="Node"]
 script = ExtResource("1_0noqu")
 
 [node name="CanvasLayer" type="ColorRect" parent="."]
+visible = false
 z_index = 20
 anchors_preset = 15
 anchor_right = 1.0
@@ -131,4 +132,4 @@ hframes = 8
 vframes = 4
 frame = 15
 
-[node name="GameOverScreen" parent="." instance=ExtResource("5_3bcng")]
+[node name="UIOverlay" parent="." instance=ExtResource("5_3bcng")]

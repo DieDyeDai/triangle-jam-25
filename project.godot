@@ -11,13 +11,17 @@ config_version=5
 [application]
 
 config/name="Triangle Jam 25"
-run/main_scene="res://World/Grid.tscn"
+run/main_scene="res://UI/scene_switcher_minimal.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Globals="*res://Globals.gd"
+
+[global_group]
+
+SceneSwitcher=""
 
 [input]
 

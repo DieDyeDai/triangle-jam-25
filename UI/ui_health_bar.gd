@@ -24,17 +24,12 @@ var decay_tween : Tween = null
 const LEN : int = 144
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	#reset(Flags.base_player_max_hp, Flags.base_player_max_hp)
-	
+func _ready() -> void:	
 	flash_white_timer = Timer.new()
 	flash_white_timer.set_one_shot(false)
 	flash_white_timer.set_wait_time(0.1)
 	add_child(flash_white_timer)
 	flash_white_timer.timeout.connect(self.on_flash_white_end)
-	
-	#Signals.player_hp_changed.connect(self.update)
-	#Signals.player_hp_reset.connect(self.reset)
 
 @warning_ignore("shadowed_variable", "shadowed_global_identifier")
 func reset(cur, max):

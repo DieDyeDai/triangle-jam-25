@@ -1,6 +1,9 @@
 extends Node
 
+@warning_ignore("unused_signal")
 signal reset_tile_sprites
+
+var scene_switcher : SceneSwitcherMinimal
 
 const TILE_SIZE : int = 32
 
@@ -22,6 +25,9 @@ const GRID_HEIGHT : int = 5
 
 var p1score : int = 0
 var p2score : int = 0
+
+func _ready() -> void:
+	scene_switcher = get_tree().get_first_node_in_group("SceneSwitcher")
 
 func reset_score() -> void:
 	p1score = 0
