@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://ckhahtwv4c4de"]
 
-[ext_resource type="Script" path="res://Attacks/Basic/wide.gd" id="1_rhjvj"]
+[ext_resource type="Script" path="res://Attacks/Big/big.gd" id="1_5rvyf"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vhf7h"]
 size = Vector2(80, 8)
 
-[node name="Wide" type="Node2D"]
-script = ExtResource("1_rhjvj")
+[node name="Big" type="Node2D"]
+script = ExtResource("1_5rvyf")
 damage = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

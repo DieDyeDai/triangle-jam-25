@@ -22,7 +22,8 @@ const pngP2 = preload("res://Player/player2.png")
 
 const BASIC_ATTACK = preload("res://Attacks/Basic/Basic.tscn")
 const BEAM = preload("res://Attacks/Beam/Beam.tscn")
-const WIDE = preload("res://Attacks/Basic/Wide.tscn")
+const WIDE = preload("res://Attacks/Big/Big.tscn")
+const MELEE = preload("res://Attacks/Melee/Melee.tscn")
 
 var enabled : bool = false
 
@@ -44,39 +45,25 @@ var Y_UPPER : int
 
 var movement_tween : Tween = null
 
-var movement_timer : Timer = null
-const MOVEMENT_CD : float = 0.25
-const MOVEMENT_BUFFER : float = 0.2
+const MOVEMENT_TIME : float = 0.25
 
 var basic_attack_timer : Timer = null
-const BASIC_ATTACK_CD : float = 0.25
-
 var big_attack_timer : Timer = null
-const WIDE_ATTACK_CT : float = 0.5
 var big_attack_animlock_timer : Timer = null
-const WIDE_ATTACK_AT : float = 0.35
-
 var charge_attack_timer : Timer = null
-const BEAM_ATTACK_CT : float = 0.5
 var charge_attack_animlock_timer : Timer = null
-const CHARGE_ATTACK_AT : float = 0.2
+var melee_attack_timer : Timer = null
+var melee_charge_attack_timer : Timer = null
+var melee_animlock_timer : Timer = null
 
 var animlock : bool = false
 
 func _ready():
-	
 	add_timers()
 	
-func add_timers():
-	movement_timer = Timer.new()
-	movement_timer.set_wait_time(MOVEMENT_CD)
-	movement_timer.set_one_shot(true)
-	movement_timer.set_autostart(false)
-	
-	add_child(movement_timer)
-	
+func add_timers():	
 	basic_attack_timer = Timer.new()
-	basic_attack_timer.set_wait_time(BASIC_ATTACK_CD)
+	basic_attack_timer.set_wait_time(BasicAttack.ANIMLOCK_TIME)
 	basic_attack_timer.set_one_shot(true)
 	basic_attack_timer.set_autostart(false)
 	basic_attack_timer.timeout.connect(remove_animlock)
@@ -84,7 +71,7 @@ func add_timers():
 	add_child(basic_attack_timer)
 	
 	big_attack_timer = Timer.new()
-	big_attack_timer.set_wait_time(WIDE_ATTACK_CT)
+	big_attack_timer.set_wait_time(BigAttack.CHARGE_TIME)
 	big_attack_timer.set_one_shot(true)
 	big_attack_timer.set_autostart(false)
 	big_attack_timer.timeout.connect(fire_big_attack)
@@ -92,7 +79,7 @@ func add_timers():
 	add_child(big_attack_timer)
 
 	big_attack_animlock_timer = Timer.new()
-	big_attack_animlock_timer.set_wait_time(WIDE_ATTACK_AT)
+	big_attack_animlock_timer.set_wait_time(BigAttack.ANIMLOCK_TIME)
 	big_attack_animlock_timer.set_one_shot(true)
 	big_attack_animlock_timer.set_autostart(false)
 	big_attack_animlock_timer.timeout.connect(remove_animlock)
@@ -100,7 +87,7 @@ func add_timers():
 	add_child(big_attack_animlock_timer)
 	
 	charge_attack_timer = Timer.new()
-	charge_attack_timer.set_wait_time(BEAM_ATTACK_CT)
+	charge_attack_timer.set_wait_time(Beam.CHARGE_TIME)
 	charge_attack_timer.set_one_shot(true)
 	charge_attack_timer.set_autostart(false)
 	charge_attack_timer.timeout.connect(enable_charged_ranged_fire_on_release)
@@ -108,12 +95,36 @@ func add_timers():
 	add_child(charge_attack_timer)
 	
 	charge_attack_animlock_timer = Timer.new()
-	charge_attack_animlock_timer.set_wait_time(CHARGE_ATTACK_AT)
+	charge_attack_animlock_timer.set_wait_time(Beam.ANIMLOCK_TIME)
 	charge_attack_animlock_timer.set_one_shot(true)
 	charge_attack_animlock_timer.set_autostart(false)
 	charge_attack_animlock_timer.timeout.connect(remove_animlock)
 	
 	add_child(charge_attack_animlock_timer)
+	
+	melee_attack_timer = Timer.new()
+	melee_attack_timer.set_wait_time(Melee.FIRST_DELAY_TIME)
+	melee_attack_timer.set_one_shot(true)
+	melee_attack_timer.set_autostart(false)
+	melee_attack_timer.timeout.connect(start_charging_melee)
+	
+	add_child(melee_attack_timer)
+	
+	melee_charge_attack_timer = Timer.new()
+	melee_charge_attack_timer.set_wait_time(Melee.CHARGE_TIME)
+	melee_charge_attack_timer.set_one_shot(true)
+	melee_charge_attack_timer.set_autostart(false)
+	melee_charge_attack_timer.timeout.connect(enable_charged_melee_fire_on_release)
+	
+	add_child(melee_charge_attack_timer)
+	
+	melee_animlock_timer = Timer.new()
+	melee_animlock_timer.set_wait_time(Melee.ANIMLOCK_TIME)
+	melee_animlock_timer.set_one_shot(true)
+	melee_animlock_timer.set_autostart(false)
+	melee_animlock_timer.timeout.connect(remove_animlock)
+	
+	add_child(melee_animlock_timer)
 
 @warning_ignore("shadowed_variable")
 func initialize(p1 : bool, p2 : bool, grid: Grid):
@@ -164,7 +175,8 @@ func _physics_process(_delta: float) -> void:
 		update_animation_conditions()
 	
 	label.text = str(pos)
-	label_2.text = str(sm.get_current_node()) + str(move_sm.get_current_node())
+	label_2.text = str(charging_melee)
+	#str(sm.get_current_node()) + str(move_sm.get_current_node())
 	#+ str(tree.get("parameters/move/conditions/mvup")) + str(tree.get("parameters/move/conditions/mvdown")) + str(tree.get("parameters/move/conditions/mvleft")) + str(tree.get("parameters/move/conditions/mvright"))
 	
 	if isP1:
@@ -212,9 +224,9 @@ func hit(damage: int) -> void:
 	# Interrupt attacks
 	animlock = false
 	charged_ranged = false
-	if is_instance_valid(current_charge_attack):
+	if is_instance_valid(current_charge_ranged_attack):
 		charge_attack_timer.stop()
-		current_charge_attack.interrupt()
+		current_charge_ranged_attack.interrupt()
 	big_attack_timer.stop()
 
 func update_animation_conditions() -> void:
@@ -224,7 +236,6 @@ func update_animation_conditions() -> void:
 	tree.set("parameters/move/conditions/mvleft", current_movement.x < 0)
 	tree.set("parameters/move/conditions/mvright", current_movement.x > 0)
 	tree.set("parameters/move/conditions/mvidle", current_movement.length_squared() < 0.01)
-	
 
 func get_movement_input() -> void:
 	if isP1:
@@ -247,19 +258,27 @@ func get_movement_input() -> void:
 			move ("right")
 
 var charged_ranged : bool = false
-var current_charge_attack : Beam = null
-signal released_charge1
+var current_charge_ranged_attack : Beam = null
+var charging_melee : bool = false
+var charged_melee : bool = false
+var current_charged_melee_attack : Melee = null
 
 func get_attack_input() -> String:
 	
 	if isP1:
 		if Input.is_action_just_released("charge_ranged1"):
 			release_charged_ranged()
-				
+		elif Input.is_action_just_released("melee2"):
+			release_charged_melee()
+		
 		if not animlock:
 			if Input.is_action_just_pressed("basic1"):
 				press_basic()
 				print("1basic")
+			
+			elif Input.is_action_just_pressed("melee1"):
+				press_melee()
+				print("1melee")
 			
 			elif ebar.cur_i > 0:
 				if Input.is_action_just_pressed("charge_ranged1"):
@@ -270,16 +289,22 @@ func get_attack_input() -> String:
 				elif Input.is_action_just_pressed("big1"):
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_big()
-			
+	
 	elif isP2:
 		if Input.is_action_just_released("charge_ranged2"):
 			release_charged_ranged()
+		elif Input.is_action_just_released("melee2"):
+			release_charged_melee()
 		
 		if not animlock:
 			if Input.is_action_just_pressed("basic2"):
 				press_basic()
 				print("2basic")
-			
+				
+			elif Input.is_action_just_pressed("melee2"):
+				press_melee()
+				print("2melee")
+				
 			elif ebar.cur_i >= 1:
 				if Input.is_action_just_pressed("charge_ranged2"):
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
@@ -291,29 +316,72 @@ func get_attack_input() -> String:
 					press_big()
 	return ""
 
+func press_melee():
+	animlock = true
+	target_pos = Vector2i(pos.x, Y_UPPER - 1 if isP1 else Y_LOWER + 1)
+	_move("up")
+	melee_attack_timer.start()
+	
+	current_charged_melee_attack = MELEE.instantiate()
+	melee_attack_timer.timeout.connect(current_charged_melee_attack.fire)
+	current_charged_melee_attack.initialize(target_pos)
+	current_charged_melee_attack.charging = true
+	
+	if isP1:
+		grid.p1_hitboxes.add_child(current_charged_melee_attack)
+	elif isP2:
+		grid.p2_hitboxes.add_child(current_charged_melee_attack)
+
+func start_charging_melee() -> void:
+	print("start charging melee")
+	if (isP1 and Input.is_action_pressed("melee1")) or (isP2 and Input.is_action_pressed("melee2")):
+		current_charged_melee_attack.charge()
+		melee_charge_attack_timer.start()
+		charging_melee = true
+	else:
+		animlock = false
+
+func release_charged_melee():
+	print("release melee")
+	if charged_melee:
+		print("release charged melee at charged")
+		charged_melee = false
+		charging_melee = false
+		current_charged_melee_attack.fire_charged()
+		melee_animlock_timer.start()
+		grid.screenshake(0.75)
+		return
+	# if it's done with the first attack
+	elif charging_melee:
+		melee_charge_attack_timer.stop()
+		current_charged_melee_attack.queue_free()
+		animlock = false
+	
+	charging_melee = false
+	
+
 func press_charged_ranged():
 	animlock = true
 	charge_attack_timer.start()
-	current_charge_attack = BEAM.instantiate()
-	current_charge_attack.initialize(target_pos)
+	current_charge_ranged_attack = BEAM.instantiate()
+	current_charge_ranged_attack.initialize(target_pos)
 	if isP1:
-		grid.p1_hitboxes.add_child(current_charge_attack)
+		grid.p1_hitboxes.add_child(current_charge_ranged_attack)
 	elif isP2:
-		grid.p2_hitboxes.add_child(current_charge_attack)
-	released_charge1.connect(current_charge_attack.fire)
+		grid.p2_hitboxes.add_child(current_charge_ranged_attack)
 
 func release_charged_ranged():
 	if charged_ranged:
 		charged_ranged = false
-		released_charge1.emit()
+		current_charge_ranged_attack.fire()
 		charge_attack_animlock_timer.start()
 		grid.screenshake(0.75)
 	else:
 		print("interrupt")
 		charge_attack_timer.stop()
 		animlock = false
-		if is_instance_valid(current_charge_attack):
-			current_charge_attack.interrupt()
+		if is_instance_valid(current_charge_ranged_attack):
+			current_charge_ranged_attack.interrupt()
 
 func press_basic():
 	animlock = true
@@ -343,6 +411,10 @@ func fire_big_attack() -> void:
 func enable_charged_ranged_fire_on_release() -> void:
 	print("charged")
 	charged_ranged = true
+
+func enable_charged_melee_fire_on_release() -> void:
+	print("charged melee")
+	charged_melee = true
 
 var already_buffered_move : bool = false
 func move(dir: String):
@@ -409,15 +481,12 @@ func _move(dir):
 		"right":
 			target_pos.x += 1
 	
-	movement_timer.start()
-	
 	moved.emit(dir)
 	
 	if movement_tween:
 		movement_tween.kill()
 	movement_tween = create_tween()
-	movement_tween.tween_property(self, "global_position", Globals.get_global_position(target_pos), MOVEMENT_CD).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	movement_timer.start()
+	movement_tween.tween_property(self, "global_position", Globals.get_global_position(target_pos), MOVEMENT_TIME).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	if isP1:
 		print("1" + str(dir))
 	else:

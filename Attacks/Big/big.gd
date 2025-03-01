@@ -1,4 +1,7 @@
-extends Hitbox
+class_name BigAttack extends Hitbox
+
+const CHARGE_TIME : float = 0.5
+const ANIMLOCK_TIME : float = 0.35
 
 var movement_timer : Timer = null
 var speed : int

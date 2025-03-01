@@ -1,4 +1,6 @@
-extends Hitbox
+class_name BasicAttack extends Hitbox
+
+const ANIMLOCK_TIME : float = 0.25
 
 var movement_timer : Timer = null
 var speed : int

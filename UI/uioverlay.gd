@@ -14,11 +14,11 @@ var is_playing : bool = false
 func on_load() -> void:
 	is_playing = true
 	countdown_label.text = "3"
-	await get_tree().create_timer(1.0, true).timeout
+	await get_tree().create_timer(0.3, true).timeout
 	countdown_label.text = "2"
-	await get_tree().create_timer(1.0, true).timeout
+	await get_tree().create_timer(0.3, true).timeout
 	countdown_label.text = "1"
-	await get_tree().create_timer(1.0, true).timeout
+	await get_tree().create_timer(0.3, true).timeout
 	countdown_label.text = ""
 	is_playing = false
 	

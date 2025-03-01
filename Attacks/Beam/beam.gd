@@ -1,5 +1,8 @@
 class_name Beam extends Hitbox
 
+const CHARGE_TIME : float = 0.5
+const ANIMLOCK_TIME : float = 0.2
+
 var warning_tick_timer : Timer = null
 
 var beam_tiles_to_draw : Array = []
