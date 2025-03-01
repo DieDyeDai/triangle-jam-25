@@ -19,6 +19,7 @@ const TILEBLUE = preload("res://World/TileBlue.tscn")
 @onready var key_action_z: Sprite2D = $KeyActionZ
 @onready var key_action_x: Sprite2D = $KeyActionX
 @onready var key_action_s: Sprite2D = $KeyActionS
+@onready var key_label_1: Sprite2D = $KeyLabel1
 
 @onready var inputs_1 : Dictionary = {
 	"movement": keys_movement_1,
@@ -33,6 +34,7 @@ const TILEBLUE = preload("res://World/TileBlue.tscn")
 @onready var key_action_k: Sprite2D = $KeyActionK
 @onready var key_action_l: Sprite2D = $KeyActionL
 @onready var key_action_o: Sprite2D = $KeyActionO
+@onready var key_label_2: Sprite2D = $KeyLabel2
 
 @onready var inputs_2 : Dictionary = {
 	"movement": keys_movement_2,
@@ -91,18 +93,22 @@ func _ready() -> void:
 	ebar_2.counter.initialize(false, true)
 	
 	var inputs1_starting_pos = Globals.get_global_position(Vector2i(0,-5))
-	inputs_1["movement"].set_global_position(inputs1_starting_pos + Vector2(40, 32))
+	inputs_1["movement"].set_global_position(inputs1_starting_pos + Vector2(40, 24))
 	inputs_1["melee"].set_global_position(inputs1_starting_pos + Vector2(-24, 24))
 	inputs_1["big"].set_global_position(inputs1_starting_pos + Vector2(-8, 24))
 	inputs_1["charge"].set_global_position(inputs1_starting_pos + Vector2(-16, 48))
 	inputs_1["basic"].set_global_position(inputs1_starting_pos + Vector2(0, 48))
-
+	
+	key_label_1.set_global_position(inputs1_starting_pos + Vector2(-9, 4))
+	
 	var inputs2_starting_pos = Globals.get_global_position(Vector2i(0,6))
-	inputs_2["movement"].set_global_position(inputs2_starting_pos + Vector2(40, 32))
+	inputs_2["movement"].set_global_position(inputs2_starting_pos + Vector2(40, 24))
 	inputs_2["melee"].set_global_position(inputs2_starting_pos + Vector2(-24, 24))
 	inputs_2["big"].set_global_position(inputs2_starting_pos + Vector2(-8, 24))
 	inputs_2["charge"].set_global_position(inputs2_starting_pos + Vector2(-16, 48))
 	inputs_2["basic"].set_global_position(inputs2_starting_pos + Vector2(0, 48))
+	
+	key_label_2.set_global_position(inputs2_starting_pos + Vector2(-9, 4))
 	
 	for i in range(Globals.X_LOWER, Globals.X_UPPER + 1, 1):
 		p1_tiles[i] = {}

@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://caqtdm52yjagb"]
+
+[ext_resource type="Texture2D" uid="uid://dmb5qbm0f7ubl" path="res://Attacks/Basic2/TileBeam.png" id="1_pwxxm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arjgx"]
+atlas = ExtResource("1_pwxxm")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbs5m"]
+atlas = ExtResource("1_pwxxm")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_16yon"]
+atlas = ExtResource("1_pwxxm")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ff32c"]
+atlas = ExtResource("1_pwxxm")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cpa1q"]
+atlas = ExtResource("1_pwxxm")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4eu6"]
+atlas = ExtResource("1_pwxxm")
+region = Rect2(240, 0, 48, 48)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_arjgx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbs5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_16yon")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ff32c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cpa1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4eu6")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]

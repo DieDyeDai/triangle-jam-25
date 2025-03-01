@@ -1,6 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://domm0phqpqq50"]
+[gd_scene load_steps=3 format=3 uid="uid://domm0phqpqq50"]
 
 [ext_resource type="Script" path="res://Attacks/Basic2/basic_2.gd" id="1_mb48t"]
+[ext_resource type="SpriteFrames" uid="uid://caqtdm52yjagb" path="res://Attacks/Basic2/TileBeamSpriteFrames.tres" id="2_feg88"]
 
 [node name="Basic2" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_mb48t")
+
+[node name="sprite1" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("2_feg88")
+frame = 5
+frame_progress = 1.0
+
+[node name="sprite2" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("2_feg88")
+frame = 5
+frame_progress = 1.0
+
+[node name="sprite3" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("2_feg88")
+frame = 5
+frame_progress = 1.0
+
+[node name="sprite4" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("2_feg88")
+frame = 5
+frame_progress = 1.0
+
+[node name="sprite5" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("2_feg88")
+frame = 5
+frame_progress = 1.0

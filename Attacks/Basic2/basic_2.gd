@@ -1,12 +1,20 @@
 class_name BasicAttack2 extends Hitbox
 
 const DELAY : float = 0.8
-const DURATION : float = 0.3
+const DURATION : float = 0.1
 const COOLDOWN : float = 1.5
+
+@onready var sprite1: AnimatedSprite2D = $sprite1
+@onready var sprite2: AnimatedSprite2D = $sprite2
+@onready var sprite3: AnimatedSprite2D = $sprite3
+@onready var sprite4: AnimatedSprite2D = $sprite4
+@onready var sprite5: AnimatedSprite2D = $sprite5
+
+@onready var sprites : Array = [sprite1, sprite2, sprite3, sprite4, sprite5]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
 
 func initialize(pos: Vector2i) -> void:
 	base_position = pos
@@ -29,6 +37,16 @@ func fire() -> void:
 	await get_tree().create_timer(DELAY).timeout
 	
 	positions = warning_positions.duplicate()
+	
+	var i : int = 0
+	for pos : Vector2i in positions:
+		sprites[i].global_position = Globals.get_global_position(pos)
+		sprites[i].visible = true
+		sprites[i].play("default")
+		i += 1
+		if i == sprites.size():
+			break
+	
 	warning_positions.clear()
 	
 	await get_tree().create_timer(DURATION).timeout

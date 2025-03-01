@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://n6eqqlyl85d6"]
+[gd_scene load_steps=7 format=3 uid="uid://n6eqqlyl85d6"]
 
 [ext_resource type="Script" path="res://World/Grid.gd" id="1_0noqu"]
 [ext_resource type="PackedScene" uid="uid://cd0g1dj0lffee" path="res://UI/HealthBar.tscn" id="2_ykskw"]
 [ext_resource type="PackedScene" uid="uid://cstp7ajetyqo3" path="res://UI/EnergyBar.tscn" id="3_c8dl5"]
 [ext_resource type="Texture2D" uid="uid://bs6jxovn0kw0v" path="res://Assets/keys.png" id="4_14qmi"]
 [ext_resource type="PackedScene" uid="uid://btoclq6rgafx4" path="res://UI/UIOverlay.tscn" id="5_3bcng"]
+[ext_resource type="Texture2D" uid="uid://dffh273jexsbo" path="res://Assets/keyslabels.png" id="6_ou645"]
 
 [node name="Grid" type="Node"]
 script = ExtResource("1_0noqu")
@@ -24,7 +25,6 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(0, 64)
 zoom = Vector2(2, 2)
 
 [node name="UIHealthBar1" parent="." instance=ExtResource("2_ykskw")]
@@ -133,3 +133,12 @@ vframes = 4
 frame = 15
 
 [node name="UIOverlay" parent="." instance=ExtResource("5_3bcng")]
+
+[node name="KeyLabel1" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-100, 135)
+texture = ExtResource("6_ou645")
+
+[node name="KeyLabel2" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("6_ou645")

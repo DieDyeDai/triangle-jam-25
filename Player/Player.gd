@@ -443,7 +443,7 @@ func fire_big_attack() -> void:
 	
 	elif char == 2:
 		var atk = BIG_ATTACK_2.instantiate()	
-		atk.initialize(target_pos, -1) # dir is 1 if p1, -1 if p2
+		atk.initialize(target_pos, -1 if isP1 else 1) # dir is -1 if p1, -1 if p2, to move downward
 		add_hitbox(atk)
 
 func enable_charged_ranged_fire_on_release() -> void:
