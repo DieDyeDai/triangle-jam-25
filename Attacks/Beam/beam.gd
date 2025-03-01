@@ -13,7 +13,7 @@ var beam_tiles_to_draw : Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	warning_tick_timer = Timer.new()
-	warning_tick_timer.set_wait_time(0.05)
+	warning_tick_timer.set_wait_time(CHARGE_TIME / Globals.GRID_HEIGHT)
 	warning_tick_timer.timeout.connect(advance_warning)
 	add_child(warning_tick_timer)
 	warning_tick_timer.start()

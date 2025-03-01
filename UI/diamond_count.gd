@@ -1,6 +1,5 @@
 class_name Counter extends Sprite2D
 
-var count : int = 0
 const UIE_COUNT_RED = preload("res://Assets/UIECountRed.png")
 const UIE_COUNT_BLUE = preload("res://Assets/UIECountBlue.png")
 
@@ -53,8 +52,3 @@ func flash_white(time: float):
 func on_flash_white_end():	
 	material.set("shader_parameter/enabled", false)
 	flash_white_timer.start()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

@@ -22,8 +22,11 @@ const pngP2 = preload("res://Player/player2.png")
 
 const BASIC_ATTACK = preload("res://Attacks/Basic/Basic.tscn")
 const BEAM = preload("res://Attacks/Beam/Beam.tscn")
-const WIDE = preload("res://Attacks/Big/Big.tscn")
+const BIG_ATTACK = preload("res://Attacks/Big/Big.tscn")
 const MELEE = preload("res://Attacks/Melee/Melee.tscn")
+
+const BASIC_ATTACK_2 = preload("res://Attacks/Basic2/Basic2.tscn")
+const BIG_ATTACK_2 = preload("res://Attacks/Big2/Big2.tscn")
 
 var enabled : bool = false
 
@@ -318,7 +321,7 @@ func get_attack_input() -> String:
 
 func press_melee():
 	animlock = true
-	target_pos = Vector2i(pos.x, Y_UPPER - 1 if isP1 else Y_LOWER + 1)
+	target_pos = Vector2i(target_pos.x, Y_UPPER - 1 if isP1 else Y_LOWER + 1)
 	_move("up")
 	melee_attack_timer.start()
 	
@@ -386,26 +389,42 @@ func release_charged_ranged():
 func press_basic():
 	animlock = true
 	basic_attack_timer.start()
-	var atk = BASIC_ATTACK.instantiate()
-	atk.initialize(target_pos, Vector2i(0,-1), 4)
+	
 	if isP1:
-		grid.p1_hitboxes.add_child(atk)
+	
+		var atk = BASIC_ATTACK.instantiate()
+		atk.initialize(target_pos, Vector2i(0,-1), 4)
+		if isP1:
+			grid.p1_hitboxes.add_child(atk)
+		elif isP2:
+			grid.p2_hitboxes.add_child(atk)
+		
 	elif isP2:
+		
+		var atk = BASIC_ATTACK_2.instantiate()
+		atk.initialize(target_pos, Vector2i(0, -5)) # dir is (0,5) if p1, (0,-5) if p2
 		grid.p2_hitboxes.add_child(atk)
+		atk.fire()
 
 func press_big() -> void:
 	animlock = true
 	big_attack_timer.start()
-	
 
 func fire_big_attack() -> void:
 	animlock = true
 	big_attack_animlock_timer.start()
-	var atk = WIDE.instantiate()
-	atk.initialize(target_pos, Vector2i(0,-1), 2)
+	
 	if isP1:
-		grid.p1_hitboxes.add_child(atk)
+		var atk = BIG_ATTACK.instantiate()
+		atk.initialize(target_pos, Vector2i(0,-1), 2)
+		if isP1:
+			grid.p1_hitboxes.add_child(atk)
+		elif isP2:
+			grid.p2_hitboxes.add_child(atk)
+	
 	elif isP2:
+		var atk = BIG_ATTACK_2.instantiate()
+		atk.initialize(target_pos, -1) # dir is 1 if p1, -1 if p2
 		grid.p2_hitboxes.add_child(atk)
 
 func enable_charged_ranged_fire_on_release() -> void:

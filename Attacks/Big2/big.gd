@@ -1,4 +1,7 @@
-extends Hitbox
+class_name BigAttack extends Hitbox
+
+const CHARGE_TIME : float = 0.5
+const ANIMLOCK_TIME : float = 0.35
 
 var movement_timer : Timer = null
 var speed : int
@@ -26,9 +29,9 @@ func initialize(pos: Vector2i, dir: Vector2i, speed: int) -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 var warped : bool = false
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	
-	global_position += Vector2(speed * dir)
+	global_position += Vector2(speed * dir * Engine.get_physics_ticks_per_second() * delta)
 	
 	base_position = Globals.get_pos(global_position)
 	positions = positions_from_pos(base_position)

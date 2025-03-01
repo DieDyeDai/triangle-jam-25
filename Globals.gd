@@ -26,6 +26,9 @@ const GRID_HEIGHT : int = 5
 var p1score : int = 0
 var p2score : int = 0
 
+var p1char : int = 0
+var p2char : int = 0
+
 func _ready() -> void:
 	scene_switcher = get_tree().get_first_node_in_group("SceneSwitcher")
 

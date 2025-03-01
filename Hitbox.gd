@@ -18,6 +18,7 @@ func move(dir: Vector2i):
 
 func is_inbounds() -> bool:
 	for pos : Vector2 in positions:
+		@warning_ignore("narrowing_conversion")
 		if pos.x == clampi(pos.x, Globals.X_LOWER, Globals.X_UPPER) and pos.y == clampi(pos.y, Globals.Y_LOWER, Globals.Y_UPPER):
 			return true
 	return false

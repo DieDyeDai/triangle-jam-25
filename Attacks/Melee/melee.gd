@@ -5,9 +5,9 @@ var dir : int
 var active : bool = true
 var charging : bool = true
 
-const FIRST_DELAY_TIME : float = 0.4
-const CHARGE_TIME : float = 1.0
-const ANIMLOCK_TIME : float = 0.5
+const FIRST_DELAY_TIME : float = 0.25
+const CHARGE_TIME : float = 0.8
+const ANIMLOCK_TIME : float = 0.25
 
 const RANGE : int = 3
 
@@ -75,5 +75,6 @@ func charge() -> void:
 
 func fire_charged() -> void:
 	print("melee fire charged")
+	damage = 2
 	charging = false
 	fire()
