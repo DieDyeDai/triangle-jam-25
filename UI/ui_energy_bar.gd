@@ -38,6 +38,10 @@ var px_pos : float = 0
 
 var decay_tween : Tween = null
 
+var screenshake_timer : Timer = null
+const SCREENSHAKE_STR : float = 20
+const SCREENSHAKE_TIME : float = 0.12
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	flash_white_timer = Timer.new()
@@ -45,6 +49,14 @@ func _ready() -> void:
 	flash_white_timer.set_wait_time(0.1)
 	add_child(flash_white_timer)
 	flash_white_timer.timeout.connect(self.on_flash_white_end)
+
+	screenshake_timer = Timer.new()
+	screenshake_timer.set_autostart(false)
+	screenshake_timer.set_one_shot(true)
+	add_child(screenshake_timer)
+
+func shake_counter(strength: float):
+	screenshake_timer.start(SCREENSHAKE_TIME * strength)
 
 var ct : int = 1
 func _physics_process(_delta: float) -> void:
@@ -59,7 +71,12 @@ func _physics_process(_delta: float) -> void:
 	cur_i = floor(cur * MAX_I / max)
 	
 	counter.update(cur_i)
-	
+
+	if screenshake_timer.get_time_left() > 0.01:
+		counter.position = Vector2(SCREENSHAKE_STR * screenshake_timer.get_time_left(), 0).rotated(randf_range(0, 2 * PI))
+	else:
+		counter.position = Vector2.ZERO
+
 @warning_ignore("shadowed_variable", "shadowed_global_identifier")
 func reset(cur, max):
 	px_len = LEN_INITIAL

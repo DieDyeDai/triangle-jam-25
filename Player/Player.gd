@@ -310,15 +310,20 @@ func get_attack_input() -> String:
 				press_melee()
 				print("1melee")
 			
-			elif ebar.cur_i > 0:
-				if Input.is_action_just_pressed("charge_ranged1"):
+			if Input.is_action_just_pressed("charge_ranged1"):
+				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_charged_ranged()
 					print("1beam")
+				else:
+					ebar.shake_counter(1.0)
 				
-				elif Input.is_action_just_pressed("big1"):
+			elif Input.is_action_just_pressed("big1"):
+				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_big()
+				else:
+					ebar.shake_counter(1.0)
 	
 	elif isP2:
 		if Input.is_action_just_released("charge_ranged2"):
@@ -335,15 +340,20 @@ func get_attack_input() -> String:
 				press_melee()
 				print("2melee")
 				
-			elif ebar.cur_i >= 1:
-				if Input.is_action_just_pressed("charge_ranged2"):
+			elif Input.is_action_just_pressed("charge_ranged2"):
+				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_charged_ranged()
 					print("2beam")
+				else:
+					ebar.shake_counter(1.0)
 			
-				elif Input.is_action_just_pressed("big2"):
+			elif Input.is_action_just_pressed("big2"):
+				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_big()
+				else:
+					ebar.shake_counter(1.0)
 	return ""
 
 func press_melee():
