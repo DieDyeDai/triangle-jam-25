@@ -11,6 +11,9 @@ var beam_tiles_to_draw : Array = []
 @onready var line_section_1: Line2D = $LineSection1
 @onready var line_section_2: Line2D = $LineSection2
 
+@onready var charge_particles: CPUParticles2D = $ChargeParticles
+@onready var charge_particles2: CPUParticles2D = $ChargeParticles2
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	warning_tick_timer = Timer.new()
@@ -21,6 +24,11 @@ func _ready() -> void:
 	
 	line_section_1.clear_points()
 	line_section_2.clear_points()
+	
+	charge_particles.global_position = Vector2(Globals.get_global_position(beam_tiles_to_draw[-1]).x + \
+		charge_particles.emission_rect_extents.x / 2, 0)
+	charge_particles2.global_position = Vector2(Globals.get_global_position(beam_tiles_to_draw[-1]).x - \
+		charge_particles2.emission_rect_extents.x / 2, 0)
 
 var dir : int
 var next_warning_tile : Vector2i
@@ -55,6 +63,9 @@ func advance_warning() -> void:
 
 var beam_width_tween : Tween = null
 func fire() -> void:
+	charge_particles.emitting = false
+	charge_particles2.emitting = false
+	
 	positions = warning_positions.duplicate()
 	
 	#print(base_position)

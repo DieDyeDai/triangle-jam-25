@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://7cqj260idcmm"]
+[gd_scene load_steps=7 format=3 uid="uid://7cqj260idcmm"]
 
 [ext_resource type="Script" path="res://Attacks/Charge/beam.gd" id="1_rb2yi"]
 [ext_resource type="Shader" path="res://Attacks/Charge/Body.gdshader" id="2_4gojr"]
 [ext_resource type="Texture2D" uid="uid://e2oic83t6i0i" path="res://Attacks/Charge/body.png" id="3_l7rml"]
+[ext_resource type="Texture2D" uid="uid://cgji8m16182ss" path="res://Attacks/ChargeParticle.png" id="4_qoq20"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vui1a"]
 shader = ExtResource("2_4gojr")
@@ -28,3 +29,27 @@ texture_repeat = 2
 material = SubResource("ShaderMaterial_liev5")
 texture = ExtResource("3_l7rml")
 texture_mode = 1
+
+[node name="ChargeParticles" type="CPUParticles2D" parent="."]
+texture_filter = 1
+amount = 6
+lifetime = 0.2
+texture = ExtResource("4_qoq20")
+emission_shape = 3
+emission_rect_extents = Vector2(6, 96)
+direction = Vector2(-1, 0)
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 50.0
+scale_amount_min = 0.5
+
+[node name="ChargeParticles2" type="CPUParticles2D" parent="."]
+texture_filter = 1
+amount = 6
+lifetime = 0.2
+texture = ExtResource("4_qoq20")
+emission_shape = 3
+emission_rect_extents = Vector2(12, 96)
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 50.0
