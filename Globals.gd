@@ -73,7 +73,7 @@ func get_pos(global_position: Vector2) -> Vector2i:
 	return p
 
 func should_warp(global_position: Vector2, dir: Vector2i) -> bool:
-	return (global_position.y < -2.5 * TILE_HEIGHT and dir.y < 0) or (global_position.y > 2.5 * TILE_HEIGHT and dir.y > 0)
+	return (global_position.y < -2.8 * TILE_HEIGHT and dir.y < 0) or (global_position.y > 2.8 * TILE_HEIGHT and dir.y > 0)
 
 func get_warp_position(global_position: Vector2) -> Vector2:
 	if global_position.x < 0:

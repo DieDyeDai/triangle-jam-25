@@ -322,10 +322,12 @@ libraries = {
 }
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="Label2" type="Label" parent="."]
+visible = false
 offset_top = 31.0
 offset_right = 40.0
 offset_bottom = 54.0

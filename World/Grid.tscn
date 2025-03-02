@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://n6eqqlyl85d6"]
+[gd_scene load_steps=9 format=3 uid="uid://n6eqqlyl85d6"]
 
 [ext_resource type="Script" path="res://World/Grid.gd" id="1_0noqu"]
+[ext_resource type="PackedScene" uid="uid://smeh5376d00t" path="res://World/PortalRed.tscn" id="2_ckcs7"]
 [ext_resource type="PackedScene" uid="uid://cd0g1dj0lffee" path="res://UI/HealthBar.tscn" id="2_ykskw"]
 [ext_resource type="PackedScene" uid="uid://cstp7ajetyqo3" path="res://UI/EnergyBar.tscn" id="3_c8dl5"]
+[ext_resource type="PackedScene" uid="uid://db66cmsyji2du" path="res://World/PortalBlue.tscn" id="3_us781"]
 [ext_resource type="Texture2D" uid="uid://bs6jxovn0kw0v" path="res://Assets/keys.png" id="4_14qmi"]
 [ext_resource type="PackedScene" uid="uid://btoclq6rgafx4" path="res://UI/UIOverlay.tscn" id="5_3bcng"]
 [ext_resource type="Texture2D" uid="uid://dffh273jexsbo" path="res://Assets/keyslabels.png" id="6_ou645"]
@@ -23,6 +25,12 @@ offset_bottom = -324.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="PortalRed" parent="." instance=ExtResource("2_ckcs7")]
+position = Vector2(2, -80)
+
+[node name="PortalBlue" parent="." instance=ExtResource("3_us781")]
+scale = Vector2(-1, 1)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)

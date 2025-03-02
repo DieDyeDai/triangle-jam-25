@@ -44,6 +44,10 @@ const TILEBLUE = preload("res://World/TileBlue.tscn")
 	"heavy": key_action_o,
 }
 
+@onready var portalred: Node2D = $PortalRed
+@onready var portalblue: Node2D = $PortalBlue
+
+
 @warning_ignore("unused_signal")
 signal p1died
 @warning_ignore("unused_signal")
@@ -161,6 +165,9 @@ func _ready() -> void:
 			p2_tiles[i][j] = new_tile
 			p2_tile_container.add_child(new_tile)
 	
+	portalred.global_position.y = -3 * Globals.TILE_HEIGHT
+	portalblue.global_position.y = -3 * Globals.TILE_HEIGHT
+	
 	p1_hitboxes = Node.new()
 	p2_hitboxes = Node.new()
 	add_child(p1_hitboxes)
@@ -252,10 +259,9 @@ func _physics_process(_delta: float) -> void:
 			Globals.scene_switcher.handle_scene_change({"next_scene": preload("res://UI/SkillSelectMenu.tscn"),
 			"hack": "yes"})
 	
-	if Input.is_action_just_pressed("back"):
-		Globals.scene_switcher.handle_scene_change({"next_scene": preload("res://UI/SkillSelectMenu.tscn"),
-			"hack": "yes"})
-	
+	#if Input.is_action_just_pressed("back"):
+		#Globals.scene_switcher.handle_scene_change({"next_scene": preload("res://UI/SkillSelectMenu.tscn"),
+			#"hack": "yes"})
 
 func screenshake(strength : float) -> void:
 	screenshake_timer.start(SCREENSHAKE_TIME * strength)

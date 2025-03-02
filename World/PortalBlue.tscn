@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://db66cmsyji2du"]
+
+[ext_resource type="Script" path="res://World/portal.gd" id="1_4qfgn"]
+[ext_resource type="Texture2D" uid="uid://dww43jpdox4yb" path="res://Assets/line_slice_blue.png" id="2_1wind"]
+
+[sub_resource type="Gradient" id="Gradient_cn151"]
+offsets = PackedFloat32Array(0, 0.0352113, 1)
+colors = PackedColorArray(0.560784, 0.827451, 1, 1, 0.560784, 0.827451, 1, 0.105882, 0.560784, 0.827451, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6s0og"]
+gradient = SubResource("Gradient_cn151")
+width = 24
+height = 24
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="PortalBlue" type="Node2D"]
+script = ExtResource("1_4qfgn")
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_filter = 1
+points = PackedVector2Array(4, 0, 50, 18, 87, 20, 123, 16, 169, 21, 206, 19, 240, 0, 223, -24, 190, -13, 142, -16, 92, -19, 48, -24)
+closed = true
+width = 3.0
+texture = ExtResource("2_1wind")
+texture_mode = 1
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Node2D"]
+position = Vector2(25, 7)
+rotation = 0.314159
+texture = SubResource("GradientTexture2D_6s0og")
+emission_shape = 3
+emission_rect_extents = Vector2(20, 8)
+direction = Vector2(0, -1)
+spread = 30.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 12.0
