@@ -1,7 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckhahtwv4c4de"]
+[gd_scene load_steps=6 format=3 uid="uid://ckhahtwv4c4de"]
 
 [ext_resource type="Script" path="res://Attacks/Heavy/heavy.gd" id="1_swv3l"]
 [ext_resource type="Texture2D" uid="uid://ckyac8yb5s2gu" path="res://Attacks/Heavy/prototype.png" id="2_gf01s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68yr6"]
+atlas = ExtResource("2_gf01s")
+region = Rect2(0, 0, 144, 224)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thsvm"]
+atlas = ExtResource("2_gf01s")
+region = Rect2(144, 0, 144, 224)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ly2h1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68yr6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thsvm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
 
 [node name="Heavy" type="Node2D"]
 texture_filter = 1
@@ -10,13 +32,14 @@ damage = 2
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="SpriteContainer"]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="SpriteContainer"]
 scale = Vector2(1, -1)
-texture = ExtResource("2_gf01s")
-offset = Vector2(0, -20)
+sprite_frames = SubResource("SpriteFrames_ly2h1")
+frame_progress = 0.785511
+offset = Vector2(0, 16)
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="SpriteContainer"]
-position = Vector2(-56, 52)
+position = Vector2(-55, 75)
 direction = Vector2(0, 1)
 spread = 15.0
 gravity = Vector2(0, 0)
@@ -24,7 +47,7 @@ initial_velocity_min = 30.0
 initial_velocity_max = 30.0
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="SpriteContainer"]
-position = Vector2(56, 52)
+position = Vector2(55, 76)
 direction = Vector2(0, 1)
 spread = 15.0
 gravity = Vector2(0, 0)

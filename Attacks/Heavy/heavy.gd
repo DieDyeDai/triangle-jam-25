@@ -1,7 +1,7 @@
 class_name HeavyAttack extends Hitbox
 
 @onready var sprite_container: Node2D = $SpriteContainer
-@onready var sprite: Sprite2D = $SpriteContainer/Sprite2D
+@onready var sprite: AnimatedSprite2D = $SpriteContainer/Sprite2D
 @onready var particles: CPUParticles2D = $SpriteContainer/CPUParticles2D
 @onready var particles2: CPUParticles2D = $SpriteContainer/CPUParticles2D2
 
