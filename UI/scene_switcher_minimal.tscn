@@ -132,6 +132,7 @@ script = ExtResource("2_kp4a5")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MusicManager"]
 stream = ExtResource("3_n1308")
+autoplay = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 1

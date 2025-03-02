@@ -35,7 +35,7 @@ damage = 2
 [node name="Sprite2D" type="AnimatedSprite2D" parent="SpriteContainer"]
 scale = Vector2(1, -1)
 sprite_frames = SubResource("SpriteFrames_ly2h1")
-frame_progress = 0.785511
+frame_progress = 0.640592
 offset = Vector2(0, 16)
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="SpriteContainer"]

@@ -260,6 +260,7 @@ func hit(damage: int) -> void:
 	if is_instance_valid(current_charge):
 		charge_attack_timer.stop()
 		current_charge.interrupt()
+		start_charge_flash(0.0)
 	heavy_attack_timer.stop()
 
 func update_animation_conditions() -> void:
@@ -373,7 +374,6 @@ func press_melee():
 	add_hitbox(current_charge_melee)
 
 func start_charging_melee() -> void:
-	print("start charging melee")
 	if (isP1 and Input.is_action_pressed("melee1")) or (isP2 and Input.is_action_pressed("melee2")):
 		current_charge_melee.charge()
 		melee_charge_attack_timer.start()
@@ -387,6 +387,7 @@ func release_charged_melee():
 	charge_particles.emitting = false
 	if charged_melee:
 		print("release charged melee at charged")
+		start_charge_flash(0.0)
 		charged_melee = false
 		charging_melee = false
 		current_charge_melee.fire_charged()
@@ -417,6 +418,7 @@ func press_charged_ranged():
 
 func release_charged_ranged():
 	if charged_ranged:
+		start_charge_flash(0.0)
 		charged_ranged = false
 		current_charge.fire()
 		charge_attack_animlock_timer.start(current_charge.ANIMLOCK_TIME)
@@ -475,11 +477,13 @@ func enable_charged_fire_on_release() -> void:
 	print("charged")
 	charged_ranged = true
 	charge_particles.emitting = false
+	start_charge_flash(1.0)
 
 func enable_charged_melee_fire_on_release() -> void:
 	print("charged melee")
 	charged_melee = true
 	charge_particles.emitting = false
+	start_charge_flash(1.0)
 
 func move(dir: String):
 	#var did_move : bool = false
@@ -569,3 +573,8 @@ func add_hitbox(atk : Hitbox) -> void:
 		grid.p1_hitboxes.add_child(atk)
 	elif isP2:
 		grid.p2_hitboxes.add_child(atk)
+
+func start_charge_flash(strength: float) -> void:
+	sprite_container.material.set_shader_parameter("strength", strength)
+	sprite_container.material.set_shader_parameter("start_time", Time.get_ticks_msec() / 1000.0)
+	print("start charge flash")

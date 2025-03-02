@@ -1,10 +1,17 @@
-[gd_scene load_steps=49 format=3 uid="uid://epjd8851dbba"]
+[gd_scene load_steps=51 format=3 uid="uid://epjd8851dbba"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_ks1q2"]
 [ext_resource type="Texture2D" uid="uid://qcjt0tr37ynf" path="res://Player/player1.png" id="2_8gqyb"]
+[ext_resource type="Shader" path="res://Player/PlayerChargeFlash.gdshader" id="2_eocqt"]
 [ext_resource type="Texture2D" uid="uid://oys4cfv3x280" path="res://Player/lock.png" id="4_ske4y"]
 [ext_resource type="PackedScene" uid="uid://0pfqmp0mr0tr" path="res://Attacks/ChargeParticles.tscn" id="5_n214a"]
 [ext_resource type="Script" path="res://RandomSprite2D.gd" id="6_2ujqy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xf0g1"]
+resource_local_to_scene = true
+shader = ExtResource("2_eocqt")
+shader_parameter/strength = 0.0
+shader_parameter/start_time = 0.0
 
 [sub_resource type="Animation" id="Animation_r1e1u"]
 length = 0.001
@@ -287,14 +294,17 @@ texture_filter = 1
 script = ExtResource("1_ks1q2")
 
 [node name="Sprites" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_xf0g1")
 position = Vector2(0, -12)
 
 [node name="BodySprite" type="Sprite2D" parent="Sprites"]
+use_parent_material = true
 texture = ExtResource("2_8gqyb")
 hframes = 6
 vframes = 6
 
 [node name="HairRandomSprite" type="Sprite2D" parent="Sprites"]
+use_parent_material = true
 texture = ExtResource("2_8gqyb")
 hframes = 6
 vframes = 6
@@ -302,6 +312,7 @@ script = ExtResource("6_2ujqy")
 used_frames = PackedInt32Array(0, 1, 2, 3)
 
 [node name="HatSprite" type="Sprite2D" parent="Sprites"]
+use_parent_material = true
 texture = ExtResource("2_8gqyb")
 hframes = 6
 vframes = 6
