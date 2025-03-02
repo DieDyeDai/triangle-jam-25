@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://1h751itf4uow"]
+[gd_scene load_steps=9 format=3 uid="uid://1h751itf4uow"]
 
 [ext_resource type="Script" path="res://UI/scene_switcher_minimal.gd" id="1_8ai22"]
+[ext_resource type="Script" path="res://UI/music_manager.gd" id="2_kp4a5"]
+[ext_resource type="AudioStream" uid="uid://su6pl88cka0k" path="res://Assets/Otjanbird-Pt.-II(chosic.com).mp3" id="3_n1308"]
 
 [sub_resource type="Animation" id="Animation_amk0a"]
 length = 0.001
@@ -126,6 +128,10 @@ process_mode = 3
 script = ExtResource("1_8ai22")
 
 [node name="MusicManager" type="Node" parent="."]
+script = ExtResource("2_kp4a5")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MusicManager"]
+stream = ExtResource("3_n1308")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 1
