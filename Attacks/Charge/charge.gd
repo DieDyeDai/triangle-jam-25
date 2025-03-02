@@ -1,4 +1,4 @@
-class_name Beam extends Hitbox
+class_name ChargeAttack extends Hitbox
 
 const CHARGE_TIME : float = 0.5
 const ANIMLOCK_TIME : float = 0.2

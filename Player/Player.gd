@@ -22,14 +22,15 @@ signal moved(dir: String)
 const pngP1 = preload("res://Player/player1.png")
 const pngP2 = preload("res://Player/player2.png")
 
-const BASIC_ATTACK = preload("res://Attacks/Basic/Basic.tscn")
-const BEAM = preload("res://Attacks/Charge/Beam.tscn")
-const BIG_ATTACK = preload("res://Attacks/Big/Big.tscn")
-const MELEE = preload("res://Attacks/Melee/Melee.tscn")
+const LIGHT = preload("res://Attacks/Light/Light.tscn")
+const CHARGE = preload("res://Attacks/Charge/Charge.tscn")
+const HEAVY = preload("res://Attacks/Heavy/Heavy.tscn")
 
-const BASIC_ATTACK_2 = preload("res://Attacks/Basic2/Basic2.tscn")
-const BIG_ATTACK_2 = preload("res://Attacks/Big2/Big2.tscn")
-const CHARGE_ATTACK_2 = preload("res://Attacks/Charge2/Charge2.tscn")
+const LIGHT_2 = preload("res://Attacks/Light2/Light2.tscn")
+const HEAVY_2 = preload("res://Attacks/Heavy2/Heavy2.tscn")
+const CHARGE_2 = preload("res://Attacks/Charge2/Charge2.tscn")
+
+const MELEE = preload("res://Attacks/Melee/Melee.tscn")
 
 var enabled : bool = false
 var grid : Grid
@@ -43,6 +44,7 @@ var pos : Vector2i
 var isP1 : bool = false
 var isP2 : bool = false
 
+var skills : Dictionary
 var char : Globals.CHARS = 1
 
 var X_LOWER : int = -2
@@ -54,9 +56,9 @@ var movement_tween : Tween = null
 
 const MOVEMENT_TIME : float = 0.25
 
-var basic_attack_timer : Timer = null
+var light_attack_timer : Timer = null
 var basic_attack_cd_timer : Timer = null
-var big_attack_timer : Timer = null
+var heavy_attack_timer : Timer = null
 var big_attack_animlock_timer : Timer = null
 var charge_attack_timer : Timer = null
 var charge_attack_animlock_timer : Timer = null
@@ -70,13 +72,13 @@ func _ready():
 	add_timers()
 	
 func add_timers():	
-	basic_attack_timer = Timer.new()
-	basic_attack_timer.set_wait_time(BasicAttack.ANIMLOCK_TIME)
-	basic_attack_timer.set_one_shot(true)
-	basic_attack_timer.set_autostart(false)
-	basic_attack_timer.timeout.connect(remove_animlock)
+	light_attack_timer = Timer.new()
+	light_attack_timer.set_wait_time(LightAttack.ANIMLOCK_TIME)
+	light_attack_timer.set_one_shot(true)
+	light_attack_timer.set_autostart(false)
+	light_attack_timer.timeout.connect(remove_animlock)
 	
-	add_child(basic_attack_timer)
+	add_child(light_attack_timer)
 	
 	basic_attack_cd_timer = Timer.new()
 	basic_attack_cd_timer.set_one_shot(true)
@@ -84,16 +86,14 @@ func add_timers():
 	
 	add_child(basic_attack_cd_timer)
 	
-	big_attack_timer = Timer.new()
-	big_attack_timer.set_wait_time(BigAttack.CHARGE_TIME)
-	big_attack_timer.set_one_shot(true)
-	big_attack_timer.set_autostart(false)
-	big_attack_timer.timeout.connect(fire_big_attack)
+	heavy_attack_timer = Timer.new()
+	heavy_attack_timer.set_one_shot(true)
+	heavy_attack_timer.set_autostart(false)
+	heavy_attack_timer.timeout.connect(fire_big_attack)
 	
-	add_child(big_attack_timer)
+	add_child(heavy_attack_timer)
 
 	big_attack_animlock_timer = Timer.new()
-	big_attack_animlock_timer.set_wait_time(BigAttack.ANIMLOCK_TIME)
 	big_attack_animlock_timer.set_one_shot(true)
 	big_attack_animlock_timer.set_autostart(false)
 	big_attack_animlock_timer.timeout.connect(remove_animlock)
@@ -101,15 +101,13 @@ func add_timers():
 	add_child(big_attack_animlock_timer)
 	
 	charge_attack_timer = Timer.new()
-	charge_attack_timer.set_wait_time(Beam.CHARGE_TIME)
 	charge_attack_timer.set_one_shot(true)
 	charge_attack_timer.set_autostart(false)
-	charge_attack_timer.timeout.connect(enable_charged_ranged_fire_on_release)
+	charge_attack_timer.timeout.connect(enable_charged_fire_on_release)
 	
 	add_child(charge_attack_timer)
 	
 	charge_attack_animlock_timer = Timer.new()
-	charge_attack_animlock_timer.set_wait_time(Beam.ANIMLOCK_TIME)
 	charge_attack_animlock_timer.set_one_shot(true)
 	charge_attack_animlock_timer.set_autostart(false)
 	charge_attack_animlock_timer.timeout.connect(remove_animlock)
@@ -152,6 +150,8 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 		ebar = grid.ebar_1
 		hpbar = grid.hpbar_1
 		
+		skills = Globals.p1_skills
+		
 		body_sprite.texture = pngP1
 		hair_sprite.texture = pngP1
 		hat_sprite.texture = pngP1
@@ -164,6 +164,8 @@ func initialize(p1 : bool, p2 : bool, grid: Grid):
 		Y_UPPER = 5
 		ebar = grid.ebar_2
 		hpbar = grid.hpbar_2
+		
+		skills = Globals.p2_skills
 		
 		body_sprite.texture = pngP2
 		hair_sprite.texture = pngP2
@@ -208,14 +210,14 @@ func updateInputDisplay() -> void:
 			lock_sprite.visible = false
 		if ebar.cur < ebar.COST:
 			grid.inputs_1["charge"].set_modulate(Color(1,0,0,1))
-			grid.inputs_1["big"].set_modulate(Color(1,0,0,1))
+			grid.inputs_1["heavy"].set_modulate(Color(1,0,0,1))
 		else:
 			grid.inputs_1["charge"].set_modulate(Color(1,1,1,1))
-			grid.inputs_1["big"].set_modulate(Color(1,1,1,1))
+			grid.inputs_1["heavy"].set_modulate(Color(1,1,1,1))
 		if basic_attack_cd_timer.is_stopped():
-			grid.inputs_1["basic"].set_modulate(Color(1,1,1,1))
+			grid.inputs_1["light"].set_modulate(Color(1,1,1,1))
 		else:
-			grid.inputs_1["basic"].set_modulate(Color(1,0,0,1))	
+			grid.inputs_1["light"].set_modulate(Color(1,0,0,1))	
 	elif isP2:
 		if animlock:
 			grid.inputs_2["movement"].set_modulate(Color(1,0,0,1))
@@ -225,14 +227,14 @@ func updateInputDisplay() -> void:
 			lock_sprite.visible = false
 		if ebar.cur < ebar.COST:
 			grid.inputs_2["charge"].set_modulate(Color(1,0,0,1))
-			grid.inputs_2["big"].set_modulate(Color(1,0,0,1))
+			grid.inputs_2["heavy"].set_modulate(Color(1,0,0,1))
 		else:
 			grid.inputs_2["charge"].set_modulate(Color(1,1,1,1))
-			grid.inputs_2["big"].set_modulate(Color(1,1,1,1))
+			grid.inputs_2["heavy"].set_modulate(Color(1,1,1,1))
 		if basic_attack_cd_timer.is_stopped():
-			grid.inputs_2["basic"].set_modulate(Color(1,1,1,1))
+			grid.inputs_2["light"].set_modulate(Color(1,1,1,1))
 		else:
-			grid.inputs_2["basic"].set_modulate(Color(1,0,0,1))
+			grid.inputs_2["light"].set_modulate(Color(1,0,0,1))
 
 func hit(damage: int) -> void:
 	
@@ -255,10 +257,10 @@ func hit(damage: int) -> void:
 	# Interrupt attacks
 	animlock = false
 	charged_ranged = false
-	if is_instance_valid(current_charge_ranged_attack):
+	if is_instance_valid(current_charge):
 		charge_attack_timer.stop()
-		current_charge_ranged_attack.interrupt()
-	big_attack_timer.stop()
+		current_charge.interrupt()
+	heavy_attack_timer.stop()
 
 func update_animation_conditions() -> void:
 	var current_movement = Globals.get_global_position(target_pos) - global_position
@@ -289,21 +291,21 @@ func get_movement_input() -> void:
 			move ("right")
 
 var charged_ranged : bool = false
-var current_charge_ranged_attack : Hitbox = null
+var current_charge : Hitbox = null
 var charging_melee : bool = false
 var charged_melee : bool = false
-var current_charged_melee_attack : Melee = null
+var current_charge_melee : Melee = null
 
 func get_attack_input() -> String:
 	
 	if isP1:
-		if Input.is_action_just_released("charge_ranged1"):
+		if Input.is_action_just_released("charge1"):
 			release_charged_ranged()
 		elif Input.is_action_just_released("melee1"):
 			release_charged_melee()
 		
 		if not animlock:
-			if Input.is_action_just_pressed("basic1") and basic_attack_cd_timer.is_stopped():
+			if Input.is_action_just_pressed("light1") and basic_attack_cd_timer.is_stopped():
 				press_basic()
 				print("1basic")
 			
@@ -311,7 +313,7 @@ func get_attack_input() -> String:
 				press_melee()
 				print("1melee")
 			
-			if Input.is_action_just_pressed("charge_ranged1"):
+			if Input.is_action_just_pressed("charge1"):
 				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_charged_ranged()
@@ -319,7 +321,7 @@ func get_attack_input() -> String:
 				else:
 					ebar.shake_counter(1.0)
 				
-			elif Input.is_action_just_pressed("big1"):
+			elif Input.is_action_just_pressed("heavy1"):
 				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_big()
@@ -327,13 +329,13 @@ func get_attack_input() -> String:
 					ebar.shake_counter(1.0)
 	
 	elif isP2:
-		if Input.is_action_just_released("charge_ranged2"):
+		if Input.is_action_just_released("charge2"):
 			release_charged_ranged()
 		elif Input.is_action_just_released("melee2"):
 			release_charged_melee()
 		
 		if not animlock:
-			if Input.is_action_just_pressed("basic2") and basic_attack_cd_timer.is_stopped():
+			if Input.is_action_just_pressed("light2") and basic_attack_cd_timer.is_stopped():
 				press_basic()
 				print("2basic")
 				
@@ -341,7 +343,7 @@ func get_attack_input() -> String:
 				press_melee()
 				print("2melee")
 				
-			elif Input.is_action_just_pressed("charge_ranged2"):
+			elif Input.is_action_just_pressed("charge2"):
 				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_charged_ranged()
@@ -349,7 +351,7 @@ func get_attack_input() -> String:
 				else:
 					ebar.shake_counter(1.0)
 			
-			elif Input.is_action_just_pressed("big2"):
+			elif Input.is_action_just_pressed("heavy2"):
 				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
 					press_big()
@@ -363,17 +365,17 @@ func press_melee():
 	_move("up")
 	melee_attack_timer.start()
 	
-	current_charged_melee_attack = MELEE.instantiate()
-	melee_attack_timer.timeout.connect(current_charged_melee_attack.fire)
-	current_charged_melee_attack.initialize(target_pos)
-	current_charged_melee_attack.charging = true
+	current_charge_melee = MELEE.instantiate()
+	melee_attack_timer.timeout.connect(current_charge_melee.fire)
+	current_charge_melee.initialize(target_pos)
+	current_charge_melee.charging = true
 	
-	add_hitbox(current_charged_melee_attack)
+	add_hitbox(current_charge_melee)
 
 func start_charging_melee() -> void:
 	print("start charging melee")
 	if (isP1 and Input.is_action_pressed("melee1")) or (isP2 and Input.is_action_pressed("melee2")):
-		current_charged_melee_attack.charge()
+		current_charge_melee.charge()
 		melee_charge_attack_timer.start()
 		charging_melee = true
 		charge_particles.emitting = true
@@ -387,14 +389,14 @@ func release_charged_melee():
 		print("release charged melee at charged")
 		charged_melee = false
 		charging_melee = false
-		current_charged_melee_attack.fire_charged()
+		current_charge_melee.fire_charged()
 		melee_animlock_timer.start()
 		grid.screenshake(0.75)
 		return
 	# if it's done with the first attack
 	elif charging_melee:
 		melee_charge_attack_timer.stop()
-		current_charged_melee_attack.queue_free()
+		current_charge_melee.queue_free()
 		animlock = false
 	
 	charging_melee = false
@@ -402,44 +404,44 @@ func release_charged_melee():
 func press_charged_ranged():
 	animlock = true
 	charge_particles.emitting = true
-	if char == 1:
-		current_charge_ranged_attack = BEAM.instantiate()
-		current_charge_ranged_attack.initialize(target_pos)
-	elif char == 2:
-		current_charge_ranged_attack = CHARGE_ATTACK_2.instantiate()
-		current_charge_ranged_attack.initialize(Vector2i(target_pos.x, 1 - target_pos.y))
-	charge_attack_timer.start(current_charge_ranged_attack.CHARGE_TIME)
-	add_hitbox(current_charge_ranged_attack)
+	if skills[Globals.SKILLS.CHARGE] == 1:
+		current_charge = CHARGE.instantiate()
+		current_charge.initialize(target_pos)
+	elif skills[Globals.SKILLS.CHARGE] == 2:
+		current_charge = CHARGE_2.instantiate()
+		current_charge.initialize(Vector2i(target_pos.x, 1 - target_pos.y))
+	charge_attack_timer.start(current_charge.CHARGE_TIME)
+	add_hitbox(current_charge)
 
 func release_charged_ranged():
 	if charged_ranged:
 		charged_ranged = false
-		current_charge_ranged_attack.fire()
-		charge_attack_animlock_timer.start()
+		current_charge.fire()
+		charge_attack_animlock_timer.start(current_charge.ANIMLOCK_TIME)
 		grid.screenshake(0.75)
 	elif not charging_melee:
 		charge_particles.emitting = false
 		print("interrupt")
 		charge_attack_timer.stop()
 		animlock = false
-		if is_instance_valid(current_charge_ranged_attack):
-			current_charge_ranged_attack.interrupt()
+		if is_instance_valid(current_charge):
+			current_charge.interrupt()
 
 func press_basic():
 	animlock = true
-	basic_attack_timer.start()
+	light_attack_timer.start()
 	
-	if char == 1:
+	if skills[Globals.SKILLS.LIGHT] == 1:
 	
-		var atk = BASIC_ATTACK.instantiate()
+		var atk = LIGHT.instantiate()
 		atk.initialize(target_pos, Vector2i(0,-1), 4)
 		add_hitbox(atk)
 			
 		basic_attack_cd_timer.start(atk.COOLDOWN)
 	
-	elif char == 2:
+	elif skills[Globals.SKILLS.LIGHT] == 2:
 		
-		var atk = BASIC_ATTACK_2.instantiate()
+		var atk = LIGHT_2.instantiate()
 		atk.initialize(Vector2i(target_pos.x, 1 - target_pos.y)) # 5 <-> -4, 4 <-> -3, etc.
 		add_hitbox(atk)
 		atk.fire()
@@ -448,23 +450,26 @@ func press_basic():
 
 func press_big() -> void:
 	animlock = true
-	big_attack_timer.start()
+	if skills[Globals.SKILLS.HEAVY] == 1:
+		heavy_attack_timer.start(HeavyAttack.CHARGE_TIME)
+	elif skills[Globals.SKILLS.HEAVY] == 2:
+		heavy_attack_timer.start(HeavyAttack2.CHARGE_TIME)
 
 func fire_big_attack() -> void:
 	animlock = true
 	big_attack_animlock_timer.start()
 	
-	if char == 1:
-		var atk = BIG_ATTACK.instantiate()
+	if skills[Globals.SKILLS.HEAVY] == 1:
+		var atk = HEAVY.instantiate()
 		atk.initialize(target_pos, Vector2i(0,-1), 2)
 		add_hitbox(atk)
 	
-	elif char == 2:
-		var atk = BIG_ATTACK_2.instantiate()	
+	elif skills[Globals.SKILLS.HEAVY] == 2:
+		var atk = HEAVY_2.instantiate()	
 		atk.initialize(target_pos, -1 if isP1 else 1) # dir is -1 if p1, -1 if p2, to move downward
 		add_hitbox(atk)
 
-func enable_charged_ranged_fire_on_release() -> void:
+func enable_charged_fire_on_release() -> void:
 	print("charged")
 	charged_ranged = true
 	charge_particles.emitting = false

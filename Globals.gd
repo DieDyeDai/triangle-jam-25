@@ -31,6 +31,24 @@ enum CHARS {
 	TWO = 2
 }
 
+enum SKILLS {
+	LIGHT,
+	HEAVY,
+	CHARGE
+}
+
+var p1_skills = {
+	SKILLS.LIGHT: 1,
+	SKILLS.HEAVY: 1,
+	SKILLS.CHARGE: 1,
+}
+
+var p2_skills = {
+	SKILLS.LIGHT: 2,
+	SKILLS.HEAVY: 2,
+	SKILLS.CHARGE: 2,
+}
+
 func _ready() -> void:
 	scene_switcher = get_tree().get_first_node_in_group("SceneSwitcher")
 

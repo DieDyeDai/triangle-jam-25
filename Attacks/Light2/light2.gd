@@ -1,4 +1,4 @@
-class_name BasicAttack2 extends Hitbox
+class_name LightAttack2 extends Hitbox
 
 const DELAY : float = 0.8
 const DURATION : float = 0.1

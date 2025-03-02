@@ -25,8 +25,8 @@ const TILEBLUE = preload("res://World/TileBlue.tscn")
 	"movement": keys_movement_1,
 	"melee": key_action_a,
 	"charge": key_action_z,
-	"basic": key_action_x,
-	"big": key_action_s,
+	"light": key_action_x,
+	"heavy": key_action_s,
 }
 
 @onready var keys_movement_2: Sprite2D = $KeysMovement2
@@ -40,8 +40,8 @@ const TILEBLUE = preload("res://World/TileBlue.tscn")
 	"movement": keys_movement_2,
 	"melee": key_action_i,
 	"charge": key_action_k,
-	"basic": key_action_l,
-	"big": key_action_o,
+	"light": key_action_l,
+	"heavy": key_action_o,
 }
 
 @warning_ignore("unused_signal")
@@ -92,21 +92,51 @@ func _ready() -> void:
 	ebar_2.set_global_position(Globals.get_global_position(Vector2i(3,4)))
 	ebar_2.counter.initialize(false, true)
 	
+	if Globals.p1_skills[Globals.SKILLS.LIGHT] == 1:
+		inputs_1["light"].frame = 10
+	elif Globals.p1_skills[Globals.SKILLS.LIGHT] == 2:
+		inputs_1["light"].frame = 18
+	
+	if Globals.p1_skills[Globals.SKILLS.HEAVY] == 1:
+		inputs_1["heavy"].frame = 11
+	elif Globals.p1_skills[Globals.SKILLS.HEAVY] == 2:
+		inputs_1["heavy"].frame = 19
+	
+	if Globals.p2_skills[Globals.SKILLS.CHARGE] == 1:
+		inputs_1["charge"].frame = 9
+	elif Globals.p2_skills[Globals.SKILLS.CHARGE] == 2:
+		inputs_1["charge"].frame = 17
+	
+	if Globals.p2_skills[Globals.SKILLS.LIGHT] == 1:
+		inputs_2["light"].frame = 14
+	elif Globals.p2_skills[Globals.SKILLS.LIGHT] == 2:
+		inputs_2["light"].frame = 22
+	
+	if Globals.p2_skills[Globals.SKILLS.HEAVY] == 1:
+		inputs_2["heavy"].frame = 15
+	elif Globals.p2_skills[Globals.SKILLS.HEAVY] == 2:
+		inputs_2["heavy"].frame = 23
+	
+	if Globals.p2_skills[Globals.SKILLS.CHARGE] == 1:
+		inputs_2["charge"].frame = 13
+	elif Globals.p2_skills[Globals.SKILLS.CHARGE] == 2:
+		inputs_2["charge"].frame = 21
+	
 	var inputs1_starting_pos = Globals.get_global_position(Vector2i(0,-5))
 	inputs_1["movement"].set_global_position(inputs1_starting_pos + Vector2(40, 24))
 	inputs_1["melee"].set_global_position(inputs1_starting_pos + Vector2(-24, 24))
-	inputs_1["big"].set_global_position(inputs1_starting_pos + Vector2(-8, 24))
+	inputs_1["heavy"].set_global_position(inputs1_starting_pos + Vector2(-8, 24))
 	inputs_1["charge"].set_global_position(inputs1_starting_pos + Vector2(-16, 48))
-	inputs_1["basic"].set_global_position(inputs1_starting_pos + Vector2(0, 48))
+	inputs_1["light"].set_global_position(inputs1_starting_pos + Vector2(0, 48))
 	
 	key_label_1.set_global_position(inputs1_starting_pos + Vector2(-9, 4))
 	
 	var inputs2_starting_pos = Globals.get_global_position(Vector2i(0,6))
 	inputs_2["movement"].set_global_position(inputs2_starting_pos + Vector2(40, 24))
 	inputs_2["melee"].set_global_position(inputs2_starting_pos + Vector2(-24, 24))
-	inputs_2["big"].set_global_position(inputs2_starting_pos + Vector2(-8, 24))
+	inputs_2["heavy"].set_global_position(inputs2_starting_pos + Vector2(-8, 24))
 	inputs_2["charge"].set_global_position(inputs2_starting_pos + Vector2(-16, 48))
-	inputs_2["basic"].set_global_position(inputs2_starting_pos + Vector2(0, 48))
+	inputs_2["light"].set_global_position(inputs2_starting_pos + Vector2(0, 48))
 	
 	key_label_2.set_global_position(inputs2_starting_pos + Vector2(-9, 4))
 	

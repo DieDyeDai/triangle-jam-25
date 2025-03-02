@@ -1,4 +1,4 @@
-class_name BigAttack2 extends Hitbox
+class_name HeavyAttack2 extends Hitbox
 
 const CHARGE_TIME : float = 0.2
 const ANIMLOCK_TIME : float = 0.35

@@ -1,13 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckhahtwv4c4de"]
+[gd_scene load_steps=3 format=3 uid="uid://b1ften6gr1pc6"]
 
-[ext_resource type="Script" path="res://Attacks/Big/big.gd" id="1_5rvyf"]
+[ext_resource type="Script" path="res://Attacks/Light/light.gd" id="1_7jjj2"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vhf7h"]
-size = Vector2(80, 8)
+size = Vector2(8, 8)
 
-[node name="Big" type="Node2D"]
-script = ExtResource("1_5rvyf")
-damage = 2
+[node name="Light" type="Node2D"]
+script = ExtResource("1_7jjj2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.623529, 0.301961, 0, 1)

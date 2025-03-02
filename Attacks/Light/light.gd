@@ -1,4 +1,4 @@
-class_name BasicAttack extends Hitbox
+class_name LightAttack extends Hitbox
 
 const ANIMLOCK_TIME : float = 0.25
 const COOLDOWN : float = 0.75

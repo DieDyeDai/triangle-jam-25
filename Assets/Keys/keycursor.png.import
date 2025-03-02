@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmb5qbm0f7ubl"
-path="res://.godot/imported/TileBeam.png-49e6823fd690b2ea8110e69b83ed6c3a.ctex"
+uid="uid://jsvgxnlbwn0n"
+path="res://.godot/imported/keycursor.png-88c561903f20d825c1fdfadcb50fb570.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Attacks/Basic2/TileBeam.png"
-dest_files=["res://.godot/imported/TileBeam.png-49e6823fd690b2ea8110e69b83ed6c3a.ctex"]
+source_file="res://Assets/Keys/keycursor.png"
+dest_files=["res://.godot/imported/keycursor.png-88c561903f20d825c1fdfadcb50fb570.ctex"]
 
 [params]
 

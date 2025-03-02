@@ -1,0 +1,117 @@
+[gd_scene load_steps=16 format=3 uid="uid://sbftb7rp0y8s"]
+
+[ext_resource type="Script" path="res://UI/skill_select.gd" id="1_q44un"]
+[ext_resource type="Texture2D" uid="uid://br61tx2eecdyb" path="res://Assets/Keys/light1.png" id="2_8yd26"]
+[ext_resource type="Texture2D" uid="uid://c4cu0th6hox57" path="res://Assets/Keys/light2.png" id="3_vso81"]
+[ext_resource type="Texture2D" uid="uid://tjhawnhijxdr" path="res://Assets/Keys/heavy1.png" id="4_f657w"]
+[ext_resource type="Texture2D" uid="uid://c4lj3ucnv5hmb" path="res://Assets/Keys/heavy2.png" id="5_jrarx"]
+[ext_resource type="Texture2D" uid="uid://ckgsmxdfy74b6" path="res://Assets/Keys/charge1.png" id="6_ln0bd"]
+[ext_resource type="Texture2D" uid="uid://cdm0qsshfayat" path="res://Assets/Keys/charge2.png" id="7_v5mgx"]
+[ext_resource type="Texture2D" uid="uid://corci1aqy0csj" path="res://Assets/Keys/keyselect.png" id="8_itebi"]
+[ext_resource type="Texture2D" uid="uid://jsvgxnlbwn0n" path="res://Assets/Keys/keycursor.png" id="9_tlwxo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5sxlj"]
+atlas = ExtResource("8_itebi")
+region = Rect2(0, 0, 17, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rj2l2"]
+atlas = ExtResource("8_itebi")
+region = Rect2(17, 0, 17, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p7lfu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5sxlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rj2l2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6lw6j"]
+atlas = ExtResource("9_tlwxo")
+region = Rect2(0, 0, 23, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmglq"]
+atlas = ExtResource("9_tlwxo")
+region = Rect2(23, 0, 23, 23)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a2uck"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6lw6j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmglq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[node name="SkillSelect" type="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(200, 0)
+script = ExtResource("1_q44un")
+
+[node name="HBoxContainerLight" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="P1Light1" type="TextureButton" parent="HBoxContainerLight"]
+layout_mode = 2
+texture_normal = ExtResource("2_8yd26")
+
+[node name="P1Light2" type="TextureButton" parent="HBoxContainerLight"]
+layout_mode = 2
+texture_normal = ExtResource("3_vso81")
+
+[node name="HBoxContainerHeavy" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="P1Heavy1" type="TextureButton" parent="HBoxContainerHeavy"]
+layout_mode = 2
+texture_normal = ExtResource("4_f657w")
+
+[node name="P1Heavy2" type="TextureButton" parent="HBoxContainerHeavy"]
+layout_mode = 2
+texture_normal = ExtResource("5_jrarx")
+
+[node name="HBoxContainerCharge" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="P1Charge1" type="TextureButton" parent="HBoxContainerCharge"]
+layout_mode = 2
+texture_normal = ExtResource("6_ln0bd")
+
+[node name="P1Charge2" type="TextureButton" parent="HBoxContainerCharge"]
+layout_mode = 2
+texture_normal = ExtResource("7_v5mgx")
+
+[node name="Selectors" type="Node" parent="."]
+
+[node name="SelectP1Light" type="AnimatedSprite2D" parent="Selectors"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_p7lfu")
+frame_progress = 0.363047
+
+[node name="SelectP1Heavy" type="AnimatedSprite2D" parent="Selectors"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_p7lfu")
+frame_progress = 0.480017
+
+[node name="SelectP1Charge" type="AnimatedSprite2D" parent="Selectors"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_p7lfu")
+frame_progress = 0.480017
+
+[node name="CursorP1" type="AnimatedSprite2D" parent="Selectors"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_a2uck")
