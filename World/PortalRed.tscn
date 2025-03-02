@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://smeh5376d00t"]
+[gd_scene load_steps=15 format=3 uid="uid://smeh5376d00t"]
 
 [ext_resource type="Script" path="res://World/portal.gd" id="1_7rqe6"]
 [ext_resource type="Texture2D" uid="uid://cvuxxcdextxk8" path="res://Assets/line_slice.png" id="2_audeb"]
+[ext_resource type="Texture2D" uid="uid://dhi5ig0bhqu7t" path="res://Assets/PortalBodyRed.png" id="3_1cpv3"]
+[ext_resource type="Script" path="res://RandomSprite2D.gd" id="4_f3674"]
+[ext_resource type="Texture2D" uid="uid://bokiqbsm6devw" path="res://Assets/PortalOuterRed.png" id="5_1jviy"]
 
 [sub_resource type="Gradient" id="Gradient_cn151"]
 offsets = PackedFloat32Array(0, 0.0352113, 1)
@@ -15,7 +18,58 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_3q4ki"]
+atlas = ExtResource("5_1jviy")
+region = Rect2(0, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqo1w"]
+atlas = ExtResource("5_1jviy")
+region = Rect2(64, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kte01"]
+atlas = ExtResource("5_1jviy")
+region = Rect2(128, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yj7h6"]
+atlas = ExtResource("5_1jviy")
+region = Rect2(192, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0hjt"]
+atlas = ExtResource("5_1jviy")
+region = Rect2(256, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5rvbd"]
+atlas = ExtResource("5_1jviy")
+region = Rect2(320, 0, 64, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i5ek6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3q4ki")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqo1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kte01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yj7h6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0hjt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5rvbd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="PortalRed" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_7rqe6")
 
 [node name="Line2D" type="Line2D" parent="."]
@@ -39,3 +93,19 @@ spread = 30.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 10.0
 initial_velocity_max = 12.0
+
+[node name="RandomSprite2D" type="Sprite2D" parent="."]
+visible = false
+z_index = -5
+position = Vector2(122, -6.5)
+scale = Vector2(5.5, 2.75)
+texture = ExtResource("3_1cpv3")
+hframes = 8
+script = ExtResource("4_f3674")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(125, -5)
+scale = Vector2(5.5, 2.75)
+sprite_frames = SubResource("SpriteFrames_i5ek6")
+frame_progress = 0.0495573

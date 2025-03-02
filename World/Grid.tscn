@@ -1,13 +1,21 @@
-[gd_scene load_steps=9 format=3 uid="uid://n6eqqlyl85d6"]
+[gd_scene load_steps=12 format=3 uid="uid://n6eqqlyl85d6"]
 
 [ext_resource type="Script" path="res://World/Grid.gd" id="1_0noqu"]
 [ext_resource type="PackedScene" uid="uid://smeh5376d00t" path="res://World/PortalRed.tscn" id="2_ckcs7"]
+[ext_resource type="Texture2D" uid="uid://qcmse5oygl44" path="res://Assets/bgstar.png" id="2_nr2ya"]
 [ext_resource type="PackedScene" uid="uid://cd0g1dj0lffee" path="res://UI/HealthBar.tscn" id="2_ykskw"]
 [ext_resource type="PackedScene" uid="uid://cstp7ajetyqo3" path="res://UI/EnergyBar.tscn" id="3_c8dl5"]
+[ext_resource type="Texture2D" uid="uid://da4g2o880x36" path="res://Assets/bgstarred.png" id="3_l66w6"]
 [ext_resource type="PackedScene" uid="uid://db66cmsyji2du" path="res://World/PortalBlue.tscn" id="3_us781"]
 [ext_resource type="Texture2D" uid="uid://bs6jxovn0kw0v" path="res://Assets/keys.png" id="4_14qmi"]
 [ext_resource type="PackedScene" uid="uid://btoclq6rgafx4" path="res://UI/UIOverlay.tscn" id="5_3bcng"]
 [ext_resource type="Texture2D" uid="uid://dffh273jexsbo" path="res://Assets/keyslabels.png" id="6_ou645"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ttfq4"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = true
 
 [node name="Grid" type="Node"]
 script = ExtResource("1_0noqu")
@@ -25,6 +33,51 @@ offset_bottom = -324.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -300.0
+offset_top = -210.0
+offset_right = 300.0
+offset_bottom = 190.0
+color = Color(0.162166, 0.205579, 0.436136, 1)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_ttfq4")
+position = Vector2(150, -225)
+amount = 10
+lifetime = 7.0
+texture = ExtResource("2_nr2ya")
+emission_shape = 3
+emission_rect_extents = Vector2(-150, 1)
+direction = Vector2(0, 20)
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 60.0
+scale_amount_min = 0.8
+scale_amount_max = 1.2
+anim_speed_min = 0.9
+anim_speed_max = 1.1
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_ttfq4")
+position = Vector2(-150, -225)
+amount = 10
+lifetime = 7.0
+texture = ExtResource("3_l66w6")
+emission_shape = 3
+emission_rect_extents = Vector2(150, 1)
+direction = Vector2(0, 20)
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 60.0
+scale_amount_min = 0.8
+scale_amount_max = 1.2
+anim_speed_min = 0.9
+anim_speed_max = 1.1
 
 [node name="PortalRed" parent="." instance=ExtResource("2_ckcs7")]
 position = Vector2(2, -80)
