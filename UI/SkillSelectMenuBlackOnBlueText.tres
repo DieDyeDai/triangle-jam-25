@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dph41hvj7vm7n"]
+
+[ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="1_y0lfr"]
+
+[resource]
+font = ExtResource("1_y0lfr")
+font_size = 20
+font_color = Color(0, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0.560784, 0.827451, 1, 1)

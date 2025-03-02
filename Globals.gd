@@ -44,9 +44,9 @@ var p1_skills = {
 }
 
 var p2_skills = {
-	SKILLS.LIGHT: 2,
-	SKILLS.HEAVY: 2,
-	SKILLS.CHARGE: 2,
+	SKILLS.LIGHT: 1,
+	SKILLS.HEAVY: 1,
+	SKILLS.CHARGE: 1,
 }
 
 func _ready() -> void:

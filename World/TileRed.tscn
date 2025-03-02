@@ -78,6 +78,7 @@ visible = false
 texture = ExtResource("5_psjsn")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -17.0
 offset_right = 23.0
 offset_bottom = 23.0

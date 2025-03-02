@@ -1,41 +1,251 @@
-[gd_scene load_steps=3 format=3 uid="uid://b10n4c6xtdyii"]
+[gd_scene load_steps=17 format=3 uid="uid://b10n4c6xtdyii"]
 
 [ext_resource type="Script" path="res://UI/skill_select_menu.gd" id="1_g53hv"]
+[ext_resource type="LabelSettings" uid="uid://d02ng55rnhlvj" path="res://UI/SkillSelectTitleWhiteOnBlackText.tres" id="2_fwmqu"]
 [ext_resource type="PackedScene" uid="uid://sbftb7rp0y8s" path="res://UI/SkillSelect.tscn" id="2_l8d65"]
+[ext_resource type="LabelSettings" uid="uid://bgo6sul3b42mb" path="res://UI/SkillSelectMenuBlackOnOrangeText.tres" id="3_eg7bb"]
+[ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="4_b0q18"]
+[ext_resource type="Texture2D" uid="uid://njjjgxre81kg" path="res://Assets/Keys/light.png" id="4_diy6x"]
+[ext_resource type="LabelSettings" uid="uid://dph41hvj7vm7n" path="res://UI/SkillSelectMenuBlackOnBlueText.tres" id="4_mnfld"]
+[ext_resource type="Texture2D" uid="uid://21onmjwpyxdq" path="res://Assets/Keys/heavy.png" id="5_byu2h"]
+[ext_resource type="Texture2D" uid="uid://b0njh7q8pma17" path="res://Assets/Keys/melee.png" id="5_occuu"]
+[ext_resource type="LabelSettings" uid="uid://drv4yudd1exxk" path="res://UI/SkillSelectMenuWhiteOnBlackText.tres" id="6_5edky"]
+[ext_resource type="Texture2D" uid="uid://b03luip03up1p" path="res://Assets/Keys/charge.png" id="6_p31d3"]
+
+[sub_resource type="FontVariation" id="FontVariation_a140j"]
+base_font = ExtResource("4_b0q18")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ygqls"]
+line_spacing = -3.0
+font = SubResource("FontVariation_a140j")
+font_size = 20
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_oc5ld"]
+base_font = ExtResource("4_b0q18")
+spacing_top = -10
+
+[sub_resource type="LabelSettings" id="LabelSettings_efqht"]
+font = SubResource("FontVariation_oc5ld")
+font_size = 20
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mw2hc"]
+line_spacing = -3.0
+font = SubResource("FontVariation_a140j")
+font_size = 10
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
 
 [node name="SkillSelectMenu" type="Control"]
 texture_filter = 1
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_g53hv")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(500, 0)
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -20.0
-offset_right = 250.0
-offset_bottom = 20.0
+offset_left = -254.0
+offset_top = -26.5
+offset_right = 254.0
+offset_bottom = 26.5
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "SELECT SKILLS"
+label_settings = ExtResource("2_fwmqu")
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
 alignment = 1
 
-[node name="SkillSelect1" parent="HBoxContainer" instance=ExtResource("2_l8d65")]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 
-[node name="SkillSelect2" parent="HBoxContainer" instance=ExtResource("2_l8d65")]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "LIGHT:
+QUICK, RANGED"
+label_settings = SubResource("LabelSettings_ygqls")
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_diy6x")
+stretch_mode = 3
+
+[node name="spacer" type="Control" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "HEAVY:
+SLOW, AOE"
+label_settings = SubResource("LabelSettings_ygqls")
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("5_byu2h")
+stretch_mode = 3
+
+[node name="spacer2" type="Control" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer3"]
+layout_mode = 2
+text = "CHARGE:
+HOLD FOR POWER"
+label_settings = SubResource("LabelSettings_ygqls")
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2/VBoxContainer3"]
+layout_mode = 2
+texture = ExtResource("6_p31d3")
+stretch_mode = 3
+
+[node name="spacer3" type="Control" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer4"]
+layout_mode = 2
+text = "YOU ALSO HAVE
+A MELEE SKILL"
+label_settings = SubResource("LabelSettings_ygqls")
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2/VBoxContainer4"]
+layout_mode = 2
+texture = ExtResource("5_occuu")
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "LEFT/ORANGE:
+FASTER, SMALLER AREA"
+label_settings = ExtResource("3_eg7bb")
+horizontal_alignment = 1
+
+[node name="SkillSelect1" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_l8d65")]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+internal_alignment = 2
+
+[node name="spacer" type="Control" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "LIGHT
+
+HEAVY
+
+CHARGE
+"
+label_settings = SubResource("LabelSettings_efqht")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spacer2" type="Control" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="SkillSelect2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_l8d65")]
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 right_input = "right2"
 left_input = "left2"
 up_input = "up2"
 down_input = "down2"
 select_input = "light2"
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "RIGHT/BLUE:
+SLOWER, LARGER AREA"
+label_settings = ExtResource("4_mnfld")
+horizontal_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "P1:
+RDFG TO MOVE
+X TO SELECT"
+label_settings = ExtResource("6_5edky")
+horizontal_alignment = 1
+
+[node name="spacer" type="Control" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "HEAVY AND CHARGE
+COST MANA!
+you slowly gain
+mana over time,
+faster at low Hp"
+label_settings = SubResource("LabelSettings_mw2hc")
+horizontal_alignment = 1
+
+[node name="spacer2" type="Control" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "P2:
+ARROW KEYS TO MOVE
+L TO SELECT"
+label_settings = ExtResource("6_5edky")
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "PRESS SPACE TO START!"
+label_settings = ExtResource("6_5edky")
+horizontal_alignment = 1

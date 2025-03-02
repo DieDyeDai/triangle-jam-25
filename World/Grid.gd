@@ -102,9 +102,9 @@ func _ready() -> void:
 	elif Globals.p1_skills[Globals.SKILLS.HEAVY] == 2:
 		inputs_1["heavy"].frame = 19
 	
-	if Globals.p2_skills[Globals.SKILLS.CHARGE] == 1:
+	if Globals.p1_skills[Globals.SKILLS.CHARGE] == 1:
 		inputs_1["charge"].frame = 9
-	elif Globals.p2_skills[Globals.SKILLS.CHARGE] == 2:
+	elif Globals.p1_skills[Globals.SKILLS.CHARGE] == 2:
 		inputs_1["charge"].frame = 17
 	
 	if Globals.p2_skills[Globals.SKILLS.LIGHT] == 1:
@@ -220,13 +220,13 @@ func _physics_process(_delta: float) -> void:
 	if !game_over:
 		process_hitboxes()
 	
-	if Input.is_action_just_pressed("debug1"):
-		for i in p1_tiles.values():
-			for j in i.values():
-				print(j)
+	#if Input.is_action_just_pressed("debug1"):
+		#for i in p1_tiles.values():
+			#for j in i.values():
+				#print(j)
 	
-	if Input.is_action_just_pressed("debug2"):
-		timeslow(0.2, 1.0)
+	#if Input.is_action_just_pressed("debug2"):
+		#timeslow(0.2, 1.0)
 	
 	# timeslow
 	
@@ -240,14 +240,22 @@ func _physics_process(_delta: float) -> void:
 	else:
 		camera.offset = Vector2(0, Globals.TILE_HEIGHT)
 
-	if Input.is_action_just_pressed("debug1"):
-		screenshake(1.0)
-		ebar_1.update(ebar_1.cur - 30, ebar_1.max)
-		ebar_2.update(ebar_2.cur - 30, ebar_2.max)
+	#if Input.is_action_just_pressed("debug1"):
+		#screenshake(1.0)
+		#ebar_1.update(ebar_1.cur - 30, ebar_1.max)
+		#ebar_2.update(ebar_2.cur - 30, ebar_2.max)
 	
-	if game_over and !uioverlay.is_playing:
+	if game_over and !uioverlay.is_playing and Globals.scene_switcher.enable_inputs:
 		if Input.is_action_just_pressed("restart"):
 			Globals.scene_switcher.handle_scene_change({"next_scene": preload("res://World/Grid.tscn")})
+		if Input.is_action_just_pressed("back"):
+			Globals.scene_switcher.handle_scene_change({"next_scene": preload("res://UI/SkillSelectMenu.tscn"),
+			"hack": "yes"})
+	
+	if Input.is_action_just_pressed("back"):
+		Globals.scene_switcher.handle_scene_change({"next_scene": preload("res://UI/SkillSelectMenu.tscn"),
+			"hack": "yes"})
+	
 
 func screenshake(strength : float) -> void:
 	screenshake_timer.start(SCREENSHAKE_TIME * strength)

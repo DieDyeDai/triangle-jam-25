@@ -10,29 +10,32 @@ script = ExtResource("1_kcdrm")
 [node name="sprite1" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_2s11q")
-frame = 5
-frame_progress = 1.0
+offset = Vector2(0, -4)
 
 [node name="sprite2" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_2s11q")
 frame = 5
 frame_progress = 1.0
+offset = Vector2(0, -4)
 
 [node name="sprite3" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_2s11q")
 frame = 5
 frame_progress = 1.0
+offset = Vector2(0, -4)
 
 [node name="sprite4" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_2s11q")
 frame = 5
 frame_progress = 1.0
+offset = Vector2(0, -4)
 
 [node name="sprite5" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_2s11q")
 frame = 5
 frame_progress = 1.0
+offset = Vector2(0, -4)

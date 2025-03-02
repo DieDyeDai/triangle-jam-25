@@ -68,7 +68,8 @@ horizontal_alignment = 1
 [node name="RestartTextLabel" type="Label" parent="VBoxContainer"]
 visible = false
 layout_mode = 2
-text = "press space to restart"
+text = "press space to restart
+press backspace to return to skill select"
 label_settings = ExtResource("3_sojma")
 horizontal_alignment = 1
 

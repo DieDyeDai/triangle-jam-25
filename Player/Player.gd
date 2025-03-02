@@ -188,7 +188,7 @@ func _physics_process(_delta: float) -> void:
 	
 	ebar.global_position = global_position + Vector2(0, 24)
 	
-	if enabled:
+	if enabled and Globals.scene_switcher.enable_inputs:
 		if not animlock:
 			get_movement_input()
 		get_attack_input()

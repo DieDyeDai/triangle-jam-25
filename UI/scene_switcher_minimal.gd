@@ -3,7 +3,9 @@ extends Node
 
 signal done_loading
 
-var current_scene_resource : PackedScene = preload("res://World/Grid.tscn")
+var enable_inputs : bool = true
+
+var current_scene_resource : PackedScene = preload("res://UI/SkillSelectMenu.tscn")
 var next_scene_resource : PackedScene
 var current_scene : Node
 var next_scene : Node
@@ -32,6 +34,8 @@ func handle_scene_change(transition_data: Dictionary):
 	update_last_scene_change(transition_data)
 	
 	animation_player.play("fade_out")
+	
+	enable_inputs = false
 
 
 func _on_animation_player_animation_finished(anim_name):
@@ -40,12 +44,17 @@ func _on_animation_player_animation_finished(anim_name):
 			
 			# On finishing the fadeout, load the next scene and unload the current scene.
 			next_scene_resource = transition_data["next_scene"]
-			if next_scene_resource:
-				next_scene = next_scene_resource.instantiate()
-				current_scene_resource = transition_data["next_scene"]
+			
+			if transition_data.has("hack"):
+				next_scene = preload("res://UI/SkillSelectMenu.tscn").instantiate()
 			else:
-				#print("Next scene not found. Reloading current scene")
-				next_scene = current_scene_resource.instantiate()
+				print(next_scene_resource)
+				if next_scene_resource:
+					next_scene = next_scene_resource.instantiate()
+					current_scene_resource = transition_data["next_scene"]
+				else:
+					#print("Next scene not found. Reloading current scene")
+					next_scene = current_scene_resource.instantiate()
 			
 			current_scene.queue_free()
 			
@@ -57,6 +66,8 @@ func _on_animation_player_animation_finished(anim_name):
 	
 		"fade_in":
 			animation_player.play("fade_in2")
+			
+			enable_inputs = true
 		
 		"fade_in2":
 			done_loading.emit()

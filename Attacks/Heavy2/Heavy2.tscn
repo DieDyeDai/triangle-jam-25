@@ -4,6 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://caqtdm52yjagb" path="res://Attacks/Light2/TileBeamSpriteFrames.tres" id="2_odlv4"]
 
 [node name="Heavy2" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_i5ata")
 
 [node name="Label" type="Label" parent="."]
@@ -12,31 +13,33 @@ offset_right = 245.0
 offset_bottom = 37.0
 
 [node name="sprite1" type="AnimatedSprite2D" parent="."]
-visible = false
 sprite_frames = ExtResource("2_odlv4")
-frame = 5
-frame_progress = 1.0
+offset = Vector2(0, -4)
 
 [node name="sprite2" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_odlv4")
 frame = 5
 frame_progress = 1.0
+offset = Vector2(0, -4)
 
 [node name="sprite3" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_odlv4")
 frame = 5
 frame_progress = 1.0
+offset = Vector2(0, -4)
 
 [node name="sprite4" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_odlv4")
 frame = 5
 frame_progress = 1.0
+offset = Vector2(0, -4)
 
 [node name="sprite5" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("2_odlv4")
 frame = 5
 frame_progress = 1.0
+offset = Vector2(0, -4)

@@ -34,8 +34,8 @@ func _ready() -> void:
 	
 	warning_positions = get_positions_from_pos(base_position.y)
 
-	print(str(positions))
-	print(str(warning_positions))
+	#print(str(positions))
+	#print(str(warning_positions))
 
 	#movement_timer.start()
 	advance()

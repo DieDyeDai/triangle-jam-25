@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://d02ng55rnhlvj"]
+
+[ext_resource type="FontFile" uid="uid://ce8rlysjfmvnj" path="res://Assets/munro-small.ttf" id="1_heyai"]
+
+[resource]
+font = ExtResource("1_heyai")
+font_size = 40
+outline_size = 15
+outline_color = Color(0, 0, 0, 1)
