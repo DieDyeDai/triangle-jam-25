@@ -1,5 +1,7 @@
 class_name Melee extends Hitbox
 
+@onready var sprite: AnimatedSprite2D = $Sprite
+
 var dir : int
 
 var active : bool = true
@@ -37,6 +39,7 @@ func initialize(pos: Vector2i) -> void:
 		# right, go decreasing y to go down
 		dir = -1
 	base_position += Vector2i(0, dir)
+	global_position = Globals.get_global_position(base_position)
 	
 	next_warning_tile = base_position
 	
@@ -58,7 +61,6 @@ func fire() -> void:
 		queue_free()
 
 func charge() -> void:
-	print("melee charge start")
 	await get_tree().create_timer(CHARGE_TIME / (RANGE+1), false).timeout
 	warning_positions.append(next_warning_tile)
 	print(str(next_warning_tile))
@@ -73,8 +75,15 @@ func charge() -> void:
 		next_warning_tile.y += dir
 	
 
+func fire_first() -> void:
+	sprite.play("fire")
+	fire()
+
 func fire_charged() -> void:
 	print("melee fire charged")
 	damage = 2
 	charging = false
+	sprite.play("fire_charged")
 	fire()
+	await sprite.animation_finished
+	queue_free()

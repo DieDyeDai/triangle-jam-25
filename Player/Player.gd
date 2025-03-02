@@ -324,7 +324,7 @@ func get_attack_input() -> String:
 			elif Input.is_action_just_pressed("heavy1"):
 				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
-					press_big()
+					press_heavy()
 				else:
 					ebar.shake_counter(1.0)
 	
@@ -354,7 +354,7 @@ func get_attack_input() -> String:
 			elif Input.is_action_just_pressed("heavy2"):
 				if ebar.cur_i >= 1:
 					ebar.update(ebar.cur - ebar.COST, ebar.max)
-					press_big()
+					press_heavy()
 				else:
 					ebar.shake_counter(1.0)
 	return ""
@@ -366,7 +366,7 @@ func press_melee():
 	melee_attack_timer.start()
 	
 	current_charge_melee = MELEE.instantiate()
-	melee_attack_timer.timeout.connect(current_charge_melee.fire)
+	melee_attack_timer.timeout.connect(current_charge_melee.fire_first)
 	current_charge_melee.initialize(target_pos)
 	current_charge_melee.charging = true
 	
@@ -399,6 +399,8 @@ func release_charged_melee():
 		current_charge_melee.queue_free()
 		animlock = false
 	
+	if is_instance_valid(current_charge_melee):
+		current_charge_melee.charging = false
 	charging_melee = false
 
 func press_charged_ranged():
@@ -448,7 +450,7 @@ func press_basic():
 	
 		basic_attack_cd_timer.start(atk.COOLDOWN)
 
-func press_big() -> void:
+func press_heavy() -> void:
 	animlock = true
 	if skills[Globals.SKILLS.HEAVY] == 1:
 		heavy_attack_timer.start(HeavyAttack.CHARGE_TIME)

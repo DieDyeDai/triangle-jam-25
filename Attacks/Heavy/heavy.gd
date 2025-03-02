@@ -1,5 +1,10 @@
 class_name HeavyAttack extends Hitbox
 
+@onready var sprite_container: Node2D = $SpriteContainer
+@onready var sprite: Sprite2D = $SpriteContainer/Sprite2D
+@onready var particles: CPUParticles2D = $SpriteContainer/CPUParticles2D
+@onready var particles2: CPUParticles2D = $SpriteContainer/CPUParticles2D2
+
 const CHARGE_TIME : float = 0.2
 const ANIMLOCK_TIME : float = 0.35
 
@@ -47,9 +52,10 @@ func _physics_process(delta: float) -> void:
 		#print(dir)
 		#print("warp")
 		warped = true
-		print("warp")
+		#print("warp")
 		global_position = Globals.get_warp_position(global_position)
 		dir.y = -dir.y
+		sprite_container.scale.y = -1
 	
 	label.text = str(base_position) + "  " + str(dir)
 

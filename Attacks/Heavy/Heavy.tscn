@@ -1,17 +1,35 @@
 [gd_scene load_steps=3 format=3 uid="uid://ckhahtwv4c4de"]
 
 [ext_resource type="Script" path="res://Attacks/Heavy/heavy.gd" id="1_swv3l"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vhf7h"]
-size = Vector2(80, 8)
+[ext_resource type="Texture2D" uid="uid://ckyac8yb5s2gu" path="res://Attacks/Heavy/prototype.png" id="2_gf01s"]
 
 [node name="Heavy" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_swv3l")
 damage = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.623529, 0.301961, 0, 1)
-texture = SubResource("PlaceholderTexture2D_vhf7h")
+[node name="SpriteContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteContainer"]
+scale = Vector2(1, -1)
+texture = ExtResource("2_gf01s")
+offset = Vector2(0, -20)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="SpriteContainer"]
+position = Vector2(-56, 52)
+direction = Vector2(0, 1)
+spread = 15.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="SpriteContainer"]
+position = Vector2(56, 52)
+direction = Vector2(0, 1)
+spread = 15.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
 
 [node name="Label" type="Label" parent="."]
 visible = false
