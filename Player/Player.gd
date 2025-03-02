@@ -270,6 +270,11 @@ func update_animation_conditions() -> void:
 	tree.set("parameters/move/conditions/mvleft", current_movement.x < -0.1)
 	tree.set("parameters/move/conditions/mvright", current_movement.x > 0.1)
 	tree.set("parameters/move/conditions/mvidle", current_movement.length_squared() < 0.01)
+	
+	if animlock:
+		sm.travel("attack")
+	else:
+		sm.travel("move")
 
 func get_movement_input() -> void:
 	if isP1:

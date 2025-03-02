@@ -108,4 +108,4 @@ visible = false
 position = Vector2(125, -5)
 scale = Vector2(5.5, 2.75)
 sprite_frames = SubResource("SpriteFrames_i5ek6")
-frame_progress = 0.0495573
+frame_progress = 0.372724
