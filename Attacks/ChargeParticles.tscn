@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://0pfqmp0mr0tr"]
+
+[ext_resource type="Texture2D" uid="uid://cgji8m16182ss" path="res://Attacks/ChargeParticle.png" id="1_it1hu"]
+
+[node name="ChargeParticles" type="CPUParticles2D"]
+texture_filter = 1
+lifetime = 0.5
+texture = ExtResource("1_it1hu")
+emission_shape = 4
+emission_points = PackedVector2Array(32, 0, 16, 12, 0, 24, -16, 12, -32, 0, -16, -12, 0, -24, 16, -12)
+emission_colors = PackedColorArray()
+direction = Vector2(0, 0)
+spread = 0.0
+gravity = Vector2(0, 0)
+orbit_velocity_min = -0.2
+orbit_velocity_max = 0.2
+radial_accel_min = -250.0
+radial_accel_max = -200.0

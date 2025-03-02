@@ -12,6 +12,8 @@ var warning_tick_timer : Timer = null
 @onready var tr_bl: Line2D = $"tr-bl"
 @onready var tl_br: Line2D = $"tl-br"
 
+@onready var particles: CPUParticles2D = $ChargeParticles
+
 var left_pt : Vector2i = base_position
 var right_pt : Vector2i = base_position
 var top_pt : Vector2i = base_position
@@ -96,6 +98,7 @@ func advance() -> void:
 			current_radius += 1
 			warning_tick_timer.start()
 		3:
+			particles.emitting = false
 			warning_tick_timer.stop()
 
 var beam_width_tween : Tween = null

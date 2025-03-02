@@ -6,6 +6,7 @@ extends Node2D
 @onready var hair_sprite: RandomSprite2D = $Sprites/HairRandomSprite
 @onready var hat_sprite: Sprite2D = $Sprites/HatSprite
 @onready var lock_sprite: Sprite2D = $Sprites/LockSprite
+@onready var charge_particles: CPUParticles2D = $Sprites/ChargeParticles
 
 #@onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var ap : AnimationPlayer = $AnimationPlayer
@@ -375,11 +376,13 @@ func start_charging_melee() -> void:
 		current_charged_melee_attack.charge()
 		melee_charge_attack_timer.start()
 		charging_melee = true
+		charge_particles.emitting = true
 	else:
 		animlock = false
 
 func release_charged_melee():
 	print("release melee")
+	charge_particles.emitting = false
 	if charged_melee:
 		print("release charged melee at charged")
 		charged_melee = false
@@ -398,6 +401,7 @@ func release_charged_melee():
 
 func press_charged_ranged():
 	animlock = true
+	charge_particles.emitting = true
 	if char == 1:
 		current_charge_ranged_attack = BEAM.instantiate()
 		current_charge_ranged_attack.initialize(target_pos)
@@ -413,7 +417,8 @@ func release_charged_ranged():
 		current_charge_ranged_attack.fire()
 		charge_attack_animlock_timer.start()
 		grid.screenshake(0.75)
-	else:
+	elif not charging_melee:
+		charge_particles.emitting = false
 		print("interrupt")
 		charge_attack_timer.stop()
 		animlock = false
@@ -462,10 +467,12 @@ func fire_big_attack() -> void:
 func enable_charged_ranged_fire_on_release() -> void:
 	print("charged")
 	charged_ranged = true
+	charge_particles.emitting = false
 
 func enable_charged_melee_fire_on_release() -> void:
 	print("charged melee")
 	charged_melee = true
+	charge_particles.emitting = false
 
 func move(dir: String):
 	#var did_move : bool = false
